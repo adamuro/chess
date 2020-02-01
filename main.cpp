@@ -36,6 +36,14 @@ class Pawn : private Piece {
 int main () {
 	RectangleShape Board [64];
 	boardSetup (Board);
+	
+	Texture WhitePawnTexture;
+	WhitePawnTexture.loadFromFile("./src/WhitePawn.png");
+
+	Sprite WhitePawn;
+	WhitePawn.setTexture(WhitePawnTexture);
+	WhitePawn.setPosition(0, 0);
+	
 
 	string piecesOnBoard [64] = {
 		"BR", "BN", "BB", "BK", "BQ", "BB", "BN", "BR",
