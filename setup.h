@@ -10,6 +10,8 @@
 #define White 245,231,200
 
 void boardSetup (RectangleShape *Board);
-//void renderingThread (RenderWindow *window);
+void piecesSetup (string *piecesOnBoard);
+void drawBoard (RenderWindow *Window, RectangleShape *Board);
+void drawPieces (RenderWindow *window, string *piecesOnBoard);
 
 #endif

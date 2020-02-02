@@ -4,6 +4,7 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 OBJ =\
 	main.cpp \
+	draw.cpp \
 	setup.cpp
 
 all: main
@@ -11,7 +12,7 @@ all: main
 clean:
 		rm -f *.o chess
 
-.c.o:
+.cpp.o:
 		$(CC) -c $(INCLUDES) $(CFLAGS) $<
 
 main: $(OBJ)

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "setup.h"
+#include "draw.h"
 
 using namespace std;
 using namespace sf;

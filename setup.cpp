@@ -14,24 +14,25 @@ void boardSetup (RectangleShape *Board) {
 		}
 	}
 }
-/*
-void draw (RenderWindow *window, RectangleShape Board string *piecesOnBoard) {
-	Sprite WhitePawn;
-	Texture WhitePawnTexture;
-	WhitePawnTexture.loadFromFile("./images/WhitePawn.png");
 
-	WhitePawn.setTexture(WhitePawnTexture);
+void piecesSetup (string *piecesOnBoard) {
+	piecesOnBoard[0] = piecesOnBoard[7] = "BR";
+	piecesOnBoard[1] = piecesOnBoard[6] = "BN";
+	piecesOnBoard[2] = piecesOnBoard[5] = "BB";
+	piecesOnBoard[3] = "BK";
+	piecesOnBoard[4] = "BQ";
 
-	for(int i = 0 ; i < 8 ; i++) {
-		for(int j = 0 ; j < 8 ; j++) {
-			window->draw(Board[i * 8 + j]);
-			if(!piecesOnBoard[i + j * 8].compare("WP")) {
-				WhitePawn.setPosition(i * 80, j * 80);
-				window->draw(WhitePawn);
-			}
-		}
+	piecesOnBoard[56] = piecesOnBoard[63] = "WR";
+	piecesOnBoard[57] = piecesOnBoard[62] = "WN";
+	piecesOnBoard[58] = piecesOnBoard[61] = "WB";
+	piecesOnBoard[59] = "WK";
+	piecesOnBoard[60] = "WQ";
+
+	for(int i = 8 ; i < 16 ; i++) {
+		piecesOnBoard[i] = "BP";
+		piecesOnBoard[63 - i] = "WP";
 	}
+
+	for(int i = 16 ; i < 48 ; i++)
+		piecesOnBoard[i] = "  ";
 }
-*/
-// POINTER TO WINDOW DOESNT WORK //
-// TRIED SF::THREAD, MIGHT WORK  //
