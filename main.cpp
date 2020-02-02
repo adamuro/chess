@@ -36,15 +36,13 @@ class Pawn : private Piece {
 int main () {
 	RectangleShape Board [64];
 	boardSetup (Board);
-	
-	Texture WhitePawnTexture;
-	WhitePawnTexture.loadFromFile("./src/WhitePawn.png");
 
 	Sprite WhitePawn;
-	WhitePawn.setTexture(WhitePawnTexture);
-	WhitePawn.setPosition(0, 0);
-	
+	Texture WhitePawnTexture;
+	WhitePawnTexture.loadFromFile("./images/WhitePawn.png");
 
+	WhitePawn.setTexture(WhitePawnTexture);
+	
 	string piecesOnBoard [64] = {
 		"BR", "BN", "BB", "BK", "BQ", "BB", "BN", "BR",
 		"BP", "BP", "BP", "BP", "BP", "BP", "BP", "BP",
@@ -58,16 +56,23 @@ int main () {
 
 	RenderWindow window(sf::VideoMode(WindowWidth, WindowHeight), "Chess");
 
-	while (window.isOpen()) {
+	while(window.isOpen()) {
 		Event event;
 
 		while (window.pollEvent(event)) {
 			if (event.type == Event::Closed)
 			window.close();
 		}
-		for(int i = 0 ; i < 64 ; i++)
-			window.draw(Board[i]);
-		
+		for(int i = 0 ; i < 8 ; i++) {
+			for(int j = 0 ; j < 8 ; j++) {
+				window.draw(Board[i * 8 + j]);
+				if(!piecesOnBoard[i + j * 8].compare("WP")) {
+					WhitePawn.setPosition(i * 80, j * 80);
+					window.draw(WhitePawn);
+				}
+			}
+		}
+
 		window.display();
 	}
 	return 0;
