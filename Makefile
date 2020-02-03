@@ -5,6 +5,7 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 OBJ =\
 	./src/main.cpp \
 	./src/setup.cpp \
+	./src/logic.cpp \
 	./src/draw.cpp \
 	./src/user.cpp
 

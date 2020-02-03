@@ -15,8 +15,8 @@ enum Pieces {
 	NP = 12											  // NoPiece
 };
 
-void boardSetup (RectangleShape *Board);			 // Color all sqares
+void boardSetup (RectangleShape *Board); // Color all sqares
 void importPiecesTextures (Texture *piecesTextures); // From images directory
-void piecesSetup (int *piecesOnBoard);				 // Set pieces' starting positions
+void piecesSetup (int *piecesOnBoard); // Set pieces' starting positions
 
 #endif

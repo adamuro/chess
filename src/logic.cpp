@@ -1,4 +1,4 @@
-#include "logic.h"
+#include "logic.hpp"
 
 bool isWhite(int Piece) {
 	return (Piece >= 0 && Piece <= 5) ? 1 : 0;
@@ -11,27 +11,26 @@ bool isBlack(int Piece) {
 bool Move(int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
 	switch(Piece) {
 		case WP:
-			if(destSquare - currentSquare == 16 && currentSquare < 16 &&
-			piecesOnBoard[currentSquare + 8] == NP &&
+			if(currentSquare - destSquare == 16 && currentSquare > 48 &&
+			piecesOnBoard[currentSquare - 8] == NP &&
 			piecesOnBoard[destSquare] == NP) {
 				piecesOnBoard[destSquare] = WP;
+				piecesOnBoard[currentSquare] = NP;
 				return 1;
 			}
-			else
-				return 0;
-			if(destSquare - currentSquare == 8 &&
+			else if(currentSquare - destSquare == 8 &&
 			piecesOnBoard[destSquare] == NP) {
 				piecesOnBoard[destSquare] = WP;
+				piecesOnBoard[currentSquare] = NP;
 				return 1;
 			}
-			else
-				return 0;
-			if(destSquare - currentSquare == 7 ||
-			destSquare - currentSquare == 9 && isBlack(destSquare)) {
+			else if((currentSquare - destSquare == 7 || currentSquare - destSquare == 9) &&
+			isBlack(piecesOnBoard[destSquare])) {
 				piecesOnBoard[destSquare] = WP;
+				piecesOnBoard[currentSquare] = NP;
 				return 1;
 			}
-			else
-				return 0;
+			return 0;
 	}
+	return 0;
 }

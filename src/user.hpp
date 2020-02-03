@@ -2,7 +2,7 @@
 #define USER_INCLUDED
 
 #include "common.hpp"
-
-int newPositionMarked(Vector2i clickedPosition, int *piecesOnBoard);
+/* Check if there'a a move request, or a new piece is marked by user. */
+void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquare);
 
 #endif

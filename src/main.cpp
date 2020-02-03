@@ -1,6 +1,6 @@
 #include "common.hpp"
 
-int moveCount;
+int moveCount; // Need to figure out how to count moves.
 
 int main () {
 	RectangleShape Board [64];
@@ -12,11 +12,11 @@ int main () {
 	int piecesOnBoard [64];
 	piecesSetup(piecesOnBoard);
 
-	int markedPiecePosition = -1; // That means that no piece is marked at the time
+	int markedSquare = -1; // That means that no piece is marked at the time
 
 	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
 
-	while(Window.isOpen()) {
+	while(Window.isOpen()) { // Main loop
 		Event windowEvent;
 
 		while (Window.pollEvent(windowEvent)) {
@@ -24,13 +24,13 @@ int main () {
 			Window.close();
 		}
 
-		if(windowEvent.type == Event::MouseButtonPressed &&
+		if(windowEvent.type == Event::MouseButtonReleased &&
 		windowEvent.mouseButton.button == Mouse::Left) {
 			Vector2i clickedPosition = Mouse::getPosition(Window);
-			markedPiecePosition = newPositionMarked(clickedPosition, piecesOnBoard);
-			printf("%d\n", markedPiecePosition);
+			onClickEvent(clickedPosition, piecesOnBoard, &markedSquare);
 		}
-
+		/* U can still make move after move without clicking on the piece again */
+		/* Try Window.GetEvent(windowEvent) or smt like that */
 		drawBoard(&Window, Board);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
 		Window.display();
