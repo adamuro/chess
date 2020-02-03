@@ -3,9 +3,9 @@ CFLAGS = -Wall -Werror
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 OBJ =\
-	main.cpp \
-	setup.cpp \
-	draw.cpp
+	./src/main.cpp \
+	./src/setup.cpp \
+	./src/draw.cpp
 
 all: main
 
