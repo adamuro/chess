@@ -1,4 +1,4 @@
-#include "setup.h"
+#include "setup.hpp"
 
 void boardSetup (RectangleShape *Board) {
 	int squareEdge = windowHeight / 8;

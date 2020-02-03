@@ -1,7 +1,7 @@
-#ifndef LOGIC_H
-#define LOGIC_H
+#ifndef LOGIC_INCLUDED
+#define LOGIC_INCLUDED
 
-#include "common.h"
+#include "common.hpp"
 
 bool Move(int Piece, int currentSquare, int destSquare, int *piecesOnBoard);
 

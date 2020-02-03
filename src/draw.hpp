@@ -1,7 +1,7 @@
-#ifndef DRAW_H
-#define DRAW_H
+#ifndef DRAW_INCLUDED
+#define DRAW_INCLUDED
 
-#include "common.h"
+#include "common.hpp"
 
 void drawBoard (RenderWindow *Window, RectangleShape *Board);
 void drawPieces (RenderWindow *Window, Texture *piecesTextures, int *piecesOnBoard);

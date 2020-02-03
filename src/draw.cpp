@@ -1,4 +1,4 @@
-#include "draw.h"
+#include "draw.hpp"
 
 void drawBoard (RenderWindow *Window, RectangleShape *Board) {
 	for(int i = 0 ; i < 8 ; i++)

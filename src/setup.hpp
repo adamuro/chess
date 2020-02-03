@@ -1,7 +1,7 @@
-#ifndef SETUP_H
-#define SETUP_H
+#ifndef SETUP_INCLUDED
+#define SETUP_INCLUDED
 
-#include "common.h"
+#include "common.hpp"
 
 #define windowWidth 640
 #define windowHeight 640

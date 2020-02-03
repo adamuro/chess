@@ -1,4 +1,4 @@
-#include "common.h"
+#include "common.hpp"
 
 int moveCount;
 
@@ -12,6 +12,8 @@ int main () {
 	int piecesOnBoard [64];
 	piecesSetup(piecesOnBoard);
 
+	int markedPiecePosition = -1; // That means that no piece is marked at the time
+
 	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
 
 	while(Window.isOpen()) {
@@ -21,11 +23,14 @@ int main () {
 			if (windowEvent.type == Event::Closed)
 			Window.close();
 		}
+
 		if(windowEvent.type == Event::MouseButtonPressed &&
 		windowEvent.mouseButton.button == Mouse::Left) {
-			//int columnClicked = (int)Mouse::getPosition(Window).x / 80;
-			//int fileClicked = (int)Mouse::getPosition(Window).y / 80;
+			Vector2i clickedPosition = Mouse::getPosition(Window);
+			markedPiecePosition = newPositionMarked(clickedPosition, piecesOnBoard);
+			printf("%d\n", markedPiecePosition);
 		}
+
 		drawBoard(&Window, Board);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
 		Window.display();

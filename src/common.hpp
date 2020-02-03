@@ -1,11 +1,12 @@
 #include <SFML/Graphics.hpp>
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 #include <string>
-#include "setup.h"
-#include "draw.h"
-#include "logic.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "setup.hpp"
+#include "draw.hpp"
+#include "logic.hpp"
+#include "user.hpp"
 
 using namespace std;
 using namespace sf;
