@@ -5,6 +5,7 @@
 #include <string>
 #include "setup.h"
 #include "draw.h"
+#include "logic.h"
 
 using namespace std;
 using namespace sf;

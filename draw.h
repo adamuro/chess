@@ -4,6 +4,6 @@
 #include "common.h"
 
 void drawBoard (RenderWindow *Window, RectangleShape *Board);
-void drawPieces (RenderWindow *Window, Texture piecesOnBoard, int *piecesOnBoard);
+void drawPieces (RenderWindow *Window, Texture *piecesTextures, int *piecesOnBoard);
 
 #endif

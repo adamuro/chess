@@ -16,7 +16,7 @@ enum Pieces {
 };
 
 void boardSetup (RectangleShape *Board);
-void importPiecesTextures (Texture *piecesImages);
+void importPiecesTextures (Texture *piecesTextures);
 void piecesSetup (int *piecesOnBoard);
 
 #endif
