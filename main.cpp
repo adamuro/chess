@@ -4,9 +4,9 @@ int MoveCount;
 
 int main () {
 	RectangleShape Board [64];
-	boardSetup (Board);
+	boardSetup(Board);
 
-	string piecesOnBoard [64];
+	int piecesOnBoard [64];
 	piecesSetup(piecesOnBoard);
 
 	RenderWindow Window(sf::VideoMode(WindowWidth, WindowHeight), "Chess");
