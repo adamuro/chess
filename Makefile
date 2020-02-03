@@ -4,8 +4,8 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 OBJ =\
 	main.cpp \
-	draw.cpp \
-	setup.cpp
+	setup.cpp \
+	draw.cpp
 
 all: main
 

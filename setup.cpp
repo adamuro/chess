@@ -15,6 +15,21 @@ void boardSetup (RectangleShape *Board) {
 	}
 }
 
+void importPiecesTextures (Texture *piecesImages) {
+	piecesImages[WP].loadFromFile("./images/WhitePawn.png");
+	piecesImages[WR].loadFromFile("./images/WhiteRook.png");
+	piecesImages[WN].loadFromFile("./images/WhiteKnight.png");
+	piecesImages[WB].loadFromFile("./images/WhiteBishop.png");
+	piecesImages[WK].loadFromFile("./images/WhiteKing.png");
+	piecesImages[WQ].loadFromFile("./images/WhiteQueen.png");
+	piecesImages[BP].loadFromFile("./images/BlackPawn.png");
+	piecesImages[BR].loadFromFile("./images/BlackRook.png");
+	piecesImages[BN].loadFromFile("./images/BlackKnight.png");
+	piecesImages[BB].loadFromFile("./images/BlackBishop.png");
+	piecesImages[BK].loadFromFile("./images/BlackKing.png");
+	piecesImages[BQ].loadFromFile("./images/BlackQueen.png");
+}
+
 void piecesSetup (int *piecesOnBoard) {
 	piecesOnBoard[0] = piecesOnBoard[7] = BR;
 	piecesOnBoard[1] = piecesOnBoard[6] = BN;

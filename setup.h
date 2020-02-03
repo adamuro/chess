@@ -10,14 +10,13 @@
 #define White 245,231,200
 
 enum Pieces {
-	NP = 0,
-	WP = 1, WR = 2, WN = 3, WB = 4, WK = 5, WQ = 6,
-	BP = 7, BR = 8, BN = 9, BB = 10, BK = 11, BQ = 12
+	WP = 0, WR = 1, WN = 2, WB = 3, WK = 4, WQ = 5,
+	BP = 6, BR = 7, BN = 8, BB = 9, BK = 10, BQ = 11,
+	NP = 12
 };
 
 void boardSetup (RectangleShape *Board);
+void importPiecesTextures (Texture *piecesImages);
 void piecesSetup (int *piecesOnBoard);
-void drawBoard (RenderWindow *Window, RectangleShape *Board);
-void drawPieces (RenderWindow *window, string *piecesOnBoard);
 
 #endif
