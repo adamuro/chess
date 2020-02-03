@@ -1,6 +1,6 @@
 #include "common.h"
 
-int MoveCount;
+int moveCount;
 
 int main () {
 	RectangleShape Board [64];
@@ -12,14 +12,19 @@ int main () {
 	int piecesOnBoard [64];
 	piecesSetup(piecesOnBoard);
 
-	RenderWindow Window(sf::VideoMode(WindowWidth, WindowHeight), "Chess");
+	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
 
 	while(Window.isOpen()) {
-		Event event;
+		Event windowEvent;
 
-		while (Window.pollEvent(event)) {
-			if (event.type == Event::Closed)
+		while (Window.pollEvent(windowEvent)) {
+			if (windowEvent.type == Event::Closed)
 			Window.close();
+		}
+		if(windowEvent.type == Event::MouseButtonPressed &&
+		windowEvent.mouseButton.button == Mouse::Left) {
+			//int columnClicked = (int)Mouse::getPosition(Window).x / 80;
+			//int fileClicked = (int)Mouse::getPosition(Window).y / 80;
 		}
 		drawBoard(&Window, Board);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
