@@ -6,6 +6,7 @@ OBJ =\
 	./src/main.cpp \
 	./src/setup.cpp \
 	./src/logic.cpp \
+	./src/move.cpp \
 	./src/draw.cpp \
 	./src/user.cpp
 

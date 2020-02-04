@@ -4,8 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "setup.hpp"
-#include "draw.hpp"
 #include "logic.hpp"
+#include "move.hpp"
+#include "draw.hpp"
 #include "user.hpp"
 
 using namespace std;

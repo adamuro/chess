@@ -16,7 +16,7 @@ enum Pieces {
 };
 
 enum Players {
-	White = 0, Black = 1
+	White = 1, Black = -1
 };
 
 void boardSetup (RectangleShape *Board); // Color all sqares
