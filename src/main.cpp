@@ -12,7 +12,7 @@ int main () {
 	int piecesOnBoard [64];
 	piecesSetup(piecesOnBoard);
 
-	int markedSquare = -1; // That means that no piece is marked at the time
+	int markedSquare = -1; // That means that no piece is marked at the time.
 	int playerToMove = White;
 
 	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
@@ -30,8 +30,6 @@ int main () {
 			Vector2i clickedPosition = Mouse::getPosition(Window);
 			onClickEvent(clickedPosition, piecesOnBoard, &markedSquare, &playerToMove);
 		}
-		/* U can still make move after move without clicking on the piece again */
-		/* Try Window.GetEvent(windowEvent) or smt like that */
 		drawBoard(&Window, Board);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
 		Window.display();
