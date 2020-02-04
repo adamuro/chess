@@ -8,9 +8,9 @@ void boardSetup (RectangleShape *Board) {
 			Board[squareNum].setSize(Vector2f(squareEdge, squareEdge));
 			Board[squareNum].setPosition(squareEdge * i, squareEdge * j);
 			if((squareNum + i) % 2)	
-				Board[squareNum].setFillColor(Color(White));
+				Board[squareNum].setFillColor(Color(colorWhite));
 			else
-				Board[squareNum].setFillColor(Color(Black));
+				Board[squareNum].setFillColor(Color(colorBlack));
 		}
 	}
 }

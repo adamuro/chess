@@ -34,3 +34,7 @@ bool Move(int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
 	}
 	return 0;
 }
+
+void changePlayerToMove(int *playerToMove) {
+	++(*playerToMove) %= 2;
+}
