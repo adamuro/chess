@@ -97,3 +97,30 @@ bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 	}
 	return 0;
 }
+
+bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
+	int King = (Color == White) ? WK : BK;
+	int squareDifference = abs(destSquare - currentSquare);
+
+	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
+		if(squareDifference == 1 ||
+		   squareDifference == 7 ||
+		   squareDifference == 8 ||
+		   squareDifference == 9) {
+		   	piecesOnBoard[destSquare] = King;
+		   	piecesOnBoard[currentSquare] = NP;
+		   	return 1;
+		}
+	}
+	return 0;
+}
+
+bool queenMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
+	int Queen = (Color == White) ? WQ : BQ;
+	if(rookMove(Color, currentSquare, destSquare, piecesOnBoard) ||
+	   bishopMove(Color, currentSquare, destSquare, piecesOnBoard)) {
+		piecesOnBoard[destSquare] = Queen;
+		return 1;
+	}
+	return 0;
+}
