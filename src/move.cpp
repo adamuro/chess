@@ -72,3 +72,28 @@ bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 	}
 	return 0;
 }
+
+bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
+	int Bishop = (Color == White) ? WB : BB;
+	int squareDifference = destSquare - currentSquare;
+	int Direction;
+
+	if(!(abs(squareDifference) % 7))
+		Direction = (squareDifference > 0) ? 7 : -7;
+	else if(!(abs(squareDifference) % 9))
+		Direction = (squareDifference > 0) ? 9 : -9;
+	else
+		return 0;
+	
+	for(int i = currentSquare + Direction ; i != destSquare ; i += Direction) {
+		if(piecesOnBoard[i] != NP)
+			return 0;
+	}
+
+	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
+		piecesOnBoard[destSquare] = Bishop;
+		piecesOnBoard[currentSquare] = NP;
+		return 1;
+	}
+	return 0;
+}

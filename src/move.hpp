@@ -6,5 +6,6 @@
 bool pawnMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard);
 bool rookMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard);
 bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard);
+bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard);
 
 #endif

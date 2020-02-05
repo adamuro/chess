@@ -39,6 +39,9 @@ bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
 		case WN:
 		case BN:
 			return knightMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+		case WB:
+		case BB:
+			return bishopMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
 	}
 	return 0;
 }
