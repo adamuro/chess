@@ -34,14 +34,14 @@ void piecesSetup (int *piecesOnBoard) {
 	piecesOnBoard[0] = piecesOnBoard[7] = BR;
 	piecesOnBoard[1] = piecesOnBoard[6] = BN;
 	piecesOnBoard[2] = piecesOnBoard[5] = BB;
-	piecesOnBoard[3] = BK;
-	piecesOnBoard[4] = BQ;
+	piecesOnBoard[3] = BQ;
+	piecesOnBoard[4] = BK;
 
 	piecesOnBoard[56] = piecesOnBoard[63] = WR;
 	piecesOnBoard[57] = piecesOnBoard[62] = WN;
 	piecesOnBoard[58] = piecesOnBoard[61] = WB;
-	piecesOnBoard[59] = WK;
-	piecesOnBoard[60] = WQ;
+	piecesOnBoard[59] = WQ;
+	piecesOnBoard[60] = WK;
 
 	for(int i = 8 ; i < 16 ; i++) {
 		piecesOnBoard[i] = BP;

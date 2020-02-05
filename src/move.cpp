@@ -1,40 +1,50 @@
 #include "move.hpp"
 
+void moveBoardUpdate (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
+	piecesOnBoard[destSquare] = Piece;
+	piecesOnBoard[currentSquare] = NP;
+}
+
+bool isMoveLegal (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
+	int takenPiece = piecesOnBoard[destSquare];
+	
+	moveBoardUpdate(Piece, currentSquare, destSquare, piecesOnBoard);
+	
+	if(isInCheck(pieceColor(Piece), piecesOnBoard)) {
+		moveBoardUpdate(Piece, destSquare, currentSquare, piecesOnBoard);
+		piecesOnBoard[destSquare] = takenPiece;
+		return 0;
+	}
+	return 1;
+}
+
 bool pawnMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
-	int Pawn = (Color == White) ? WP : BP;				  // Check pawn color.
-	if(currentSquare - destSquare == 16 * Color  &&		  // If player wants to
-		piecesOnBoard[currentSquare - 8 * Color] == NP && // move two sqares forward,
-		piecesOnBoard[destSquare] == NP) {				  // check if both sqares are empty
-		if(Color == White && currentSquare >= 48) {		  // and if the pawn
-			piecesOnBoard[destSquare] = Pawn;			  // is at the starting position.
-			piecesOnBoard[currentSquare] = NP;			  // If all is true,
-			return 1;									  // move the pawn.
-		}												  /* That was for white pawn. */
-		if(Color == Black && currentSquare <= 16) {		  // Check if black pawn
-			piecesOnBoard[destSquare] = Pawn;			  // is at its starting position.
-			piecesOnBoard[currentSquare] = NP;			  /* And that was for black pawn. */
-			return 1;
+	int Pawn = piecesOnBoard[currentSquare];				  						 // Check pawn color.
+	if(currentSquare - destSquare == 16 * Color  &&		  						 // If player wants to
+		piecesOnBoard[currentSquare - 8 * Color] == NP &&						 // move two sqares forward,
+		piecesOnBoard[destSquare] == NP) {				 						 // check if both sqares are empty
+		if(Color == White && currentSquare >= 48) {		 						 // and if the pawn is at the starting position.
+			return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);  // If it's all true, move the pawn.
+		}
+		if(Color == Black && currentSquare <= 16) {
+			return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
 		}		
 	}
 	else if(currentSquare - destSquare == 8 * Color &&	  // If player wants to move
 		piecesOnBoard[destSquare] == NP) {				  // one square forward,
-		piecesOnBoard[destSquare] = Pawn;				  // check if the square is empty
-		piecesOnBoard[currentSquare] = NP;				  // and move it if it was empty.
-		return 1;
+		return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
 	}
 	/* If players wants to take, check if there is anything to take */
 	else if(currentSquare - destSquare == 7 * Color || currentSquare - destSquare == 9 * Color) {
 		if(isDifferentColor(piecesOnBoard[destSquare], Color)) {
-			piecesOnBoard[destSquare] = Pawn;
-			piecesOnBoard[currentSquare] = NP;
-			return 1;
+			return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
 		}
 	}
 	return 0;
 }
 
 bool rookMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
-	int Rook = (Color == White) ? WR : BR;
+	int Rook = piecesOnBoard[currentSquare];
 	int Direction;
 
 	if(inSameColumn(currentSquare, destSquare))					// If the rook is in the same column as it's destination,
@@ -50,31 +60,27 @@ bool rookMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard)
 	}
 	
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
-		piecesOnBoard[destSquare] = Rook;	// If the destination sqare is empty or an opponent's piece occupies it.
-		piecesOnBoard[currentSquare] = NP;	// Move the rook.
-		return 1;
+		return isMoveLegal(Rook, currentSquare, destSquare, piecesOnBoard);
 	}
 	return 0;
 }
 
 bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
-	int Knight = (Color == White) ? WN : BN;
+	int Knight = piecesOnBoard[currentSquare];
 	int squareDifference = abs(destSquare - currentSquare);
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
 	  	if(squareDifference == 17 ||			// If clicked square is empty
 		   squareDifference == 15 ||			// or opposite color piece occupies it
 		   squareDifference == 10 ||			// and it's a legal knight move,
 		   squareDifference == 6) {				// move the knight.
-		   	piecesOnBoard[destSquare] = Knight;
-		    piecesOnBoard[currentSquare] = NP;
-	    	return 1;
+		   	return isMoveLegal(Knight, currentSquare, destSquare, piecesOnBoard);
 		}
 	}
 	return 0;
 }
 
 bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
-	int Bishop = (Color == White) ? WB : BB;
+	int Bishop = piecesOnBoard[currentSquare];
 	int squareDifference = destSquare - currentSquare;
 	int Direction;
 
@@ -91,15 +97,13 @@ bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 	}
 
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
-		piecesOnBoard[destSquare] = Bishop;	// If the clicked square is empty
-		piecesOnBoard[currentSquare] = NP;	// or occupied by opposite color piece,
-		return 1;							// move the bishop/
-	}										// In other case return false.
+		return isMoveLegal(Bishop, currentSquare, destSquare, piecesOnBoard);							// move the bishop/
+	}
 	return 0;
 }
 
 bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
-	int King = (Color == White) ? WK : BK;
+	int King = piecesOnBoard[currentSquare];
 	int squareDifference = abs(destSquare - currentSquare);
 
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
@@ -107,21 +111,19 @@ bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard)
 		   squareDifference == 7 ||				// in any direction
 		   squareDifference == 8 ||				// by just one square,
 		   squareDifference == 9) {				// move the king.
-		   	piecesOnBoard[destSquare] = King;	// In other case return false.
-		   	piecesOnBoard[currentSquare] = NP;
-		   	return 1;
+		   	return isMoveLegal(King, currentSquare, destSquare, piecesOnBoard);
 		}
 	}
 	return 0;
 }
 
 bool queenMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
-	int Queen = (Color == White) ? WQ : BQ;
+	int Queen = piecesOnBoard[currentSquare];
 	/* If the queen is asked to move like a bishop or a rook, move the queen. */
 	if(rookMove(Color, currentSquare, destSquare, piecesOnBoard) ||
 	   bishopMove(Color, currentSquare, destSquare, piecesOnBoard)) {
-		piecesOnBoard[destSquare] = Queen;
-		return 1;
+		if(isMoveLegal(Queen, currentSquare, destSquare, piecesOnBoard))
+			return 1;
 	}
 	return 0;
 }
