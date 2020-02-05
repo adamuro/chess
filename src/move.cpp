@@ -61,10 +61,10 @@ bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 	int Knight = (Color == White) ? WN : BN;
 	int squareDifference = abs(destSquare - currentSquare);
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
-	  	if(squareDifference == 17 ||
-		   squareDifference == 15 ||
-		   squareDifference == 10 ||
-		   squareDifference == 6) {
+	  	if(squareDifference == 17 ||			// If clicked square is empty
+		   squareDifference == 15 ||			// or opposite color piece occupies it
+		   squareDifference == 10 ||			// and it's a legal knight move,
+		   squareDifference == 6) {				// move the knight.
 		   	piecesOnBoard[destSquare] = Knight;
 		    piecesOnBoard[currentSquare] = NP;
 	    	return 1;
@@ -78,23 +78,23 @@ bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 	int squareDifference = destSquare - currentSquare;
 	int Direction;
 
-	if(!(abs(squareDifference) % 7))
-		Direction = (squareDifference > 0) ? 7 : -7;
-	else if(!(abs(squareDifference) % 9))
-		Direction = (squareDifference > 0) ? 9 : -9;
+	if(!(abs(squareDifference) % 7))				 // If the bishop is asked
+		Direction = (squareDifference > 0) ? 7 : -7; // to move diagonally
+	else if(!(abs(squareDifference) % 9))			 // set the direction it will move.
+		Direction = (squareDifference > 0) ? 9 : -9; // Otherwise return false.
 	else
 		return 0;
 	
 	for(int i = currentSquare + Direction ; i != destSquare ; i += Direction) {
-		if(piecesOnBoard[i] != NP)
-			return 0;
+		if(piecesOnBoard[i] != NP)	// If any square between the bishop and its destination
+			return 0;				// is occupied by other piece, return false.
 	}
 
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
-		piecesOnBoard[destSquare] = Bishop;
-		piecesOnBoard[currentSquare] = NP;
-		return 1;
-	}
+		piecesOnBoard[destSquare] = Bishop;	// If the clicked square is empty
+		piecesOnBoard[currentSquare] = NP;	// or occupied by opposite color piece,
+		return 1;							// move the bishop/
+	}										// In other case return false.
 	return 0;
 }
 
@@ -103,11 +103,11 @@ bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard)
 	int squareDifference = abs(destSquare - currentSquare);
 
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
-		if(squareDifference == 1 ||
-		   squareDifference == 7 ||
-		   squareDifference == 8 ||
-		   squareDifference == 9) {
-		   	piecesOnBoard[destSquare] = King;
+		if(squareDifference == 1 ||				// If the king is asked to move
+		   squareDifference == 7 ||				// in any direction
+		   squareDifference == 8 ||				// by just one square,
+		   squareDifference == 9) {				// move the king.
+		   	piecesOnBoard[destSquare] = King;	// In other case return false.
 		   	piecesOnBoard[currentSquare] = NP;
 		   	return 1;
 		}
@@ -117,6 +117,7 @@ bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard)
 
 bool queenMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Queen = (Color == White) ? WQ : BQ;
+	/* If the queen is asked to move like a bishop or a rook, move the queen. */
 	if(rookMove(Color, currentSquare, destSquare, piecesOnBoard) ||
 	   bishopMove(Color, currentSquare, destSquare, piecesOnBoard)) {
 		piecesOnBoard[destSquare] = Queen;

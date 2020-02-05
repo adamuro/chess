@@ -90,61 +90,67 @@ bool isInCheck (int Color, int *piecesOnBoard) {
 	int Diagonal[4] = {7, -7, 9, -9};
 	int knightAttack[8] = {6, -6, 10, -10, 15, -15, 17, -17};
 	int pawnAttack[2] = {7 * Color, 9 * Color};
-
+	/* Searching for vertical and horizontal attacks on the king (queen or rook) */
+	/* From the left */
 	for(int i = kingSquare - 1 ; i >= leftEdge ; i--) {
-		if(isSameColor(piecesOnBoard[i], Color))
+		int Piece = piecesOnBoard[i];
+		if(isSameColor(Piece, Color))
 			break;
-		if(isDifferentColorBishop(Color, piecesOnBoard[i]) || isDifferentColorKnight(Color, piecesOnBoard[i]) || isDifferentColorPawn(Color, piecesOnBoard[i]))
+		if(isDifferentColorBishop(Color, Piece) || isDifferentColorKnight(Color, Piece) || isDifferentColorPawn(Color, Piece))
 			break;
-		if(isDifferentColorQueen(Color, piecesOnBoard[i]) || isDifferentColorRook(Color, piecesOnBoard[i]))
+		if(isDifferentColorQueen(Color, Piece) || isDifferentColorRook(Color, Piece))
 			return 1;
 	}
-
+	/* From the right */
 	for(int i = kingSquare + 1 ; i <= rightEdge ; i++) {
-		if(isSameColor(piecesOnBoard[i], Color))
+		int Piece = piecesOnBoard[i];
+		if(isSameColor(Piece, Color))
 			break;
-		if(isDifferentColorBishop(Color, piecesOnBoard[i]) || isDifferentColorKnight(Color, piecesOnBoard[i]) || isDifferentColorPawn(Color, piecesOnBoard[i]))
+		if(isDifferentColorBishop(Color, Piece) || isDifferentColorKnight(Color, Piece) || isDifferentColorPawn(Color, Piece))
 			break;
-		if(isDifferentColorQueen(Color, piecesOnBoard[i]) || isDifferentColorRook(Color, piecesOnBoard[i]))
+		if(isDifferentColorQueen(Color, Piece) || isDifferentColorRook(Color, Piece))
 			return 1;
 	}
-
+	/* From above */
 	for(int i = kingSquare + 8 ; i < 64 ; i+= 8) {
-		if(isSameColor(piecesOnBoard[i], Color))
+		int Piece = piecesOnBoard[i];
+		if(isSameColor(Piece, Color))
 			break;
-		if(isDifferentColorBishop(Color, piecesOnBoard[i]) || isDifferentColorKnight(Color, piecesOnBoard[i]) || isDifferentColorPawn(Color, piecesOnBoard[i]))
+		if(isDifferentColorBishop(Color, Piece) || isDifferentColorKnight(Color, Piece) || isDifferentColorPawn(Color, Piece))
 			break;
-		if(isDifferentColorQueen(Color, piecesOnBoard[i]) || isDifferentColorRook(Color, piecesOnBoard[i]))
+		if(isDifferentColorQueen(Color, Piece) || isDifferentColorRook(Color, Piece))
 			return 1;
 	}
-
+	/* From beneath */
 	for(int i = kingSquare - 8 ; i >= 0 ; i-= 8) {
-		if(isSameColor(piecesOnBoard[i], Color))
+		int Piece = piecesOnBoard[i];
+		if(isSameColor(Piece, Color))
 			break;
-		if(isDifferentColorBishop(Color, piecesOnBoard[i]) || isDifferentColorKnight(Color, piecesOnBoard[i]) || isDifferentColorPawn(Color, piecesOnBoard[i]))
+		if(isDifferentColorBishop(Color, Piece) || isDifferentColorKnight(Color, Piece) || isDifferentColorPawn(Color, Piece))
 			break;
-		if(isDifferentColorQueen(Color, piecesOnBoard[i]) || isDifferentColorRook(Color, piecesOnBoard[i]))
+		if(isDifferentColorQueen(Color, Piece) || isDifferentColorRook(Color, Piece))
 			return 1;
 	}
-
+	/* Searching for diagonal attacks on the king (queen or bishop) */
 	for(int i = 0 ; i < 4 ; i++) {
 		for(int j = kingSquare + Diagonal[i] ; j >= 0 && j < 64 ; j += Diagonal[i]) {
+			int Piece = piecesOnBoard[j];
 			if(isSameColor(piecesOnBoard[j], Color))
 				break;
-			if(isDifferentColorRook(Color, piecesOnBoard[j]) || isDifferentColorKnight(Color, piecesOnBoard[j]) || isDifferentColorPawn(Color, piecesOnBoard[j]))
+			if(isDifferentColorRook(Color, Piece) || isDifferentColorKnight(Color, Piece) || isDifferentColorPawn(Color, Piece))
 				break;
-			if(isDifferentColorQueen(Color, piecesOnBoard[j]) || isDifferentColorBishop(Color, piecesOnBoard[j]))
+			if(isDifferentColorQueen(Color, Piece) || isDifferentColorBishop(Color, Piece))
 				return 1;
 		}
 	}
-
+	/* Searching for knights which attack the king */
 	for(int i = 0 ; i < 8 ; i++) {
 		int knightSquare = kingSquare + knightAttack[i];
 		if(knightSquare >= 0 && knightSquare < 64)
 			if(isDifferentColorKnight(Color, piecesOnBoard[knightSquare]))
 				return 1;
 	}
-
+	/* Searching for pawns which attack the king */
 	for(int i = 0 ; i < 2 ; i++) {
 		if(isDifferentColorPawn(Color, piecesOnBoard[kingSquare - pawnAttack[i]]))
 			return 1;

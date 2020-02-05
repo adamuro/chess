@@ -4,14 +4,18 @@ Chess game wrote in C++ using sfml.
 
 ## Installation
 
-Use command:
+To install the game use command:
 ```
 make
 ```
+To uninstall the game use command:
+```
+make clean
+```
+
 ## Usage
 
 To start the game use command:
-
 ```
 ./chess
 ```
