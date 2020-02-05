@@ -1,12 +1,23 @@
-# chess
+# Chess
 
-Simple chess wrote in C++ using sfml.
+Chess game wrote in C++ using sfml.
 
-To compile use command
-'''
+## Installation
+
+Use command:
+```
 make
-'''
-To play use coommand
-'''
+```
+## Usage
+
+To start the game use command:
+
+```
 ./chess
-'''
+```
+
+You can move pieces by first clicking
+on the piece you want to move
+and then the square that you
+want to move to.
+You can't drag pieces.
