@@ -12,13 +12,10 @@ void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquar
 	int clickedSquare = getClickedSquare(clickedPosition);
 	int clickedPiece = piecesOnBoard[clickedSquare];
 
-	if(*markedSquare == -1) {													  // If there's no piece marked
-		if(clickedPiece != NP) {			  									  // and if White is to move
-			if(*playerToMove == White && clickedPiece >= 0 && clickedPiece <= 5){ // and a white piece was clicked
-				*markedSquare = clickedSquare;}				      				  // mark the clicked piece.
-			if(*playerToMove == Black && clickedPiece >= 6 && clickedPiece <= 11) // If it's black to move
-				*markedSquare = clickedSquare;					  				  // and a black piece was clicked
-		}																		  // mark the clicked piece.
+	if(*markedSquare == -1) {								// If there's no piece marked
+		if(clickedPiece != NP)			  					// and a piece of current move's
+			if(*playerToMove == pieceColor(clickedPiece)) 	// player's color was clicked,
+				*markedSquare = clickedSquare;				// mark the clicked piece.
 	}
 	/* If a piece was marked and any other square was clicked, try to move the piece to the clicked square. */
 	else if(*markedSquare != clickedSquare && Move(piecesOnBoard[*markedSquare], *markedSquare, clickedSquare, piecesOnBoard)) {
