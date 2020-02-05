@@ -23,9 +23,9 @@ bool inSameColumn(int currentSquare, int destSquare) {
 bool inSameFile(int currentSquare, int destSquare) {
 	int distToLeftEdge = currentSquare % 8;
 	int leftEdge = currentSquare - distToLeftEdge;
-	int rightEdge = currentSquare - distToLeftEdge + 8;
+	int rightEdge = currentSquare - distToLeftEdge + 7;
 
-	return (destSquare >= leftEdge && destSquare < rightEdge) ? 1 : 0;
+	return (destSquare >= leftEdge && destSquare <= rightEdge) ? 1 : 0;
 }
 
 bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
