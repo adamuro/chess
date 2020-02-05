@@ -32,7 +32,7 @@ int main () {
 		}
 		drawBoard(&Window, Board);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
-		printf("%d %d\n", playerToMove, isInCheck(playerToMove, piecesOnBoard));
+		printf("%d in check: %d\n", playerToMove, isInCheck(playerToMove, piecesOnBoard));
 		Window.display();
 	}
 	return 0;
