@@ -49,10 +49,26 @@ bool rookMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard)
 			return 0;				// the rook can't move.
 	}
 	
-	if(destSquare == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
+	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
 		piecesOnBoard[destSquare] = Rook;	// If the destination sqare is empty or an opponent's piece occupies it.
 		piecesOnBoard[currentSquare] = NP;	// Move the rook.
 		return 1;
+	}
+	return 0;
+}
+
+bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
+	int Knight = (Color == White) ? WN : BN;
+	int squareDifference = abs(destSquare - currentSquare);
+	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
+	  	if(squareDifference == 17 ||
+		   squareDifference == 15 ||
+		   squareDifference == 10 ||
+		   squareDifference == 6) {
+		   	piecesOnBoard[destSquare] = Knight;
+		    piecesOnBoard[currentSquare] = NP;
+	    	return 1;
+		}
 	}
 	return 0;
 }

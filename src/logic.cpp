@@ -36,7 +36,9 @@ bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
 		case WR:
 		case BR:
 			return rookMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
-		
+		case WN:
+		case BN:
+			return knightMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
 	}
 	return 0;
 }
