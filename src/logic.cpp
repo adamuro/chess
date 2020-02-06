@@ -157,27 +157,3 @@ bool isInCheck (int Color, int *piecesOnBoard) {
 	}
 	return 0;
 }
-
-bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
-	switch(Piece) {
-		case WP:
-		case BP:
-			return pawnMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
-		case WR:
-		case BR:
-			return rookMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
-		case WN:
-		case BN:
-			return knightMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
-		case WB:
-		case BB:
-			return bishopMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
-		case WK:
-		case BK:
-			return kingMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
-		case WQ:
-		case BQ:
-			return queenMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
-	}
-	return 0;
-}

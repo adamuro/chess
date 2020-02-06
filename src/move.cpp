@@ -18,6 +18,31 @@ bool isMoveLegal (int Piece, int currentSquare, int destSquare, int *piecesOnBoa
 	return 1;
 }
 
+bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
+	switch(Piece) {
+		case WP:
+		case BP:
+			return pawnMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+		case WR:
+		case BR:
+			return rookMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+		case WN:
+		case BN:
+			return knightMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+		case WB:
+		case BB:
+			return bishopMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+		case WK:
+		case BK:
+			return kingMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+		case WQ:
+		case BQ:
+			return queenMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+	}
+	return 0;
+}
+
+
 bool pawnMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Pawn = piecesOnBoard[currentSquare];				  						 // Check pawn color.
 	if(currentSquare - destSquare == 16 * Color  &&		  						 // If player wants to
