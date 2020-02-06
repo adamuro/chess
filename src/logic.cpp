@@ -1,7 +1,7 @@
 #include "logic.hpp"
 
 bool isDifferentColor (int Piece, int Color) {
-	return (pieceColor(Piece) != Color) ? 1 : 0;
+	return (pieceColor(Piece) != Color && pieceColor(Piece)) ? 1 : 0;
 }
 
 bool isSameColor (int Piece, int Color) {
