@@ -3,22 +3,30 @@
 
 #include "common.hpp"
 
-class moveData {
+typedef struct  {
+	int moveNumber;
+	int movedPiece;
+	int takenPiece;
+	int prevPosition;
+	int currentPosition;
+
+	moveData *nextMove;
+	moveData *prevMove;
+} List;
+
+class gameData {
 	public:
-		moveData (int Number, int Moved, int Taken, int posBefore, int posAfter, moveData *prevMove);
+		gameData () {};
+		~gameData () {};
+
+		void addMove (int moveNumber, int movedPiece, int takenPiece, int prevPosition, int currentPosition);
 		void printMove ();
 		int getMovedPiece ();
 		int getPrevPosition ();
 		int getCurrentPosition ();
 	private:
-		int moveNumber;
-		int movedPiece;
-		int takenPiece;
-		int prevPosition;
-		int currentPosition;
-
-		moveData *nextMove;
-		moveData *prevMove;
+		int moveCount;
+		List *moveList;
 }
 
 #endif
