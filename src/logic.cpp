@@ -82,7 +82,7 @@ bool isInCheck (int Color, int *piecesOnBoard) {
 			break;
 		}
 	}
-
+	
 	int distToLeftEdge = kingSquare % 8;
 	int leftEdge = kingSquare - distToLeftEdge;
 	int rightEdge = kingSquare - distToLeftEdge + 7;

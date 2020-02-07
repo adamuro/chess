@@ -11,6 +11,7 @@ int getClickedSquare(Vector2i clickedPosition) {
 void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquare, int *playerToMove, gameData *currentGame) {
 	int clickedSquare = getClickedSquare(clickedPosition);
 	int clickedPiece = piecesOnBoard[clickedSquare];
+	int markedPiece = piecesOnBoard[*markedSquare];
 
 	if(*markedSquare == -1) {								// If there's no piece marked
 		if(clickedPiece != NP)			  					// and a piece of current move's
@@ -18,16 +19,15 @@ void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquar
 				*markedSquare = clickedSquare;				// mark the clicked piece.
 	}
 	/* If a piece was marked and any other square was clicked, try to move the piece to the clicked square. */
-	else if(*markedSquare != clickedSquare && Move(piecesOnBoard[*markedSquare], *markedSquare, clickedSquare, piecesOnBoard, currentGame)) {
+	else if(*markedSquare != clickedSquare && Move(markedPiece, *markedSquare, clickedSquare, piecesOnBoard)) {
+		currentGame -> addMove(markedPiece, clickedPiece, *markedSquare, clickedSquare);
+		currentGame -> printMove();
 		*markedSquare = -1;		 												// If the move was succesful,
 		changePlayerToMove(playerToMove);										// change the player to move
-		// Might use currentGame -> addMove here
 	}																			// and unmark the square.
-	else if(*playerToMove == White && clickedPiece >= 0 && clickedPiece <= 5){ 	// If the move was unseccesful,
-		*markedSquare = clickedSquare; 										    // and it's white to move
-	}																			// and a White piece was clicked
-	else if(*playerToMove == Black && clickedPiece >= 6 && clickedPiece <= 11)  // mark the clicked piece.
-		*markedSquare = clickedSquare;											// Same with Black.
+	else if(*playerToMove == pieceColor(clickedPiece)){	 						// If the move was unseccesful,
+		*markedSquare = clickedSquare; 										    // and the clicked piece is owned by current player,
+	}																			// mark the clicked piece.
 	else																		// Otherwise,
 		*markedSquare = -1;														// unmark the piece.
 }

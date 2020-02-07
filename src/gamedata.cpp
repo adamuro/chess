@@ -12,18 +12,10 @@ gameData::gameData ()
 	moveList(NULL) {}
 
 void gameData::addMove (int movedPiece, int takenPiece, int prevPosition, int currentPosition) {
-	moveData *newMove = new moveData(this -> moveCount++, movedPiece, takenPiece, prevPosition, currentPosition);
-	
-	if(this -> moveList == NULL) {
-		this -> moveList = newMove;
-	}
-	else {
-		while(this -> moveList -> nextMove)
-			this -> moveList = this -> moveList -> nextMove;
-
-		this -> moveList -> nextMove = newMove;
+	while(this -> moveList != NULL)
 		this -> moveList = this -> moveList -> nextMove;
-	}
+
+	this -> moveList = new moveData(this -> moveCount++, movedPiece, takenPiece, prevPosition, currentPosition);
 }
 
 void gameData::printMove () {
