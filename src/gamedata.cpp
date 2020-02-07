@@ -12,10 +12,28 @@ gameData::gameData ()
 	moveList(NULL) {}
 
 void gameData::addMove (int movedPiece, int takenPiece, int prevPosition, int currentPosition) {
+	moveData *currentMove = this -> moveList;
+
 	while(this -> moveList != NULL)
 		this -> moveList = this -> moveList -> nextMove;
 
 	this -> moveList = new moveData(this -> moveCount++, movedPiece, takenPiece, prevPosition, currentPosition);
+	this -> moveList -> prevMove = currentMove;
+}
+
+bool gameData::wasPieceMoved (int Piece) {
+	moveData *Iterate = this -> moveList;
+
+	while(Iterate != NULL) {
+		if(Iterate -> movedPiece == Piece)
+			return 1;
+		Iterate = Iterate -> prevMove;
+	}
+	return 0;
+}
+
+bool gameData::movedLast (int Piece) {
+	return (this -> moveList -> movedPiece == Piece) ? 1 : 0;
 }
 
 void gameData::printMove () {

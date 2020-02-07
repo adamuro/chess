@@ -23,6 +23,8 @@ class gameData {
 		~gameData () {}
 
 		void addMove (int movedPiece, int takenPiece, int prevPosition, int currentPosition);
+		bool wasPieceMoved (int Color);
+		bool movedLast (int Piece);
 		void printMove ();
 		int getMoveNumber ();
 		int getMovedPiece ();

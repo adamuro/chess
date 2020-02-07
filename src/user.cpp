@@ -19,9 +19,9 @@ void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquar
 				*markedSquare = clickedSquare;				// mark the clicked piece.
 	}
 	/* If a piece was marked and any other square was clicked, try to move the piece to the clicked square. */
-	else if(*markedSquare != clickedSquare && Move(markedPiece, *markedSquare, clickedSquare, piecesOnBoard)) {
+	else if(*markedSquare != clickedSquare && Move(markedPiece, *markedSquare, clickedSquare, piecesOnBoard, currentGame)) {
 		currentGame -> addMove(markedPiece, clickedPiece, *markedSquare, clickedSquare);
-		currentGame -> printMove();
+		//currentGame -> printMove();
 		*markedSquare = -1;		 												// If the move was succesful,
 		changePlayerToMove(playerToMove);										// change the player to move
 	}																			// and unmark the square.
