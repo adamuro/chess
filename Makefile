@@ -9,7 +9,7 @@ OBJ =\
 	./src/move.cpp \
 	./src/draw.cpp \
 	./src/user.cpp \
-	./src/gamelog.cpp
+	./src/gamedata.cpp
 
 all: main
 

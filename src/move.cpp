@@ -26,24 +26,32 @@ bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard, gam
 		case WP:
 		case BP:
 			moveDone = pawnMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			break;
 		case WR:
 		case BR:
 			moveDone = rookMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			break;
 		case WN:
 		case BN:
 			moveDone = knightMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			break;
 		case WB:
 		case BB:
 			moveDone = bishopMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			break;
 		case WK:
 		case BK:
 			moveDone = kingMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			break;
 		case WQ:
 		case BQ:
 			moveDone = queenMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			break;
 	}
-	if(moveDone)
+	if(moveDone) {
 		currentGame -> addMove(piecesOnBoard[destSquare], takenPiece, currentSquare, destSquare);
+		currentGame -> printMove();
+	}
 
 	return moveDone;
 }

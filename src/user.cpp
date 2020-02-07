@@ -21,6 +21,7 @@ void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquar
 	else if(*markedSquare != clickedSquare && Move(piecesOnBoard[*markedSquare], *markedSquare, clickedSquare, piecesOnBoard, currentGame)) {
 		*markedSquare = -1;		 												// If the move was succesful,
 		changePlayerToMove(playerToMove);										// change the player to move
+		// Might use currentGame -> addMove here
 	}																			// and unmark the square.
 	else if(*playerToMove == White && clickedPiece >= 0 && clickedPiece <= 5){ 	// If the move was unseccesful,
 		*markedSquare = clickedSquare; 										    // and it's white to move

@@ -1,7 +1,7 @@
 #ifndef GAMELOG_INCLUDED
 #define GAMELOG_INCLUDED
 
-#include "common.hpp"
+#include <iostream>
 
 class moveData {
 	public:
