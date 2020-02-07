@@ -1,7 +1,5 @@
 #include "common.hpp"
 
-int moveCount; // Need to figure out how to count moves.
-
 int main () {
 	RectangleShape Board [64];
 	boardSetup(Board);
@@ -14,6 +12,8 @@ int main () {
 
 	int markedSquare = -1; // That means that no piece is marked at the time.
 	int playerToMove = White;
+
+	gameData *currentGame = new gameData;
 
 	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
 
@@ -28,7 +28,7 @@ int main () {
 		if(windowEvent.type == Event::MouseButtonReleased &&
 		windowEvent.mouseButton.button == Mouse::Left) {
 			Vector2i clickedPosition = Mouse::getPosition(Window);
-			onClickEvent(clickedPosition, piecesOnBoard, &markedSquare, &playerToMove);
+			onClickEvent(clickedPosition, piecesOnBoard, &markedSquare, &playerToMove, currentGame);
 		}
 		drawBoard(&Window, Board);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);

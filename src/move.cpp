@@ -18,28 +18,34 @@ bool isMoveLegal (int Piece, int currentSquare, int destSquare, int *piecesOnBoa
 	return 1;
 }
 
-bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
+bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard, gameData *currentGame) {
+	bool moveDone;
+	int takenPiece = piecesOnBoard[destSquare];
+
 	switch(Piece) {
 		case WP:
 		case BP:
-			return pawnMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			moveDone = pawnMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
 		case WR:
 		case BR:
-			return rookMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			moveDone = rookMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
 		case WN:
 		case BN:
-			return knightMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			moveDone = knightMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
 		case WB:
 		case BB:
-			return bishopMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			moveDone = bishopMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
 		case WK:
 		case BK:
-			return kingMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			moveDone = kingMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
 		case WQ:
 		case BQ:
-			return queenMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			moveDone = queenMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
 	}
-	return 0;
+	if(moveDone)
+		currentGame -> addMove(piecesOnBoard[destSquare], takenPiece, currentSquare, destSquare);
+
+	return moveDone;
 }
 
 

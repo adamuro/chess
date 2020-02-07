@@ -9,6 +9,7 @@
 #include "move.hpp"
 #include "draw.hpp"
 #include "user.hpp"
+#include "gamelog.hpp"
 
 using namespace std;
 using namespace sf;

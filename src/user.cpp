@@ -8,7 +8,7 @@ int getClickedSquare(Vector2i clickedPosition) {
 	return clickedSquare;					  // 0 <= clickedSquare <= 63
 }
 
-void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquare, int *playerToMove) {
+void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquare, int *playerToMove, gameData *currentGame) {
 	int clickedSquare = getClickedSquare(clickedPosition);
 	int clickedPiece = piecesOnBoard[clickedSquare];
 
@@ -18,7 +18,7 @@ void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquar
 				*markedSquare = clickedSquare;				// mark the clicked piece.
 	}
 	/* If a piece was marked and any other square was clicked, try to move the piece to the clicked square. */
-	else if(*markedSquare != clickedSquare && Move(piecesOnBoard[*markedSquare], *markedSquare, clickedSquare, piecesOnBoard)) {
+	else if(*markedSquare != clickedSquare && Move(piecesOnBoard[*markedSquare], *markedSquare, clickedSquare, piecesOnBoard, currentGame)) {
 		*markedSquare = -1;		 												// If the move was succesful,
 		changePlayerToMove(playerToMove);										// change the player to move
 	}																			// and unmark the square.
