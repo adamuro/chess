@@ -1,16 +1,16 @@
 #include "gamelog.hpp"
 
+gameData::gameData () {
+	this -> moveCount = 0;
+	this -> moveList = NULL;
+}
+
 moveData::moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevPosition_, int currentPosition_)
 :	moveNumber(moveNumber_),
 	movedPiece(movedPiece_),
 	takenPiece(takenPiece_),
 	prevPosition(prevPosition_),
 	currentPosition(currentPosition_) {}
-
-gameData::gameData () {
-	this -> moveCount = 0;
-	this -> moveList = NULL;
-}
 
 void gameData::addMove (int movedPiece, int takenPiece, int prevPosition, int currentPosition) {
 	int moveNumber = this -> moveCount;
