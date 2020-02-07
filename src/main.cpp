@@ -4,7 +4,7 @@ int main () {
 	RectangleShape Board [64];
 	boardSetup(Board);
 
-	Texture piecesTextures[12];
+	Texture piecesTextures [12];
 	importPiecesTextures(piecesTextures);
 
 	int piecesOnBoard [64];

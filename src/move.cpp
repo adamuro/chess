@@ -42,37 +42,35 @@ bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard, gam
 	return 0;
 }
 
-
+/* Need to implement these functions using Piece and pieceColor(Piece) instead of Color */
 bool pawnMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard, gameData *currentGame) {
-	int Pawn = piecesOnBoard[currentSquare];				  					 // Check pawn color.
+	int Pawn = piecesOnBoard[currentSquare];
 	int destPiece = piecesOnBoard[destSquare];
+	int nextSquare = currentSquare - 8 * Color;
+	int nextPiece = piecesOnBoard[nextSquare];
+	int Distance = (currentSquare - destSquare) * Color;
 	int enPassantSquare = destSquare + 8 * Color;
 	int enPassantPiece = piecesOnBoard[enPassantSquare];
 
-	if(currentSquare - destSquare == 16 * Color  &&		  						 // If player wants to
-		piecesOnBoard[currentSquare - 8 * Color] == NP &&						 // move two sqares forward,
-		destPiece == NP) {				 										 // check if both sqares are empty
-		if(Color == White && currentSquare >= 48) {		 						 // and if the pawn is at the starting position.
-			return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);  // If it's all true, move the pawn.
-		}
-		if(Color == Black && currentSquare <= 16) {
+	if(Distance == 16 && destPiece == NP && nextPiece == NP) {
+		if(isPawnStartingSquare(Color, currentSquare)) { 
 			return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
-		}		
+		}
 	}
-	else if(currentSquare - destSquare == 8 * Color &&	  // If player wants to move
-		destPiece == NP) {								  // one square forward,
+	else if(Distance == 8 && destPiece == NP) {
 		return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
 	}
 	/* If players wants to take, check if there is anything to take */
-	else if(currentSquare - destSquare == 7 * Color || currentSquare - destSquare == 9 * Color) {
+	else if(Distance == 7 || Distance == 9) {
 		if(isDifferentColor(destPiece, Color))
 			return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
 		if(isDifferentColorPawn(Color, enPassantPiece)) {
-			if(currentGame -> movedLast(enPassantPiece))
+			if(currentGame -> movedLast(enPassantPiece)) {
 				if(isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard)) {
 					piecesOnBoard[enPassantSquare] = NP;
 					return 1;
 				}
+			}
 		}
 	}
 	return 0;
@@ -105,10 +103,10 @@ bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 	int squareDifference = abs(destSquare - currentSquare);
 	
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
-	  	if(squareDifference == 17 ||			// If clicked square is empty
-		   squareDifference == 15 ||			// or opposite color piece occupies it
-		   squareDifference == 10 ||			// and it's a legal knight move,
-		   squareDifference == 6) {				// move the knight.
+	  	if(squareDifference == 17 ||	// If clicked square is empty
+		   squareDifference == 15 ||	// or opposite color piece occupies it
+		   squareDifference == 10 ||	// and it's a legal knight move,
+		   squareDifference == 6) {		// move the knight.
 		   	return isMoveLegal(Knight, currentSquare, destSquare, piecesOnBoard);
 		}
 	}
@@ -118,6 +116,7 @@ bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Bishop = piecesOnBoard[currentSquare];
 	int squareDifference = destSquare - currentSquare;
+	int destPiece = piecesOnBoard[destSquare];
 	int Direction;
 
 	if(!(abs(squareDifference) % 7))				 // If the bishop is asked
@@ -132,7 +131,7 @@ bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 			return 0;				// is occupied by other piece, return false.
 	}
 
-	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
+	if(destPiece == NP || isDifferentColor(destPiece, Color)) {
 		return isMoveLegal(Bishop, currentSquare, destSquare, piecesOnBoard);							// move the bishop/
 	}
 	return 0;
@@ -144,7 +143,7 @@ bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard,
 	int destPiece = piecesOnBoard[destSquare];
 	int squareDifference = abs(destSquare - currentSquare);
 
-	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
+	if(destPiece == NP || isDifferentColor(destPiece, Color)) {
 		if(squareDifference == 1 ||				// If the king is asked to move
 		   squareDifference == 7 ||				// in any direction
 		   squareDifference == 8 ||				// by just one square,

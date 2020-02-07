@@ -72,6 +72,14 @@ bool isDifferentColorPawn (int Color, int Piece) {
 	return 0;
 }
 
+bool isPawnStartingSquare(int Color, int Square) {
+	if(Color == White && Square >= 48 && Square < 56)
+		return 1;
+	if(Color == Black && Square >= 8 && Square < 16)
+		return 1;
+	return 0;
+}
+
 bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	int distToLeftEdge = checkSquare % 8;
 	int leftEdge = checkSquare - distToLeftEdge;
@@ -80,7 +88,10 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	int Diagonal[4] = {7, -7, 9, -9};
 	int knightAttack[8] = {6, -6, 10, -10, 15, -15, 17, -17};
 	int pawnAttack[2] = {7 * Color, 9 * Color};
-	/* Searching for vertical and horizontal attacks on the king (queen or rook) */
+	/*
+	 * Implement this by using pair and only one for loop!
+	 * Searching for vertical and horizontal attacks on the king (queen or rook)
+	 */
 	/* From the left */
 	for(int i = checkSquare - 1 ; i >= leftEdge ; i--) {
 		int Piece = piecesOnBoard[i];

@@ -17,7 +17,6 @@ void drawPieces (RenderWindow *Window, Texture *piecesTextures, int *piecesOnBoa
 				Piece.setPosition(i * 80, j * 80);
 				Window -> draw(Piece);
 			}
-
 		}
 	}
 }

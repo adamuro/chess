@@ -14,8 +14,10 @@ gameData::gameData ()
 void gameData::addMove (int movedPiece, int takenPiece, int prevPosition, int currentPosition) {
 	moveData *currentMove = this -> moveList;
 
-	while(this -> moveList != NULL)
+	while(this -> moveList != NULL) {
 		this -> moveList = this -> moveList -> nextMove;
+		currentMove = this -> moveList;
+	}
 
 	this -> moveList = new moveData(this -> moveCount++, movedPiece, takenPiece, prevPosition, currentPosition);
 	this -> moveList -> prevMove = currentMove;
