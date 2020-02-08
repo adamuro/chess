@@ -7,14 +7,14 @@ int main () {
 	Texture piecesTextures [12];
 	importPiecesTextures(piecesTextures);
 
-	Sprite markedSprite;
-	importMarkedTexture(&markedSprite);
-
 	int piecesOnBoard [64];
 	piecesSetup(piecesOnBoard);
 
 	int markedSquare = -1; // That means that no piece is marked at the time.
 	int playerToMove = White;
+
+	RectangleShape Highlight;
+	highlightSetup(&Highlight);
 
 	gameData *currentGame = new gameData;
 
@@ -33,7 +33,7 @@ int main () {
 			Vector2i clickedPosition = Mouse::getPosition(Window);
 			onClickEvent(clickedPosition, piecesOnBoard, &markedSquare, &playerToMove, currentGame);
 		}
-		drawBoard(&Window, Board, markedSprite, markedSquare);
+		drawBoard(&Window, Board, Highlight, markedSquare);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
 		Window.display();
 	}

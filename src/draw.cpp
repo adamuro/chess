@@ -1,14 +1,17 @@
 #include "draw.hpp"
 
-void drawBoard (RenderWindow *Window, RectangleShape *Board, Sprite markedSprite, int markedSquare) {
+void drawBoard (RenderWindow *Window, RectangleShape *Board, RectangleShape Highlight, int markedSquare) {
 	int squareEdge = windowHeight / 8;
 
-	for(int i = 0 ; i < 8 ; i++)
+	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
-			Window -> draw(Board[j * 8 + i]);
 			if(i * 8 + j == markedSquare) {
-				markedSprite.setPosition(j * squareEdge, i * squareEdge);
-				Window -> draw(markedSprite);
+				Highlight.setPosition(j * squareEdge, i * squareEdge);
+				Window -> draw(Highlight);
+			}
+			else {
+				Window -> draw(Board[j * 8 + i]);
+			}
 		}
 	}
 }

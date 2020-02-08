@@ -16,12 +16,6 @@ void boardSetup (RectangleShape *Board) {
 	}
 }
 
-void importMarkedTexture (Sprite *markedSprite) {
-	Texture markedTexture;
-	markedTexture.loadFromFile("./images/MarkedSquare.png");
-	markedSprite -> setTexture(markedTexture);
-}
-
 void importPiecesTextures (Texture *piecesImages) {
 	piecesImages[WP].loadFromFile("./images/WhitePawn.png");
 	piecesImages[WR].loadFromFile("./images/WhiteRook.png");
@@ -57,4 +51,10 @@ void piecesSetup (int *piecesOnBoard) {
 
 	for(int i = 16 ; i < 48 ; i++)
 		piecesOnBoard[i] = NP;
+}
+
+void highlightSetup(RectangleShape *Highlight) {
+	int squareEdge = windowHeight / 8;
+	Highlight -> setSize(Vector2f(squareEdge, squareEdge));
+	Highlight -> setFillColor(Color(colorHighlight));
 }

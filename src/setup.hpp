@@ -8,6 +8,7 @@
 /* Sqares colors */
 #define colorBlack 232,169,23
 #define colorWhite 245,231,200
+#define colorHighlight  170,200,80
 
 enum Pieces {
 	WP = 0, WR = 1, WN = 2, WB = 3, WK = 4, WQ = 5,	  // WhitePawn, WhiteRook etc.
@@ -20,8 +21,8 @@ enum Players {
 };
 
 void boardSetup (RectangleShape *Board); // Color all sqares
-void importMarkedTexture (Sprite *markedSprite);
 void importPiecesTextures (Texture *piecesTextures); // From images directory
 void piecesSetup (int *piecesOnBoard); // Set pieces' starting positions
+void highlightSetup(RectangleShape *Highlight);
 
 #endif
