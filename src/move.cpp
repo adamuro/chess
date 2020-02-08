@@ -22,29 +22,30 @@ bool Move (int Piece, int currentSquare, int destSquare, int *piecesOnBoard, gam
 	switch(Piece) {
 		case WP:
 		case BP:
-			return pawnMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard, currentGame);
+			return pawnMove(currentSquare, destSquare, piecesOnBoard, currentGame);
 		case WR:
 		case BR:
-			return rookMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			return rookMove(currentSquare, destSquare, piecesOnBoard);
 		case WN:
 		case BN:
-			return knightMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			return knightMove(currentSquare, destSquare, piecesOnBoard);
 		case WB:
 		case BB:
-			return bishopMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			return bishopMove(currentSquare, destSquare, piecesOnBoard);
 		case WK:
 		case BK:
-			return kingMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard, currentGame);
+			return kingMove(currentSquare, destSquare, piecesOnBoard, currentGame);
 		case WQ:
 		case BQ:
-			return queenMove(pieceColor(Piece), currentSquare, destSquare, piecesOnBoard);
+			return queenMove(currentSquare, destSquare, piecesOnBoard);
 	}
 	return 0;
 }
 
 /* Need to implement these functions using Piece and pieceColor(Piece) instead of Color */
-bool pawnMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard, gameData *currentGame) {
+bool pawnMove (int currentSquare, int destSquare, int *piecesOnBoard, gameData *currentGame) {
 	int Pawn = piecesOnBoard[currentSquare];
+	int Color = pieceColor(Pawn);
 	int destPiece = piecesOnBoard[destSquare];
 	int nextSquare = currentSquare - 8 * Color;
 	int nextPiece = piecesOnBoard[nextSquare];
@@ -76,8 +77,9 @@ bool pawnMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard,
 	return 0;
 }
 
-bool rookMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
+bool rookMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Rook = piecesOnBoard[currentSquare];
+	int Color = pieceColor(Rook);
 	int Direction;
 
 	if(inSameColumn(currentSquare, destSquare))					// If the rook is in the same column as it's destination,
@@ -98,8 +100,9 @@ bool rookMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard)
 	return 0;
 }
 
-bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
+bool knightMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Knight = piecesOnBoard[currentSquare];
+	int Color = pieceColor(Knight);
 	int squareDifference = abs(destSquare - currentSquare);
 	
 	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
@@ -113,8 +116,9 @@ bool knightMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 	return 0;
 }
 
-bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
+bool bishopMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Bishop = piecesOnBoard[currentSquare];
+	int Color = pieceColor(Bishop);
 	int squareDifference = destSquare - currentSquare;
 	int destPiece = piecesOnBoard[destSquare];
 	int Direction;
@@ -137,9 +141,10 @@ bool bishopMove (int Color, int currentSquare, int destSquare, int *piecesOnBoar
 	return 0;
 }
 
-bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard, gameData *currentGame) {
+bool kingMove (int currentSquare, int destSquare, int *piecesOnBoard, gameData *currentGame) {
 	int King = piecesOnBoard[currentSquare];
-	int AllyRook = (pieceColor(King) == White) ? WR : BR;
+	int Color = pieceColor(King);
+	int allyRook = (pieceColor(King) == White) ? WR : BR;
 	int destPiece = piecesOnBoard[destSquare];
 	int squareDifference = abs(destSquare - currentSquare);
 
@@ -151,8 +156,8 @@ bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard,
 		   	return isMoveLegal(King, currentSquare, destSquare, piecesOnBoard);
 		}
 	}
-	if(destPiece == AllyRook) {
-		if(!currentGame -> wasPieceMoved(King) && !currentGame -> wasPieceMoved(AllyRook)) {
+	if(destPiece == allyRook) {
+		if(!currentGame -> wasPieceMoved(King) && !currentGame -> wasPieceMoved(allyRook)) {
 			int Direction = (destSquare - currentSquare > 0) ? 1 : -1;
 
 			if(isAttacked(currentSquare, Color, piecesOnBoard))
@@ -162,18 +167,18 @@ bool kingMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard,
 					return 0;
 			}
 			moveBoardUpdate(King, currentSquare, currentSquare + Direction * 2, piecesOnBoard);
-			moveBoardUpdate(AllyRook, destSquare, currentSquare + Direction, piecesOnBoard);
+			moveBoardUpdate(allyRook, destSquare, currentSquare + Direction, piecesOnBoard);
 			return 1;
 		}
 	}
 	return 0;
 }
 
-bool queenMove (int Color, int currentSquare, int destSquare, int *piecesOnBoard) {
+bool queenMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Queen = piecesOnBoard[currentSquare];
 	/* If the queen is asked to move like a bishop or a rook, move the queen. */
-	if(rookMove(Color, currentSquare, destSquare, piecesOnBoard) ||
-	   bishopMove(Color, currentSquare, destSquare, piecesOnBoard)) {
+	if(rookMove(currentSquare, destSquare, piecesOnBoard) ||
+	   bishopMove(currentSquare, destSquare, piecesOnBoard)) {
 		if(isMoveLegal(Queen, currentSquare, destSquare, piecesOnBoard))
 			return 1;
 	}
