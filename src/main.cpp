@@ -7,6 +7,9 @@ int main () {
 	Texture piecesTextures [12];
 	importPiecesTextures(piecesTextures);
 
+	Sprite markedSprite;
+	importMarkedTexture(&markedSprite);
+
 	int piecesOnBoard [64];
 	piecesSetup(piecesOnBoard);
 
@@ -30,7 +33,7 @@ int main () {
 			Vector2i clickedPosition = Mouse::getPosition(Window);
 			onClickEvent(clickedPosition, piecesOnBoard, &markedSquare, &playerToMove, currentGame);
 		}
-		drawBoard(&Window, Board);
+		drawBoard(&Window, Board, markedSprite, markedSquare);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
 		Window.display();
 	}

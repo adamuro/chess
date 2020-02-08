@@ -20,6 +20,7 @@ enum Players {
 };
 
 void boardSetup (RectangleShape *Board); // Color all sqares
+void importMarkedTexture (Sprite *markedSprite);
 void importPiecesTextures (Texture *piecesTextures); // From images directory
 void piecesSetup (int *piecesOnBoard); // Set pieces' starting positions
 
