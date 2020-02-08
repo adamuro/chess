@@ -1,6 +1,9 @@
 #include "common.hpp"
 
 int main () {
+	RectangleShape menuBackground;
+	menuSetup(&menuBackground);
+
 	RectangleShape Board [64];
 	boardSetup(Board);
 
@@ -35,6 +38,7 @@ int main () {
 		}
 		drawBoard(&Window, Board, Highlight, markedSquare);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
+		menuSetup(&Window);
 		Window.display();
 	}
 	return 0;

@@ -1,7 +1,7 @@
 #include "draw.hpp"
 
 void drawBoard (RenderWindow *Window, RectangleShape *Board, RectangleShape Highlight, int markedSquare) {
-	int squareEdge = windowHeight / 8;
+	int squareEdge = boardHeight / 8;
 
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
@@ -18,7 +18,7 @@ void drawBoard (RenderWindow *Window, RectangleShape *Board, RectangleShape High
 
 void drawPieces (RenderWindow *Window, Texture *piecesTextures, int *piecesOnBoard) {
 	Sprite Piece;
-	int squareEdge = windowHeight / 8;
+	int squareEdge = boardHeight / 8;
 
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {

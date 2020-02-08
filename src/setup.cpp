@@ -1,7 +1,16 @@
 #include "setup.hpp"
 
+void menuSetup (RectangleShape *menuBackground) {
+	int backgroundWidth = windowWidth - boardWidth;
+	int backgroundHeight = windowHeight - boardHeight;
+
+	menuBackground.setSize(Vector2f(backgroundWidth, backgroundHeight));
+	menuBackground.setPosition(boardWidth, 0);
+	menuBackground.setFillColor(Color(colorBackground));
+}
+
 void boardSetup (RectangleShape *Board) {
-	int squareEdge = windowHeight / 8;
+	int squareEdge = boardHeight / 8;
 
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
@@ -53,8 +62,8 @@ void piecesSetup (int *piecesOnBoard) {
 		piecesOnBoard[i] = NP;
 }
 
-void highlightSetup(RectangleShape *Highlight) {
-	int squareEdge = windowHeight / 8;
+void highlightSetup (RectangleShape *Highlight) {
+	int squareEdge = boardHeight / 8;
 	Highlight -> setSize(Vector2f(squareEdge, squareEdge));
 	Highlight -> setFillColor(Color(colorHighlight));
 }
