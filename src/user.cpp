@@ -8,26 +8,25 @@ int getClickedSquare(Vector2i clickedPosition) {
 	return clickedSquare;					  // 0 <= clickedSquare <= 63
 }
 
-void onClickEvent(Vector2i clickedPosition, int *piecesOnBoard, int *markedSquare, gameData *Game) {
+void onClickEvent(Vector2i clickedPosition, gameData *Game, boardData *Board) {
 	int clickedSquare = getClickedSquare(clickedPosition);
-	int clickedPiece = piecesOnBoard[clickedSquare];
-	int markedPiece = piecesOnBoard[*markedSquare];
+	int clickedPiece = Board -> getPiece(clickedSquare);
+	int markedSquare = Board -> getMarkedSquare();
+	int markedPiece = Board -> getMarkedPiece();
 
-	if(*markedSquare == -1) {								// If there's no piece marked
-		if(clickedPiece != NP)			  					// and a piece of current move's
-			if(Game -> getPlayer() == pieceColor(clickedPiece)) 	// player's color was clicked,
-				*markedSquare = clickedSquare;				// mark the clicked piece.
+	if(markedSquare == -1) {
+		if(clickedPiece != NP)
+			if(Game -> getPlayer() == pieceColor(clickedPiece))
+				Board -> setMarkedSquare(clickedSquare);
 	}
 	/* If a piece was marked and any other square was clicked, try to move the piece to the clicked square. */
-	else if(*markedSquare != clickedSquare && Move(markedPiece, *markedSquare, clickedSquare, piecesOnBoard, Game)) {
-		Game -> addMove(markedPiece, clickedPiece, *markedSquare, clickedSquare);
-		//Game -> printMove();
-		*markedSquare = -1;		 												// If the move was succesful,
-		Game -> changePlayer();											// change the player to move
-	}																			// and unmark the square.
-	else if(Game -> getPlayer() == pieceColor(clickedPiece)){	 						// If the move was unseccesful,
-		*markedSquare = clickedSquare; 										    // and the clicked piece is owned by current player,
-	}																			// mark the clicked piece.
-	else																		// Otherwise,
-		*markedSquare = -1;														// unmark the piece.
+	else if(markedSquare != clickedSquare && Move(clickedSquare, Board, Game)) {
+		Game -> addMove(markedPiece, clickedPiece, markedSquare, clickedSquare);
+		Game -> changePlayer();
+		Board -> setMarkedSquare(-1);
+	}
+	else if(Game -> getPlayer() == pieceColor(clickedPiece))
+		Board -> setMarkedSquare(clickedSquare);
+	else
+		Board -> setMarkedSquare(-1);
 }

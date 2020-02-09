@@ -1,7 +1,5 @@
-#ifndef SETUP_INCLUDED
-#define SETUP_INCLUDED
-
-#include "common.hpp"
+#ifndef DEFINE_INCLUDED
+#define DEFINE_INCLUDED
 
 #define windowWidth 900
 #define windowHeight 640
@@ -23,11 +21,5 @@ enum Pieces {
 enum Players {
 	White = 1, Black = -1
 };
-
-//void menuSetup (RectangleShape *menuBackground);
-void boardSetup (RectangleShape *Board); // Color all sqares
-void importPiecesTextures (Texture *piecesTextures); // From images directory
-void piecesSetup (int *piecesOnBoard); // Set pieces' starting positions
-void highlightSetup (RectangleShape *Highlight);
 
 #endif

@@ -4,12 +4,11 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 OBJ =\
 	./src/main.cpp \
-	./src/setup.cpp \
 	./src/logic.cpp \
 	./src/move.cpp \
-	./src/draw.cpp \
 	./src/user.cpp \
-	./src/gamedata.cpp
+	./src/board.cpp \
+	./src/game.cpp
 
 all: main
 

@@ -1,4 +1,4 @@
-#include "gamedata.hpp"
+#include "game.hpp"
 
 moveData::moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevPosition_, int currentPosition_)
 :	moveNumber(moveNumber_),
@@ -45,8 +45,4 @@ bool gameData::wasPieceMoved (int Piece) {
 
 bool gameData::movedLast (int Piece) {
 	return (this -> moveList -> movedPiece == Piece) ? 1 : 0;
-}
-
-int gameData::getMoveNumber () {
-	return this -> moveCount;
 }

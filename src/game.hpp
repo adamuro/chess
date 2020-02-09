@@ -1,5 +1,5 @@
-#ifndef GAMELOG_INCLUDED
-#define GAMELOG_INCLUDED
+#ifndef GAME_INCLUDED
+#define GAME_INCLUDED
 
 #include <iostream>
 
@@ -25,7 +25,7 @@ class gameData {
 		void addMove (int movedPiece, int takenPiece, int prevPosition, int currentPosition);
 		void changePlayer ();
 		int getPlayer ();
-		int getMoveNumber ();
+		
 		bool wasPieceMoved (int Piece);
 		bool movedLast (int Piece);
 	private:
