@@ -1,5 +1,5 @@
 #include "setup.hpp"
-
+/*
 void menuSetup (RectangleShape *menuBackground) {
 	int backgroundWidth = windowWidth - boardWidth;
 	int backgroundHeight = windowHeight - boardHeight;
@@ -8,7 +8,7 @@ void menuSetup (RectangleShape *menuBackground) {
 	menuBackground.setPosition(boardWidth, 0);
 	menuBackground.setFillColor(Color(colorBackground));
 }
-
+*/
 void boardSetup (RectangleShape *Board) {
 	int squareEdge = boardHeight / 8;
 

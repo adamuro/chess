@@ -1,8 +1,8 @@
 #include "common.hpp"
 
 int main () {
-	RectangleShape menuBackground;
-	menuSetup(&menuBackground);
+	//RectangleShape menuBackground;
+	//menuSetup(&menuBackground);
 
 	RectangleShape Board [64];
 	boardSetup(Board);
@@ -14,12 +14,11 @@ int main () {
 	piecesSetup(piecesOnBoard);
 
 	int markedSquare = -1; // That means that no piece is marked at the time.
-	int playerToMove = White;
 
 	RectangleShape Highlight;
 	highlightSetup(&Highlight);
 
-	gameData *currentGame = new gameData;
+	gameData *Game = new gameData;
 
 	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
 
@@ -34,11 +33,11 @@ int main () {
 		if(windowEvent.type == Event::MouseButtonReleased &&
 		windowEvent.mouseButton.button == Mouse::Left) {
 			Vector2i clickedPosition = Mouse::getPosition(Window);
-			onClickEvent(clickedPosition, piecesOnBoard, &markedSquare, &playerToMove, currentGame);
+			onClickEvent(clickedPosition, piecesOnBoard, &markedSquare, Game);
 		}
 		drawBoard(&Window, Board, Highlight, markedSquare);
 		drawPieces(&Window, piecesTextures, piecesOnBoard);
-		menuSetup(&Window);
+		//menuSetup(&Window);
 		Window.display();
 	}
 	return 0;
