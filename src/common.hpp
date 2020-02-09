@@ -8,6 +8,7 @@
 #include "logic.hpp"
 #include "move.hpp"
 #include "user.hpp"
+#include "board.hpp"
+#include "game.hpp"
 
-using namespace std;
 using namespace sf;

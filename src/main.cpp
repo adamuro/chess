@@ -1,6 +1,4 @@
 #include "common.hpp"
-#include "board.hpp"
-#include "game.hpp"
 
 int main () {
 	gameData *Game = new gameData;

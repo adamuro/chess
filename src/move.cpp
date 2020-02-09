@@ -1,28 +1,33 @@
 #include "move.hpp"
 
-void moveBoardUpdate (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
-	piecesOnBoard[destSquare] = Piece;
-	piecesOnBoard[currentSquare] = NP;
-}
-
-bool isMoveLegal (int Piece, int currentSquare, int destSquare, int *piecesOnBoard) {
-	int takenPiece = piecesOnBoard[destSquare];
-	
-	moveBoardUpdate(Piece, currentSquare, destSquare, piecesOnBoard);
-	
-	if(isInCheck(pieceColor(Piece), piecesOnBoard)) {
-		moveBoardUpdate(Piece, destSquare, currentSquare, piecesOnBoard);
-		piecesOnBoard[destSquare] = takenPiece;
-		return 0;
+bool checkAfterMove (int destSquare, boardData *Board) {
+	Board -> checkMove(destSquare);
+	if(isInCheck(Board -> getMarkedPieceColor(), Board -> getPiecesOnBoard())) {
+		Board -> checkDone(destSquare);
+		return 1;
 	}
-	return 1;
+	Board -> checkDone(destSquare);
+	return 0;
 }
 
-bool Move (int destSquare, boardData *Board, gameData *Game) {
+bool isLegalMove (int destSquare, int *possibleMoves) {
+	for(int i = 1 ; i <= possibleMoves[0] ; i++) {
+		if(possibleMoves[i] == destSquare)
+			return 1;
+	}
+	return 0;
+}
+
+bool Move (boardData *Board, gameData *Game) {
+	int Piece = Board -> getMarkedPiece();
+	int destSquare = Board -> getClickedSquare();
+
 	switch(Piece) {
 		case WP:
 		case BP:
-			return pawnMove(currentSquare, destSquare, piecesOnBoard, Game);
+			return isLegalMove(destSquare, pawnMoves(Board, Game));
+
+			/*
 		case WR:
 		case BR:
 			return rookMove(currentSquare, destSquare, piecesOnBoard);
@@ -37,31 +42,36 @@ bool Move (int destSquare, boardData *Board, gameData *Game) {
 			return kingMove(currentSquare, destSquare, piecesOnBoard, Game);
 		case WQ:
 		case BQ:
-			return queenMove(currentSquare, destSquare, piecesOnBoard);
+			return queenMove(currentSquare, destSquare, piecesOnBoard);*/
 	}
 	return 0;
 }
 
 /* Need to implement these functions using Piece and pieceColor(Piece) instead of Color */
-bool pawnMove (int currentSquare, int destSquare, int *piecesOnBoard, gameData *Game) {
-	int Pawn = piecesOnBoard[currentSquare];
+int* pawnMoves (boardData *Board, gameData *Game) {
+	int Pawn = Board -> getMarkedPiece();
 	int Color = pieceColor(Pawn);
-	int destPiece = piecesOnBoard[destSquare];
-	int nextSquare = currentSquare - 8 * Color;
-	int nextPiece = piecesOnBoard[nextSquare];
-	int Distance = (currentSquare - destSquare) * Color;
-	int enPassantSquare = destSquare + 8 * Color;
-	int enPassantPiece = piecesOnBoard[enPassantSquare];
 
-	if(Distance == 16 && destPiece == NP && nextPiece == NP) {
-		if(isPawnStartingSquare(Color, currentSquare)) { 
-			return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
-		}
+	int currentSquare = Board -> getMarkedSquare();
+	int nextSquare = currentSquare - 8 * Color;
+	int doubleMoveSquare = nextSquare - 8 * Color;
+
+	int nextPiece = Board -> getPiece(nextSquare);
+	int doubleMovePiece = Board -> getPiece(doubleMoveSquare);
+
+	static int possibleMoves [5];
+	int movesNumber = 0;
+
+	if(nextPiece == NP && doubleMovePiece == NP) {
+		if(isPawnStartingSquare(Color, currentSquare))
+			if(!checkAfterMove(doubleMoveSquare, Board))
+				possibleMoves[++movesNumber] = doubleMoveSquare;
 	}
-	else if(Distance == 8 && destPiece == NP) {
-		return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
+	if(nextPiece == NP) {
+		if(!checkAfterMove(nextSquare, Board))
+			possibleMoves[++movesNumber] = nextSquare;
 	}
-	/* If players wants to take, check if there is anything to take */
+	/*
 	else if(Distance == 7 || Distance == 9) {
 		if(isDifferentColor(destPiece, Color))
 			return isMoveLegal(Pawn, currentSquare, destSquare, piecesOnBoard);
@@ -73,10 +83,11 @@ bool pawnMove (int currentSquare, int destSquare, int *piecesOnBoard, gameData *
 				}
 			}
 		}
-	}
-	return 0;
+	}*/
+	possibleMoves[0] = movesNumber;
+	return possibleMoves;
 }
-
+/*
 bool rookMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Rook = piecesOnBoard[currentSquare];
 	int Color = pieceColor(Rook);
@@ -176,7 +187,7 @@ bool kingMove (int currentSquare, int destSquare, int *piecesOnBoard, gameData *
 
 bool queenMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Queen = piecesOnBoard[currentSquare];
-	/* If the queen is asked to move like a bishop or a rook, move the queen. */
+
 	if(rookMove(currentSquare, destSquare, piecesOnBoard) ||
 	   bishopMove(currentSquare, destSquare, piecesOnBoard)) {
 		if(isMoveLegal(Queen, currentSquare, destSquare, piecesOnBoard))
@@ -184,3 +195,4 @@ bool queenMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	}
 	return 0;
 }
+*/

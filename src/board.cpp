@@ -98,6 +98,10 @@ void boardData::drawPieces (RenderWindow *Window) {
 	}
 }
 
+int* boardData::getPiecesOnBoard () {
+	return this -> piecesOnBoard;
+}
+
 int boardData::getPiece(int Square) {
 	return this -> piecesOnBoard[Square];
 }
@@ -110,6 +114,50 @@ int boardData::getMarkedPiece () {
 	return this -> piecesOnBoard[this -> markedSquare];
 }
 
+int boardData::getMarkedPieceColor () {
+	int Piece = getMarkedPiece();
+
+	if(Piece >= 0 && Piece <= 5)
+		return White;
+	if(Piece >= 6 && Piece <= 11)
+		return Black;
+	return 0;
+}
+
 void boardData::setMarkedSquare (int Square) {
 	this -> markedSquare = Square;
+}
+
+int boardData::getClickedSquare () {
+	return this -> clickedSquare;
+}
+
+int boardData::getClickedPiece () {
+	return this -> piecesOnBoard[this -> clickedSquare];
+}
+
+void boardData::setClickedSquare (int Square) {
+	this -> clickedSquare = Square;
+}
+
+void boardData::moveUpdate () {
+	this -> takenPiece = this -> piecesOnBoard[getClickedSquare()];
+	this -> piecesOnBoard[getClickedSquare()] = getMarkedPiece();
+	this -> piecesOnBoard[getMarkedSquare()] = NP;
+}
+
+void boardData::moveUndo () {
+	this -> piecesOnBoard[getMarkedSquare()] = getClickedPiece();
+	this -> piecesOnBoard[getClickedSquare()] = this -> takenPiece;
+}
+
+void boardData::checkMove (int destSquare) {
+	this -> takenPiece = this -> piecesOnBoard[destSquare];
+	this -> piecesOnBoard[destSquare] = getMarkedPiece();
+	this -> piecesOnBoard[getMarkedSquare()] = NP;
+}
+
+void boardData::checkDone (int destSquare) {
+	this -> piecesOnBoard[getMarkedSquare()] = getPiece(destSquare);
+	this -> piecesOnBoard[destSquare] = this -> takenPiece;
 }

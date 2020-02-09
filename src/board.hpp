@@ -21,10 +21,23 @@ class boardData {
 		void drawPieces (RenderWindow *Window);
 
 		int getPiece (int Square);
+		int* getPiecesOnBoard ();
+		
 		int getMarkedSquare ();
 		int getMarkedPiece ();
+		int getMarkedPieceColor ();
+
+		int getClickedSquare ();
+		int getClickedPiece ();
 
 		void setMarkedSquare (int Square);
+		void setClickedSquare (int Square);
+
+		void checkMove (int destSquare);
+		void checkDone (int destSquare);
+
+		void moveUpdate ();
+		void moveUndo ();
 	
 	private:
 		Texture piecesTextures [12];
@@ -33,6 +46,8 @@ class boardData {
 		
 		int piecesOnBoard [64];
 		int markedSquare;
+		int clickedSquare;
+		int takenPiece;
 };
 
 #endif

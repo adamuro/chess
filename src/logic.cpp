@@ -194,7 +194,6 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	return 0;
 }
 
-
 bool isInCheck (int Color, int *piecesOnBoard) {
 	int King = (Color == White) ? WK : BK;
 	int kingSquare;
