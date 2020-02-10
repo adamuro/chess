@@ -6,6 +6,7 @@
 class moveData {
 	public:
 		moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevPosition_, int currentPosition_);
+		~moveData () {};
 
 		int moveNumber;
 		int movedPiece;

@@ -1,7 +1,8 @@
 #ifndef LOGIC_INCLUDED
 #define LOGIC_INCLUDED
 
-#include "common.hpp"
+#include <iostream>
+#include "define.hpp"
 
 void changePlayerToMove(int *playerToMove); // After every move.
 bool isDifferentColor (int Piece, int Color); // Check if Piece color is different than Color.

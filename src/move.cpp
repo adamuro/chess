@@ -1,5 +1,5 @@
 #include "move.hpp"
-
+/*
 bool checkAfterMove (int destSquare, boardData *Board) {
 	Board -> checkMove(destSquare);
 	if(isInCheck(Board -> getMarkedPieceColor(), Board -> getPiecesOnBoard())) {
@@ -9,7 +9,7 @@ bool checkAfterMove (int destSquare, boardData *Board) {
 	Board -> checkDone(destSquare);
 	return 0;
 }
-
+*/
 bool isLegalMove (int destSquare, int *possibleMoves) {
 	for(int i = 1 ; i <= possibleMoves[0] ; i++) {
 		if(possibleMoves[i] == destSquare)
@@ -26,12 +26,11 @@ bool Move (boardData *Board, gameData *Game) {
 		case WP:
 		case BP:
 			return isLegalMove(destSquare, pawnMoves(Board, Game));
-
-			/*
 		case WR:
 		case BR:
-			return rookMove(currentSquare, destSquare, piecesOnBoard);
-		case WN:
+			return isLegalMove(destSquare,rookMoves(Board, Game));
+		/*
+		ase WN:
 		case BN:
 			return knightMove(currentSquare, destSquare, piecesOnBoard);
 		case WB:
@@ -54,22 +53,34 @@ int* pawnMoves (boardData *Board, gameData *Game) {
 
 	int currentSquare = Board -> getMarkedSquare();
 	int nextSquare = currentSquare - 8 * Color;
+	int takeLeftSquare = nextSquare - 1;
+	int takeRightSquare = nextSquare + 1;
 	int doubleMoveSquare = nextSquare - 8 * Color;
 
 	int nextPiece = Board -> getPiece(nextSquare);
 	int doubleMovePiece = Board -> getPiece(doubleMoveSquare);
+	int takeLeftPiece = Board -> getPiece(takeLeftSquare);
+	int takeRightPiece = Board -> getPiece(takeRightSquare);
 
 	static int possibleMoves [5];
 	int movesNumber = 0;
 
 	if(nextPiece == NP && doubleMovePiece == NP) {
 		if(isPawnStartingSquare(Color, currentSquare))
-			if(!checkAfterMove(doubleMoveSquare, Board))
+			if(Board -> checkMove(doubleMoveSquare))
 				possibleMoves[++movesNumber] = doubleMoveSquare;
 	}
 	if(nextPiece == NP) {
-		if(!checkAfterMove(nextSquare, Board))
+		if(Board -> checkMove(nextSquare))
 			possibleMoves[++movesNumber] = nextSquare;
+	}
+	if(isDifferentColor(takeLeftPiece, Color)) {
+		if(Board -> checkMove(takeLeftSquare))
+			possibleMoves[++movesNumber] = takeLeftSquare;
+	}
+	if(isDifferentColor(takeRightPiece, Color)) {
+		if(Board -> checkMove(takeRightSquare))
+			possibleMoves[++movesNumber] = takeRightSquare;
 	}
 	/*
 	else if(Distance == 7 || Distance == 9) {
@@ -87,30 +98,63 @@ int* pawnMoves (boardData *Board, gameData *Game) {
 	possibleMoves[0] = movesNumber;
 	return possibleMoves;
 }
-/*
-bool rookMove (int currentSquare, int destSquare, int *piecesOnBoard) {
-	int Rook = piecesOnBoard[currentSquare];
+
+int* rookMoves (boardData *Board, gameData *Game) {
+	int Rook = Board -> getMarkedPiece();
 	int Color = pieceColor(Rook);
-	int Direction;
 
-	if(inSameColumn(currentSquare, destSquare))					// If the rook is in the same column as it's destination,
-		Direction = (destSquare - currentSquare > 0) ? 8 : -8;	// it will move vertically(+8 for up, -8 for down).
-	else if(inSameFile(currentSquare, destSquare))				// And if they are on the same file,
-		Direction = (destSquare - currentSquare > 0) ? 1 : -1;	// it will move horizontally(+1 for right, -1 for left).
-	else														// If neither of those conditions are true,
-		return 0;												// the rook can't be moved.
-	
-	for(int i = currentSquare + Direction ; i != destSquare ; i += Direction) {
-		if(piecesOnBoard[i] != NP)	// If any square between the rook and its destination is occupied by other piece,
-			return 0;				// the rook can't move.
+	int currentSquare = Board -> getMarkedSquare();
+	int distToLeftEdge = currentSquare % 8;
+	int leftEdge = currentSquare - distToLeftEdge;
+	int rightEdge = currentSquare - distToLeftEdge + 7;
+
+	static int possibleMoves [5];
+	int movesNumber = 0;
+
+	for(int i = currentSquare - 1 ; i >= leftEdge ; i--) {
+		if(Board -> getPiece(i) == NP)
+			possibleMoves[++movesNumber] = i;
+		else if(isDifferentColor(Board -> getPiece(i), Color)) {
+			possibleMoves[++movesNumber] = i;
+			break;
+		}
+		else
+			break;
 	}
-	
-	if(piecesOnBoard[destSquare] == NP || isDifferentColor(piecesOnBoard[destSquare], Color)) {
-		return isMoveLegal(Rook, currentSquare, destSquare, piecesOnBoard);
+	for(int i = currentSquare + 1 ; i <= rightEdge ; i++) {
+		if(Board -> getPiece(i) == NP)
+			possibleMoves[++movesNumber] = i;
+		else if(isDifferentColor(Board -> getPiece(i), Color)) {
+			possibleMoves[++movesNumber] = i;
+			break;
+		}
+		else
+			break;
 	}
-	return 0;
+	for(int i = currentSquare - 8 ; i >= 0 ; i -= 8) {
+		if(Board -> getPiece(i) == NP)
+			possibleMoves[++movesNumber] = i;
+		else if(isDifferentColor(Board -> getPiece(i), Color)) {
+			possibleMoves[++movesNumber] = i;
+			break;
+		}
+		else
+			break;
+	}
+	for(int i = currentSquare + 8 ; i < 64 ; i += 8) {
+		if(Board -> getPiece(i) == NP)
+			possibleMoves[++movesNumber] = i;
+		else if(isDifferentColor(Board -> getPiece(i), Color)) {
+			possibleMoves[++movesNumber] = i;
+			break;
+		}
+		else
+			break;
+	}
+	possibleMoves[0] = movesNumber;
+	return possibleMoves;
 }
-
+/*
 bool knightMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Knight = piecesOnBoard[currentSquare];
 	int Color = pieceColor(Knight);

@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "define.hpp"
+#include "logic.hpp"
 
 using namespace sf;
 
@@ -21,23 +21,22 @@ class boardData {
 		void drawPieces (RenderWindow *Window);
 
 		int getPiece (int Square);
+		int getPieceColor (int Square);
 		int* getPiecesOnBoard ();
 		
 		int getMarkedSquare ();
 		int getMarkedPiece ();
-		int getMarkedPieceColor ();
 
 		int getClickedSquare ();
 		int getClickedPiece ();
 
+		void setPiece (int Square, int Piece);
 		void setMarkedSquare (int Square);
 		void setClickedSquare (int Square);
 
-		void checkMove (int destSquare);
-		void checkDone (int destSquare);
+		bool checkMove (int destSquare);
 
 		void moveUpdate ();
-		void moveUndo ();
 	
 	private:
 		Texture piecesTextures [12];
@@ -47,7 +46,6 @@ class boardData {
 		int piecesOnBoard [64];
 		int markedSquare;
 		int clickedSquare;
-		int takenPiece;
 };
 
 #endif

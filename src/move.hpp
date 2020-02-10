@@ -7,7 +7,7 @@
 bool Move (boardData *Board, gameData *Game);
 /* All functions return true if the move was succesful and false in the other case. */
 int* pawnMoves (boardData *Board, gameData *Game);
-bool rookMove (int currentSquare, int destSquare, int *piecesOnBoard);
+int* rookMoves (boardData *Board, gameData *Game);
 bool knightMove (int currentSquare, int destSquare, int *piecesOnBoard);
 bool bishopMove (int currentSquare, int destSquare, int *piecesOnBoard);
 bool kingMove (int currentSquare, int destSquare, int *piecesOnBoard, gameData *currentGame);
