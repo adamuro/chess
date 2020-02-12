@@ -35,11 +35,13 @@ class boardData {
 		void setClickedSquare (int Square);
 
 		bool checkMove (int destSquare);
+		bool isSquareAttacked (int Square, int Color);
+		bool inCheck (int Color);
 
 		void moveUpdate ();
 	
 	private:
-		Texture piecesTextures [12];
+		Texture piecesTextures [14];
 		RectangleShape boardImage [64];
 		RectangleShape Highlight;
 		

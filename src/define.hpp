@@ -13,9 +13,9 @@
 #define colorHighlight 170,200,80
 
 enum Pieces {
-	WP = 0, WR = 1, WN = 2, WB = 3, WK = 4, WQ = 5,	  // WhitePawn, WhiteRook etc.
-	BP = 6, BR = 7, BN = 8, BB = 9, BK = 10, BQ = 11, // BlackPawn, BlackRook etc.
-	NP = 12											  // NoPiece
+	WP = 0, WRL = 1, WRR = 2, WN = 3, WB = 4, WK = 5, WQ = 6,	  // WhitePawn, WhiteRook etc.
+	BP = 7, BRL = 8, BRR = 9, BN = 10, BB = 11, BK = 12, BQ = 13,  // BlackPawn, BlackRook etc.
+	NP = 14														  // NoPiece
 };
 
 enum Players {

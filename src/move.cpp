@@ -18,8 +18,10 @@ bool Move (boardData *Board, gameData *Game) {
 		case WP:
 		case BP:
 			return isLegalMove(destSquare, pawnMoves(Board, Game));
-		case WR:
-		case BR:
+		case WRL:
+		case WRR:
+		case BRL:
+		case BRR:
 			return isLegalMove(destSquare, rookMoves(Board, Game));
 		case WN:
 		case BN:
@@ -27,10 +29,10 @@ bool Move (boardData *Board, gameData *Game) {
 		case WB:
 		case BB:
 			return isLegalMove(destSquare, bishopMoves(Board, Game));
-			/*
 		case WK:
 		case BK:
-			return kingMove(currentSquare, destSquare, piecesOnBoard, Game);
+			return isLegalMove(destSquare, kingMoves(Board, Game));
+			/*
 		case WQ:
 		case BQ:
 			return queenMove(currentSquare, destSquare, piecesOnBoard);*/
@@ -148,14 +150,14 @@ int* knightMoves (boardData *Board, gameData *Game) {
 	int Knight = Board -> getMarkedPiece();
 	int Color = pieceColor(Knight);
 	int currentSquare = Board -> getMarkedSquare();
-	int shortMoves [2] = {6, -10};
-	int longMoves [2] = {15, -17};
+	int horizontalMoves [2] = {6, -10};
+	int verticalMoves [2] = {15, -17};
 
 	static int possibleMoves [8];
 	int movesNumber = 0;
 
 	for(int i = 0 ; i < 2 ; i++) {
-		int Square = currentSquare - shortMoves[i];
+		int Square = currentSquare - horizontalMoves[i];
 		if(Square >= 0 && Square <= 63 && currentSquare % 8 < 6) {
 			int Piece = Board -> getPiece(Square);
 			if(Piece == NP || isDifferentColor(Piece, Color))
@@ -165,7 +167,7 @@ int* knightMoves (boardData *Board, gameData *Game) {
 	}
 
 	for(int i = 0 ; i < 2 ; i++) {
-		int Square = currentSquare + shortMoves[i];
+		int Square = currentSquare + horizontalMoves[i];
 		if(Square >= 0 && Square <= 63 && currentSquare % 8 > 1) {
 			int Piece = Board -> getPiece(Square);
 			if(Piece == NP || isDifferentColor(Piece, Color))
@@ -175,7 +177,7 @@ int* knightMoves (boardData *Board, gameData *Game) {
 	}
 
 	for(int i = 0 ; i < 2 ; i++) {
-		int Square = currentSquare - longMoves[i];
+		int Square = currentSquare - verticalMoves[i];
 		if(Square >= 0 && Square <= 63 && currentSquare % 8 < 7) {
 			int Piece = Board -> getPiece(Square);
 			if(Piece == NP || isDifferentColor(Piece, Color))
@@ -185,7 +187,7 @@ int* knightMoves (boardData *Board, gameData *Game) {
 	}
 
 	for(int i = 0 ; i < 2 ; i++) {
-		int Square = currentSquare + longMoves[i];
+		int Square = currentSquare + verticalMoves[i];
 		if(Square >= 0 && Square <= 63 && currentSquare % 8 > 0) {
 			int Piece = Board -> getPiece(Square);
 			if(Piece == NP || isDifferentColor(Piece, Color))
@@ -241,45 +243,63 @@ int* bishopMoves (boardData *Board, gameData *Game) {
 				break;
 		}
 	}
+	
 	possibleMoves[0] = movesNumber;
 	return possibleMoves;
 }
 
-/*
-
-bool kingMove (int currentSquare, int destSquare, int *piecesOnBoard, gameData *Game) {
-	int King = piecesOnBoard[currentSquare];
+int* kingMoves (boardData *Board, gameData *Game) {
+	int King = Board -> getMarkedPiece();
 	int Color = pieceColor(King);
-	int allyRook = (pieceColor(King) == White) ? WR : BR;
-	int destPiece = piecesOnBoard[destSquare];
-	int squareDifference = abs(destSquare - currentSquare);
+	int currentSquare = Board -> getMarkedSquare();
 
-	if(destPiece == NP || isDifferentColor(destPiece, Color)) {
-		if(squareDifference == 1 ||				// If the king is asked to move
-		   squareDifference == 7 ||				// in any direction
-		   squareDifference == 8 ||				// by just one square,
-		   squareDifference == 9) {				// move the king.
-		   	return isMoveLegal(King, currentSquare, destSquare, piecesOnBoard);
+	int allyRookLeft = (pieceColor(King) == White) ? WRL : BRL;
+	int allyRookRight = (pieceColor(King) == White) ? WRR : BRR;
+	
+	int Moves [8] = {1, -1, 7, -7, 8, -8, 9, -9};
+
+	static int possibleMoves [12];
+	int movesNumber = 0;
+
+	for(int i = 0 ; i < 8 ; i++) {
+		int Square = currentSquare + Moves[i];
+		if(Board -> getPiece(Square) == NP) {
+			if(Board -> checkMove(Square))
+				possibleMoves[++movesNumber] = Square;
+		}
+		else if(isDifferentColor(Board -> getPiece(Square), Color)) {
+			if(Board -> checkMove(Square))
+				possibleMoves[++movesNumber] = Square;
 		}
 	}
-	if(destPiece == allyRook) {
-		if(!Game -> wasPieceMoved(King) && !Game -> wasPieceMoved(allyRook)) {
-			int Direction = (destSquare - currentSquare > 0) ? 1 : -1;
 
-			if(isAttacked(currentSquare, Color, piecesOnBoard))
-				return 0;
-			for(int i = currentSquare + Direction ; i != destSquare ; i += Direction) {
-				if(piecesOnBoard[i] != NP || isAttacked(i, Color, piecesOnBoard))
-					return 0;
+	if(!(Game -> wasPieceMoved(King) || Game -> wasPieceMoved(allyRookLeft))) {
+		if(!Board -> inCheck(Color)) {
+			if(!(Board -> isSquareAttacked(currentSquare - 1, Color) || Board -> isSquareAttacked(currentSquare - 2, Color))) {
+				if(Board -> getPiece(currentSquare - 1) == NP && Board -> getPiece(currentSquare - 2) == NP && Board -> getPiece(currentSquare - 3) == NP) {
+					possibleMoves[++movesNumber] = currentSquare - 2;
+					possibleMoves[++movesNumber] = currentSquare - 3;
+					possibleMoves[++movesNumber] = currentSquare - 4;
+				}
 			}
-			moveBoardUpdate(King, currentSquare, currentSquare + Direction * 2, piecesOnBoard);
-			moveBoardUpdate(allyRook, destSquare, currentSquare + Direction, piecesOnBoard);
-			return 1;
 		}
 	}
-	return 0;
-}
 
+	if(!(Game -> wasPieceMoved(King) || Game -> wasPieceMoved(allyRookRight))) {
+		if(!Board -> inCheck(Color)) {
+			if(!(Board -> isSquareAttacked(currentSquare + 1, Color) || Board -> isSquareAttacked(currentSquare + 2, Color))) {
+				if(Board -> getPiece(currentSquare + 1) == NP && Board -> getPiece(currentSquare + 2) == NP) {
+					possibleMoves[++movesNumber] = currentSquare + 2;
+					possibleMoves[++movesNumber] = currentSquare + 3;
+				}
+			}
+		}
+	}
+	
+	possibleMoves[0] = movesNumber;
+	return possibleMoves;
+}
+/*
 bool queenMove (int currentSquare, int destSquare, int *piecesOnBoard) {
 	int Queen = piecesOnBoard[currentSquare];
 
