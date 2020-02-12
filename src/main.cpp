@@ -14,8 +14,7 @@ int main () {
 			Window.close();
 		}
 
-		if(windowEvent.type == Event::MouseButtonReleased &&
-		windowEvent.mouseButton.button == Mouse::Left) {
+		if(windowEvent.type == Event::MouseButtonReleased && windowEvent.mouseButton.button == Mouse::Left) {
 			Vector2i clickedPosition = Mouse::getPosition(Window);
 			onClickEvent(clickedPosition, Game, Board);
 		}

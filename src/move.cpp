@@ -263,7 +263,7 @@ int* kingMoves (boardData *Board, gameData *Game) {
 
 	for(int i = 0 ; i < 8 ; i++) {
 		int Square = currentSquare + Moves[i];
-		if(Board -> getPiece(Square) == NP) {
+		if(Square >= 0 && Square <= 63 && Board -> getPiece(Square) == NP) {
 			if(Board -> checkMove(Square))
 				possibleMoves[++movesNumber] = Square;
 		}
@@ -272,7 +272,6 @@ int* kingMoves (boardData *Board, gameData *Game) {
 				possibleMoves[++movesNumber] = Square;
 		}
 	}
-
 	if(!(Game -> wasPieceMoved(King) || Game -> wasPieceMoved(allyRookLeft))) {
 		if(!Board -> inCheck(Color)) {
 			if(!(Board -> isSquareAttacked(currentSquare - 1, Color) || Board -> isSquareAttacked(currentSquare - 2, Color))) {
@@ -295,7 +294,7 @@ int* kingMoves (boardData *Board, gameData *Game) {
 			}
 		}
 	}
-	
+
 	possibleMoves[0] = movesNumber;
 	return possibleMoves;
 }

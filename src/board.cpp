@@ -150,38 +150,36 @@ void boardData::setClickedSquare (int Square) {
 
 void boardData::moveUpdate () {
 	int Piece = getMarkedPiece();
+	int squaresDif = getClickedSquare() - getMarkedSquare();
+	int Distance = abs(squaresDif);
 
-	if(Piece == WK || Piece == BK) {
-		int squaresDif = getClickedSquare() - getMarkedSquare();
-		int Distance = abs(squaresDif);
-		if(Distance != 1 && Distance != 7 && Distance != 8 && Distance != 9) {
-			if(squaresDif > 0) {
-				if(Piece == WK) {
-					setPiece(63, NP);
-					setPiece(getMarkedSquare(), NP);
-					setPiece(getMarkedSquare() + 2, WK);
-					setPiece(getMarkedSquare() + 1, WRR);
-				}
-				else {
-					setPiece(7, NP);
-					setPiece(getMarkedSquare(), NP);
-					setPiece(getMarkedSquare() + 2, BK);
-					setPiece(getMarkedSquare() + 1, BRR);
-				}
+	if((Piece == WK || Piece == BK) && Distance != 1 && Distance != 7 && Distance != 8 && Distance != 9) {
+		if(squaresDif > 0) {
+			if(Piece == WK) {
+				setPiece(63, NP);
+				setPiece(getMarkedSquare(), NP);
+				setPiece(getMarkedSquare() + 2, WK);
+				setPiece(getMarkedSquare() + 1, WRR);
 			}
 			else {
-				if(Piece == WK) {
-					setPiece(56, NP);
-					setPiece(getMarkedSquare(), NP);
-					setPiece(getMarkedSquare() - 2, WK);
-					setPiece(getMarkedSquare() - 1, WRL);
-				}
-				else {
-					setPiece(0, NP);
-					setPiece(getMarkedSquare(), NP);
-					setPiece(getMarkedSquare() - 2, BK);
-					setPiece(getMarkedSquare() - 1, BRL);
-				}
+				setPiece(7, NP);
+				setPiece(getMarkedSquare(), NP);
+				setPiece(getMarkedSquare() + 2, BK);
+				setPiece(getMarkedSquare() + 1, BRR);
+			}
+		}
+		else {
+			if(Piece == WK) {
+				setPiece(56, NP);
+				setPiece(getMarkedSquare(), NP);
+				setPiece(getMarkedSquare() - 2, WK);
+				setPiece(getMarkedSquare() - 1, WRL);
+			}
+			else {
+				setPiece(0, NP);
+				setPiece(getMarkedSquare(), NP);
+				setPiece(getMarkedSquare() - 2, BK);
+				setPiece(getMarkedSquare() - 1, BRL);
 			}
 		}
 	}

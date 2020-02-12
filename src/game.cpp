@@ -39,6 +39,7 @@ bool gameData::wasPieceMoved (int Piece) {
 		if(Iterate -> movedPiece == Piece)
 			return 1;
 		Iterate = Iterate -> prevMove;
+		//printf("%d\n", Iterate -> movedPiece);
 	}
 	return 0;
 }
