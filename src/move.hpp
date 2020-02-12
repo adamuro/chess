@@ -9,7 +9,7 @@ bool Move (boardData *Board, gameData *Game);
 int* pawnMoves (boardData *Board, gameData *Game);
 int* rookMoves (boardData *Board, gameData *Game);
 int* knightMoves (boardData *Board, gameData *Game);
-bool bishopMove (int currentSquare, int destSquare, int *piecesOnBoard);
+int* bishopMoves (boardData *Board, gameData *Game);
 bool kingMove (int currentSquare, int destSquare, int *piecesOnBoard, gameData *currentGame);
 bool queenMove (int currentSquare, int destSquare, int *piecesOnBoard);
 
