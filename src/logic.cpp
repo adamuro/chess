@@ -100,7 +100,8 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	int rightEdge = checkSquare - distToLeftEdge + 7;
 
 	int Diagonal[4] = {7, -7, 9, -9};
-	int knightAttack[8] = {6, -6, 10, -10, 15, -15, 17, -17};
+	int horizontalKnightMoves [2] = {6, -10};
+	int verticalKnightMoves [2] = {15, -17};
 	int pawnAttack[2] = {7 * Color, 9 * Color};
 	int kingAttack[8] = {1, -1, 7, -7, 8, -8, 9, -9};
 	/* Searching for vertical and horizontal attacks on the king (queen or rook). */
@@ -157,11 +158,37 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 		}
 	}
 	/* Searching for knights which attack the king */
-	for(int i = 0 ; i < 8 ; i++) {
-		int knightSquare = checkSquare + knightAttack[i];
-		if(isOnBoard(knightSquare))
-			if(isDifferentColorKnight(Color, piecesOnBoard[knightSquare]))
+	for(int i = 0 ; i < 2 ; i++) {
+		int Square = checkSquare + horizontalKnightMoves[i];
+		if(isOnBoard(Square) && Square % 8 < 6) {
+			int Piece = piecesOnBoard[Square];
+			if(isDifferentColorKnight(Color, Piece))
 				return 1;
+		}
+	}
+	for(int i = 0 ; i < 2 ; i++) {
+		int Square = checkSquare - horizontalKnightMoves[i];
+		if(isOnBoard(Square) && Square % 8 > 1) {
+			int Piece = piecesOnBoard[Square];
+			if(isDifferentColorKnight(Color, Piece))
+				return 1;
+		}
+	}
+	for(int i = 0 ; i < 2 ; i++) {
+		int Square = checkSquare + verticalKnightMoves[i];
+		if(isOnBoard(Square) && Square % 8 < 7) {
+			int Piece = piecesOnBoard[Square];
+			if(isDifferentColorKnight(Color, Piece))
+				return 1;
+		}
+	}
+	for(int i = 0 ; i < 2 ; i++) {
+		int Square = checkSquare - verticalKnightMoves[i];
+		if(isOnBoard(Square) && Square % 8 > 0) {
+			int Piece = piecesOnBoard[Square];
+			if(isDifferentColorKnight(Color, Piece))
+				return 1;
+		}
 	}
 	/* Searching for pawns which attack the king */
 	for(int i = 0 ; i < 2 ; i++) {
