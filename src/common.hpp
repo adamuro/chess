@@ -11,5 +11,6 @@
 #include "user.hpp"
 #include "board.hpp"
 #include "game.hpp"
+#include "menu.hpp"
 
 using namespace sf;

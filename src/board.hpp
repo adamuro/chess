@@ -32,6 +32,7 @@ class boardData {
 
 		void setPiece (int Square, int Piece);
 		void setMarkedSquare (int Square);
+		void unmarkSquare ();
 		void setClickedSquare (int Square);
 
 		bool checkMove (int destSquare);

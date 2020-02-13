@@ -136,6 +136,10 @@ void boardData::setMarkedSquare (int Square) {
 	this -> markedSquare = Square;
 }
 
+void boardData::unmarkSquare () {
+	this -> markedSquare = -1;
+}
+
 int boardData::getClickedSquare () {
 	return this -> clickedSquare;
 }

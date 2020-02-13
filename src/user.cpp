@@ -8,7 +8,16 @@ int getClickedSquare (Vector2i clickedPosition) {
 	return clickedSquare;					  // 0 <= clickedSquare <= 63
 }
 
-void onClickEvent (Vector2i clickedPosition, gameData *Game, boardData *Board) {
+void onClickEvent (Vector2i clickedPosition, gameData *Game, boardData *Board, menuData *Menu) {
+	if(clickedPosition.x < boardWidth)
+		boardClick(clickedPosition, Game, Board);
+	else {
+		menuClick(clickedPosition, Game, Board, Menu);
+		Board -> unmarkSquare();
+	}
+}
+
+void boardClick (Vector2i clickedPosition, gameData *Game, boardData *Board) {
 	Board -> setClickedSquare(getClickedSquare(clickedPosition));
 	int clickedSquare = Board -> getClickedSquare();
 	int clickedPiece = Board -> getClickedPiece();
@@ -25,10 +34,14 @@ void onClickEvent (Vector2i clickedPosition, gameData *Game, boardData *Board) {
 		Game -> addMove(markedPiece, clickedPiece, markedSquare, clickedSquare);
 		Game -> changePlayer();
 		Board -> moveUpdate();
-		Board -> setMarkedSquare(-1);
+		Board -> unmarkSquare();
 	}
 	else if(Game -> getPlayer() == pieceColor(clickedPiece))
 		Board -> setMarkedSquare(clickedSquare);
 	else
-		Board -> setMarkedSquare(-1);
+		Board -> unmarkSquare();
 }
+
+void menuClick (Vector2i clickedPosition, gameData *Game, boardData *Board, menuData *Menu) {
+
+} 

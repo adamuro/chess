@@ -12,14 +12,20 @@
 
 #define colorHighlight 170,200,80
 
+#define colorMenuBackground 230,230,230
+
 enum Pieces {
 	WP = 0, WRL = 1, WRR = 2, WN = 3, WB = 4, WK = 5, WQ = 6,	  // WhitePawn, WhiteRook etc.
-	BP = 7, BRL = 8, BRR = 9, BN = 10, BB = 11, BK = 12, BQ = 13,  // BlackPawn, BlackRook etc.
+	BP = 7, BRL = 8, BRR = 9, BN = 10, BB = 11, BK = 12, BQ = 13, // BlackPawn, BlackRook etc.
 	NP = 14														  // NoPiece
 };
 
 enum Players {
 	White = 1, Black = -1
+};
+
+enum menuButtons {
+	Takeback = 0
 };
 
 #endif
