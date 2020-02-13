@@ -27,8 +27,9 @@ class gameData {
 		void changePlayer ();
 		int getPlayer ();
 		
+		bool movedLast (int Piece, int Square);
 		bool wasPieceMoved (int Piece);
-		bool movedLast (int Piece);
+		int getMoveDistance ();
 
 		void printMove ();
 	private:

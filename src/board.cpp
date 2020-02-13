@@ -150,6 +150,7 @@ void boardData::setClickedSquare (int Square) {
 
 void boardData::moveUpdate () {
 	int Piece = getMarkedPiece();
+	int Color = pieceColor(Piece);
 	int squaresDif = getClickedSquare() - getMarkedSquare();
 	int Distance = abs(squaresDif);
 
@@ -182,6 +183,11 @@ void boardData::moveUpdate () {
 				setPiece(getMarkedSquare() - 1, BRL);
 			}
 		}
+	}
+	else if((Piece == WP || Piece == BP) && (Distance == 7 || Distance == 9) && getClickedPiece() == NP) {
+		setPiece(getClickedSquare() + 8 * Color, NP);
+		setPiece(getClickedSquare(), getMarkedPiece());
+		setPiece(getMarkedSquare(), NP);
 	}
 	else {
 		setPiece(getClickedSquare(), getMarkedPiece());

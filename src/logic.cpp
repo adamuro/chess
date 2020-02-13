@@ -9,11 +9,15 @@ int pieceColor (int Piece) {
 }
 
 bool isDifferentColor (int Piece, int Color) {
-	return (pieceColor(Piece) != Color && pieceColor(Piece)) ? 1 : 0;
+	return (pieceColor(Piece) != Color && pieceColor(Piece));
 }
 
 bool isSameColor (int Piece, int Color) {
-	return (pieceColor(Piece) == Color) ? 1 : 0;
+	return (pieceColor(Piece) == Color);
+}
+
+bool isOnBoard (int Square) {
+	return (Square >= 0 && Square <= 63);
 }
 
 bool isDifferentColorQueen (int Color, int Piece) {
@@ -121,7 +125,7 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 			return 1;
 	}
 	/* From above */
-	for(int i = checkSquare + 8 ; i < 64 ; i += 8) {
+	for(int i = checkSquare + 8 ; isOnBoard(i) ; i += 8) {
 		int Piece = piecesOnBoard[i];
 		if(isSameColor(Piece, Color))
 			break;
@@ -131,7 +135,7 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 			return 1;
 	}
 	/* From beneath */
-	for(int i = checkSquare - 8 ; i >= 0 ; i -= 8) {
+	for(int i = checkSquare - 8 ; isOnBoard(i) ; i -= 8) {
 		int Piece = piecesOnBoard[i];
 		if(isSameColor(Piece, Color))
 			break;
@@ -142,7 +146,7 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	}
 	/* Searching for diagonal attacks on the king (queen or bishop). */
 	for(int i = 0 ; i < 4 ; i++) {
-		for(int j = checkSquare + Diagonal[i] ; j >= 0 && j < 64 ; j += Diagonal[i]) {
+		for(int j = checkSquare + Diagonal[i] ; isOnBoard(j) ; j += Diagonal[i]) {
 			int Piece = piecesOnBoard[j];
 			if(isSameColor(piecesOnBoard[j], Color))
 				break;
@@ -155,7 +159,7 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	/* Searching for knights which attack the king */
 	for(int i = 0 ; i < 8 ; i++) {
 		int knightSquare = checkSquare + knightAttack[i];
-		if(knightSquare >= 0 && knightSquare < 64)
+		if(isOnBoard(knightSquare))
 			if(isDifferentColorKnight(Color, piecesOnBoard[knightSquare]))
 				return 1;
 	}
