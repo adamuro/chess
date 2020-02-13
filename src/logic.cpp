@@ -13,9 +13,9 @@ void changePlayerToMove (int *playerToMove) {
 }
 
 int pieceColor (int Piece) {
-	if(Piece >= 0 && Piece <= 5)
+	if(Piece >= 0 && Piece <= 6)
 		return White;
-	if(Piece >= 6 && Piece <= 11)
+	if(Piece >= 6 && Piece <= 13)
 		return Black;
 	return 0;
 }
@@ -41,9 +41,9 @@ bool isDifferentColorQueen (int Color, int Piece) {
 }
 
 bool isDifferentColorRook (int Color, int Piece) {
-	if(Color == White && Piece == BR)
+	if(Color == White && (Piece == BRL || Piece == BRR))
 		return 1;
-	if(Color == Black && Piece == WR)
+	if(Color == Black && (Piece == WRL || Piece == WRR))
 		return 1;
 	return 0;
 }
@@ -193,7 +193,6 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 
 	return 0;
 }
-
 
 bool isInCheck (int Color, int *piecesOnBoard) {
 	int King = (Color == White) ? WK : BK;

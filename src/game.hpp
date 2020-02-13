@@ -1,11 +1,12 @@
-#ifndef GAMELOG_INCLUDED
-#define GAMELOG_INCLUDED
+#ifndef GAME_INCLUDED
+#define GAME_INCLUDED
 
 #include <iostream>
 
 class moveData {
 	public:
 		moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevPosition_, int currentPosition_);
+		~moveData () {};
 
 		int moveNumber;
 		int movedPiece;
@@ -23,14 +24,15 @@ class gameData {
 		~gameData () {}
 
 		void addMove (int movedPiece, int takenPiece, int prevPosition, int currentPosition);
-		bool wasPieceMoved (int Color);
+		void changePlayer ();
+		int getPlayer ();
+		
+		bool wasPieceMoved (int Piece);
 		bool movedLast (int Piece);
+
 		void printMove ();
-		int getMoveNumber ();
-		int getMovedPiece ();
-		int getPrevPosition ();
-		int getCurrentPosition ();
 	private:
+		int playerToMove;
 		int moveCount;
 		moveData *moveList;
 };
