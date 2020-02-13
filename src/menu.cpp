@@ -24,7 +24,8 @@ void menuData::drawMenu (RenderWindow *Window) {
 	Window -> draw(this -> Buttons[Takeback]);
 }
 
-void menuData::Event (Vector2f Clicked) {
-	if(this -> Buttons[Takeback].getGlobalBounds().contains(Clicked))
-		printf("x\n");
+void menuData::Event (Vector2f Clicked, gameData *Game, boardData *Board) {
+	if(this -> Buttons[Takeback].getGlobalBounds().contains(Clicked)) {
+		Game -> Takeback(Board);
+	}
 }

@@ -17,7 +17,7 @@ class menuData {
 		void menuSetup ();
 		void importTextures ();
 		void drawMenu (RenderWindow *Window);
-		void Event (Vector2f Clicked);
+		void Event (Vector2f Clicked, gameData *Game, boardData *Board);
 
 	private:
 		RectangleShape menuBackground;

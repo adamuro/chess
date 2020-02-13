@@ -2,10 +2,12 @@
 #define GAME_INCLUDED
 
 #include <iostream>
+#include "logic.hpp"
+#include "board.hpp"
 
 class moveData {
 	public:
-		moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevPosition_, int currentPosition_);
+		moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevPosition_, int currentPosition_, int takenPosition_);
 		~moveData () {};
 
 		int moveNumber;
@@ -13,6 +15,7 @@ class moveData {
 		int takenPiece;
 		int prevPosition;
 		int currentPosition;
+		int takenPosition;
 
 		moveData *nextMove;
 		moveData *prevMove;
@@ -30,6 +33,8 @@ class gameData {
 		bool movedLast (int Piece, int Square);
 		bool wasPieceMoved (int Piece);
 		int getMoveDistance ();
+
+		void Takeback (boardData *Board);
 
 		void printMove ();
 	private:

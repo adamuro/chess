@@ -46,5 +46,5 @@ void boardClick (Vector2i clickedPosition, gameData *Game, boardData *Board) {
 void menuClick (RenderWindow *Window, gameData *Game, boardData *Board, menuData *Menu) {
 	Vector2i clickedPosition = Mouse::getPosition(*Window);
 	Vector2f Clicked = Window -> mapPixelToCoords(clickedPosition);
-	Menu -> Event(Clicked);
+	Menu -> Event(Clicked, Game, Board);
 } 
