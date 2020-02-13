@@ -44,8 +44,15 @@ bool gameData::wasPieceMoved (int Piece) {
 	return 0;
 }
 
-bool gameData::movedLast (int Piece) {
-	return (this -> moveList -> movedPiece == Piece) ? 1 : 0;
+bool gameData::movedLast (int Piece, int Square) {
+	return (this -> moveList -> movedPiece == Piece && this -> moveList -> currentPosition == Square);
+}
+
+int gameData::getMoveDistance () {
+	int prevPosition = this -> moveList -> prevPosition;
+	int currentPosition = this -> moveList -> currentPosition;
+	int Distance = abs(currentPosition - prevPosition);
+	return Distance;
 }
 
 void gameData::printMove () {

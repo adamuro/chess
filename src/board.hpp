@@ -39,7 +39,6 @@ class boardData {
 		bool inCheck (int Color);
 
 		void moveUpdate ();
-	
 	private:
 		Texture piecesTextures [14];
 		RectangleShape boardImage [64];
