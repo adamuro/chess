@@ -5,7 +5,8 @@ moveData::moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevP
 	movedPiece(movedPiece_),
 	takenPiece(takenPiece_),
 	prevPosition(prevPosition_),
-	currentPosition(currentPosition_) {}
+	currentPosition(currentPosition_),
+	nextMove(NULL) {}
 
 gameData::gameData ()
 :	playerToMove(1),
@@ -16,8 +17,8 @@ void gameData::addMove (int movedPiece, int takenPiece, int prevPosition, int cu
 	moveData *currentMove = this -> moveList;
 
 	while(this -> moveList != NULL) {
-		this -> moveList = this -> moveList -> nextMove;
 		currentMove = this -> moveList;
+		this -> moveList = this -> moveList -> nextMove;
 	}
 
 	this -> moveList = new moveData(this -> moveCount++, movedPiece, takenPiece, prevPosition, currentPosition);
@@ -39,11 +40,18 @@ bool gameData::wasPieceMoved (int Piece) {
 		if(Iterate -> movedPiece == Piece)
 			return 1;
 		Iterate = Iterate -> prevMove;
-		//printf("%d\n", Iterate -> movedPiece);
 	}
 	return 0;
 }
 
 bool gameData::movedLast (int Piece) {
 	return (this -> moveList -> movedPiece == Piece) ? 1 : 0;
+}
+
+void gameData::printMove () {
+	printf("%d\n", this -> moveList -> moveNumber);
+	printf("%d\n", this -> moveList -> movedPiece);
+	printf("%d\n", this -> moveList -> takenPiece);
+	printf("%d\n", this -> moveList -> prevPosition);
+	printf("%d\n", this -> moveList -> currentPosition);
 }

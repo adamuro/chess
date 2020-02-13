@@ -121,9 +121,9 @@ int boardData::getMarkedPiece () {
 int boardData::getPieceColor (int Square) {
 	int Piece = getPiece(Square);
 
-	if(Piece >= 0 && Piece <= 5)
+	if(Piece >= 0 && Piece <= 6)
 		return White;
-	if(Piece >= 6 && Piece <= 11)
+	if(Piece >= 6 && Piece <= 13)
 		return Black;
 	return 0;
 }

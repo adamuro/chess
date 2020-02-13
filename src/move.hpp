@@ -11,6 +11,6 @@ int* rookMoves (boardData *Board, gameData *Game);
 int* knightMoves (boardData *Board, gameData *Game);
 int* bishopMoves (boardData *Board, gameData *Game);
 int* kingMoves (boardData *Board, gameData *Game);
-bool queenMove (int currentSquare, int destSquare, int *piecesOnBoard);
+int* queenMoves (boardData *Board, gameData *Game);
 
 #endif

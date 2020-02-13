@@ -29,6 +29,8 @@ class gameData {
 		
 		bool wasPieceMoved (int Piece);
 		bool movedLast (int Piece);
+
+		void printMove ();
 	private:
 		int playerToMove;
 		int moveCount;

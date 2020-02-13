@@ -32,10 +32,9 @@ bool Move (boardData *Board, gameData *Game) {
 		case WK:
 		case BK:
 			return isLegalMove(destSquare, kingMoves(Board, Game));
-			/*
 		case WQ:
 		case BQ:
-			return queenMove(currentSquare, destSquare, piecesOnBoard);*/
+			return isLegalMove(destSquare, queenMoves(Board, Game));
 	}
 	return 0;
 }
@@ -263,13 +262,15 @@ int* kingMoves (boardData *Board, gameData *Game) {
 
 	for(int i = 0 ; i < 8 ; i++) {
 		int Square = currentSquare + Moves[i];
-		if(Square >= 0 && Square <= 63 && Board -> getPiece(Square) == NP) {
-			if(Board -> checkMove(Square))
-				possibleMoves[++movesNumber] = Square;
-		}
-		else if(isDifferentColor(Board -> getPiece(Square), Color)) {
-			if(Board -> checkMove(Square))
-				possibleMoves[++movesNumber] = Square;
+		if(Square >= 0 && Square <= 63) {
+			if(Square >= 0 && Square <= 63 && Board -> getPiece(Square) == NP) {
+				if(Board -> checkMove(Square))
+					possibleMoves[++movesNumber] = Square;
+			}
+			else if(isDifferentColor(Board -> getPiece(Square), Color)) {
+				if(Board -> checkMove(Square))
+					possibleMoves[++movesNumber] = Square;
+			}
 		}
 	}
 	if(!(Game -> wasPieceMoved(King) || Game -> wasPieceMoved(allyRookLeft))) {
@@ -298,15 +299,21 @@ int* kingMoves (boardData *Board, gameData *Game) {
 	possibleMoves[0] = movesNumber;
 	return possibleMoves;
 }
-/*
-bool queenMove (int currentSquare, int destSquare, int *piecesOnBoard) {
-	int Queen = piecesOnBoard[currentSquare];
 
-	if(rookMove(currentSquare, destSquare, piecesOnBoard) ||
-	   bishopMove(currentSquare, destSquare, piecesOnBoard)) {
-		if(isMoveLegal(Queen, currentSquare, destSquare, piecesOnBoard))
-			return 1;
+int* queenMoves (boardData *Board, gameData *Game) {	
+	int *diagonalMoves = bishopMoves(Board, Game);
+	int *linearMoves = rookMoves(Board, Game);
+
+	static int possibleMoves [32];
+	int movesNumber = 0;
+
+	for(int i = 1 ; i < diagonalMoves[0] ; i++) {
+		possibleMoves[++movesNumber] = diagonalMoves[i];
 	}
-	return 0;
+	for (int i = 1 ; i < linearMoves[0] ; i++) {
+		possibleMoves[++movesNumber] = linearMoves[i];
+	}
+
+	possibleMoves[0] = movesNumber;
+	return possibleMoves;
 }
-*/
