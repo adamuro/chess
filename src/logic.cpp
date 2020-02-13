@@ -1,17 +1,5 @@
 #include "logic.hpp"
 
-bool isDifferentColor (int Piece, int Color) {
-	return (pieceColor(Piece) != Color && pieceColor(Piece)) ? 1 : 0;
-}
-
-bool isSameColor (int Piece, int Color) {
-	return (pieceColor(Piece) == Color) ? 1 : 0;
-}
-
-void changePlayerToMove (int *playerToMove) {
-	(*playerToMove) *= -1;
-}
-
 int pieceColor (int Piece) {
 	if(Piece >= 0 && Piece <= 6)
 		return White;
@@ -20,16 +8,12 @@ int pieceColor (int Piece) {
 	return 0;
 }
 
-bool inSameColumn (int currentSquare, int destSquare) {
-	return !(abs(currentSquare - destSquare) % 8);
+bool isDifferentColor (int Piece, int Color) {
+	return (pieceColor(Piece) != Color && pieceColor(Piece)) ? 1 : 0;
 }
 
-bool inSameFile (int currentSquare, int destSquare) {
-	int distToLeftEdge = currentSquare % 8;
-	int leftEdge = currentSquare - distToLeftEdge;
-	int rightEdge = currentSquare - distToLeftEdge + 7;
-
-	return (destSquare >= leftEdge && destSquare <= rightEdge) ? 1 : 0;
+bool isSameColor (int Piece, int Color) {
+	return (pieceColor(Piece) == Color) ? 1 : 0;
 }
 
 bool isDifferentColorQueen (int Color, int Piece) {
@@ -137,7 +121,7 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 			return 1;
 	}
 	/* From above */
-	for(int i = checkSquare + 8 ; i < 64 ; i+= 8) {
+	for(int i = checkSquare + 8 ; i < 64 ; i += 8) {
 		int Piece = piecesOnBoard[i];
 		if(isSameColor(Piece, Color))
 			break;
@@ -147,7 +131,7 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 			return 1;
 	}
 	/* From beneath */
-	for(int i = checkSquare - 8 ; i >= 0 ; i-= 8) {
+	for(int i = checkSquare - 8 ; i >= 0 ; i -= 8) {
 		int Piece = piecesOnBoard[i];
 		if(isSameColor(Piece, Color))
 			break;
@@ -171,7 +155,6 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	/* Searching for knights which attack the king */
 	for(int i = 0 ; i < 8 ; i++) {
 		int knightSquare = checkSquare + knightAttack[i];
-		
 		if(knightSquare >= 0 && knightSquare < 64)
 			if(isDifferentColorKnight(Color, piecesOnBoard[knightSquare]))
 				return 1;
@@ -179,14 +162,12 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	/* Searching for pawns which attack the king */
 	for(int i = 0 ; i < 2 ; i++) {
 		int pawnSquare = checkSquare - pawnAttack[i];
-
 		if(isDifferentColorPawn(Color, piecesOnBoard[pawnSquare]))
 			return 1;
 	}
 	/* Searching for king which attacks the king */
 	for(int i = 0 ; i < 8 ; i++) {
 		int kingSquare = checkSquare - kingAttack[i];
-
 		if(isDifferentColorKing(Color, piecesOnBoard[kingSquare]))
 			return 1;
 	}

@@ -144,7 +144,7 @@ int* rookMoves (boardData *Board, gameData *Game) {
 	possibleMoves[0] = movesNumber;
 	return possibleMoves;
 }
-/* FIX WEIRD MOVES WHEN NEXT TO EDGE OF THE BOARD ETC */
+
 int* knightMoves (boardData *Board, gameData *Game) {
 	int Knight = Board -> getMarkedPiece();
 	int Color = pieceColor(Knight);
@@ -226,6 +226,7 @@ int* bishopMoves (boardData *Board, gameData *Game) {
 				break;
 		}
 	}
+	
 	for(int i = 0 ; i < 2 ; i++) {
 		for(int Square = currentSquare + moveRight[i] ; Square >= 0 && Square <= 63 && Square % 8 <= 7 && Square % 8 > 0 ; Square += moveRight[i]) {
 			if(Board -> getPiece(Square) == NP) {
@@ -273,6 +274,7 @@ int* kingMoves (boardData *Board, gameData *Game) {
 			}
 		}
 	}
+
 	if(!(Game -> wasPieceMoved(King) || Game -> wasPieceMoved(allyRookLeft))) {
 		if(!Board -> inCheck(Color)) {
 			if(!(Board -> isSquareAttacked(currentSquare - 1, Color) || Board -> isSquareAttacked(currentSquare - 2, Color))) {
