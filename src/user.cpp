@@ -8,11 +8,12 @@ int getClickedSquare (Vector2i clickedPosition) {
 	return clickedSquare;					  // 0 <= clickedSquare <= 63
 }
 
-void onClickEvent (Vector2i clickedPosition, gameData *Game, boardData *Board, menuData *Menu) {
+void onClickEvent (RenderWindow *Window, gameData *Game, boardData *Board, menuData *Menu) {
+	Vector2i clickedPosition = Mouse::getPosition(*Window);
 	if(clickedPosition.x < boardWidth)
 		boardClick(clickedPosition, Game, Board);
 	else {
-		menuClick(clickedPosition, Game, Board, Menu);
+		menuClick(Window, Game, Board, Menu);
 		Board -> unmarkSquare();
 	}
 }
@@ -42,6 +43,8 @@ void boardClick (Vector2i clickedPosition, gameData *Game, boardData *Board) {
 		Board -> unmarkSquare();
 }
 
-void menuClick (Vector2i clickedPosition, gameData *Game, boardData *Board, menuData *Menu) {
-
+void menuClick (RenderWindow *Window, gameData *Game, boardData *Board, menuData *Menu) {
+	Vector2i clickedPosition = Mouse::getPosition(*Window);
+	Vector2f Clicked = Window -> mapPixelToCoords(clickedPosition);
+	Menu -> Event(Clicked);
 } 

@@ -15,12 +15,14 @@ class menuData {
 		~menuData () {};
 
 		void menuSetup ();
-		void importMenuTextures ();
+		void importTextures ();
 		void drawMenu (RenderWindow *Window);
+		void Event (Vector2f Clicked);
 
 	private:
 		RectangleShape menuBackground;
 		Texture buttonTextures [1];
+		Sprite Buttons [1];
 
 };
 
