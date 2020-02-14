@@ -13,9 +13,11 @@ class boardData {
 		~boardData () {};
 		
 		void boardSetup ();
-		void importPiecesTextures ();
 		void piecesSetup ();
 		void highlightSetup ();
+		void importPiecesTextures ();
+
+		Texture getPieceTexture (int Piece);
 
 		void drawBoard (RenderWindow *Window);
 		void drawPieces (RenderWindow *Window);
@@ -30,10 +32,10 @@ class boardData {
 		int getClickedSquare ();
 		int getClickedPiece ();
 
-		void setPiece (int Square, int Piece);
-		void setMarkedSquare (int Square);
 		void unmarkSquare ();
+		void setMarkedSquare (int Square);
 		void setClickedSquare (int Square);
+		void setPiece (int Square, int Piece);
 
 		bool checkMove (int destSquare);
 		bool isSquareAttacked (int Square, int Color);

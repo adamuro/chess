@@ -27,22 +27,6 @@ class gameData {
 		~gameData () {}
 
 		void addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare);
-		void changePlayer ();
-		int getPlayer ();
-		
-		bool movedLast (int Piece, int Square);
-		bool wasPieceMoved (int Piece);
-		int getMovedPiece ();
-
-		int getCurrentSquare ();
-		int getPrevSquare ();
-		int getTakenPiece ();
-		int getTakenSquare ();
-		int getMoveDistance ();
-
-		void moveBack ();
-		void deleteMove (moveData* Move);
-		void Takeback (boardData *Board);
 
 		void setMove (moveData* Move);
 		void setNextMove (moveData* Move);
@@ -51,6 +35,23 @@ class gameData {
 		moveData* getMove ();
 		moveData* getPrevMove ();
 		moveData* getNextMove ();
+
+		void moveBack (); // Go back to previous move.
+		void deleteMove (moveData* Move); // Free Move memory.
+		void Takeback (boardData *Board); // Delete current move and update Game and Board state.
+
+		void changePlayer ();
+		int getPlayer ();
+		
+		bool wasPieceMoved (int Piece); // Check if a Piece was moved during the game.
+		bool movedLast (int Piece, int Square); // Check if Piece moved to Square in last move.
+		
+		int getMovedPiece ();
+		int getCurrentSquare ();
+		int getPrevSquare ();
+		int getTakenPiece ();
+		int getTakenSquare ();
+		int getMoveDistance ();
 
 		void increaseMoveCount ();
 		void decreaseMoveCount ();

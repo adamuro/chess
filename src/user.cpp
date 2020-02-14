@@ -4,7 +4,7 @@ int getClickedSquare (Vector2i clickedPosition) {
 	int Column = (int)clickedPosition.x / 80; // How many squares fit
 	int File = (int)clickedPosition.y / 80;   // in that number of pixels.
 	int clickedSquare = Column + File * 8;	  // Convert column and file
-											  // number into board index
+											  // number into square index.
 	return clickedSquare;					  // 0 <= clickedSquare <= 63
 }
 

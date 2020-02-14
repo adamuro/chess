@@ -23,23 +23,6 @@ void boardData::boardSetup () {
 	}
 }
 
-void boardData::importPiecesTextures () {
-	this -> piecesTextures[WP].loadFromFile("./images/WhitePawn.png");
-	this -> piecesTextures[WRL].loadFromFile("./images/WhiteRook.png");
-	this -> piecesTextures[WRR].loadFromFile("./images/WhiteRook.png");
-	this -> piecesTextures[WN].loadFromFile("./images/WhiteKnight.png");
-	this -> piecesTextures[WB].loadFromFile("./images/WhiteBishop.png");
-	this -> piecesTextures[WK].loadFromFile("./images/WhiteKing.png");
-	this -> piecesTextures[WQ].loadFromFile("./images/WhiteQueen.png");
-	this -> piecesTextures[BP].loadFromFile("./images/BlackPawn.png");
-	this -> piecesTextures[BRL].loadFromFile("./images/BlackRook.png");
-	this -> piecesTextures[BRR].loadFromFile("./images/BlackRook.png");
-	this -> piecesTextures[BN].loadFromFile("./images/BlackKnight.png");
-	this -> piecesTextures[BB].loadFromFile("./images/BlackBishop.png");
-	this -> piecesTextures[BK].loadFromFile("./images/BlackKing.png");
-	this -> piecesTextures[BQ].loadFromFile("./images/BlackQueen.png");
-}
-
 void boardData::piecesSetup () {
 	this -> piecesOnBoard[0] = BRL;
 	this -> piecesOnBoard[7] = BRR;
@@ -70,12 +53,33 @@ void boardData::highlightSetup () {
 	this -> Highlight.setFillColor(Color(colorHighlight));
 }
 
+void boardData::importPiecesTextures () {
+	this -> piecesTextures[WP].loadFromFile("./images/WhitePawn.png");
+	this -> piecesTextures[WRL].loadFromFile("./images/WhiteRook.png");
+	this -> piecesTextures[WRR].loadFromFile("./images/WhiteRook.png");
+	this -> piecesTextures[WN].loadFromFile("./images/WhiteKnight.png");
+	this -> piecesTextures[WB].loadFromFile("./images/WhiteBishop.png");
+	this -> piecesTextures[WK].loadFromFile("./images/WhiteKing.png");
+	this -> piecesTextures[WQ].loadFromFile("./images/WhiteQueen.png");
+	this -> piecesTextures[BP].loadFromFile("./images/BlackPawn.png");
+	this -> piecesTextures[BRL].loadFromFile("./images/BlackRook.png");
+	this -> piecesTextures[BRR].loadFromFile("./images/BlackRook.png");
+	this -> piecesTextures[BN].loadFromFile("./images/BlackKnight.png");
+	this -> piecesTextures[BB].loadFromFile("./images/BlackBishop.png");
+	this -> piecesTextures[BK].loadFromFile("./images/BlackKing.png");
+	this -> piecesTextures[BQ].loadFromFile("./images/BlackQueen.png");
+}
+
+Texture boardData::getPieceTexture (int Piece) {
+	return this -> piecesTextures[Piece];
+}
+
 void boardData::drawBoard (RenderWindow *Window) {
 	int squareEdge = boardHeight / 8;
 
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
-			if(i * 8 + j == this -> markedSquare) {
+			if(i * 8 + j == getMarkedSquare()) {
 				this -> Highlight.setPosition(j * squareEdge, i * squareEdge);
 				Window -> draw(this -> Highlight);
 			}
@@ -92,7 +96,7 @@ void boardData::drawPieces (RenderWindow *Window) {
 
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
-			int currentPiece = this -> piecesOnBoard[j * 8 + i];
+			int currentPiece = getPiece(j * 8 + i);
 			if(currentPiece != NP) {
 				Piece.setTexture(this -> piecesTextures[currentPiece]);
 				Piece.setPosition(i * squareEdge, j * squareEdge);
@@ -102,20 +106,8 @@ void boardData::drawPieces (RenderWindow *Window) {
 	}
 }
 
-int* boardData::getPiecesOnBoard () {
-	return this -> piecesOnBoard;
-}
-
-int boardData::getPiece(int Square) {
+int boardData::getPiece (int Square) {
 	return this -> piecesOnBoard[Square];
-}
-
-int boardData::getMarkedSquare () {
-	return this -> markedSquare;
-}
-
-int boardData::getMarkedPiece () {
-	return this -> piecesOnBoard[this -> markedSquare];
 }
 
 int boardData::getPieceColor (int Square) {
@@ -128,16 +120,16 @@ int boardData::getPieceColor (int Square) {
 	return 0;
 }
 
-void boardData::setPiece (int Square, int Piece) {
-	this -> piecesOnBoard[Square] = Piece;
+int* boardData::getPiecesOnBoard () {
+	return this -> piecesOnBoard;
 }
 
-void boardData::setMarkedSquare (int Square) {
-	this -> markedSquare = Square;
+int boardData::getMarkedSquare () {
+	return this -> markedSquare;
 }
 
-void boardData::unmarkSquare () {
-	this -> markedSquare = -1;
+int boardData::getMarkedPiece () {
+	return this -> piecesOnBoard[this -> markedSquare];
 }
 
 int boardData::getClickedSquare () {
@@ -148,8 +140,43 @@ int boardData::getClickedPiece () {
 	return this -> piecesOnBoard[this -> clickedSquare];
 }
 
+void boardData::unmarkSquare () {
+	this -> markedSquare = -1;
+}
+
+void boardData::setMarkedSquare (int Square) {
+	this -> markedSquare = Square;
+}
+
 void boardData::setClickedSquare (int Square) {
 	this -> clickedSquare = Square;
+}
+
+void boardData::setPiece (int Square, int Piece) {
+	this -> piecesOnBoard[Square] = Piece;
+}
+
+bool boardData::checkMove (int destSquare) {
+	bool Outcome;
+
+	int takenPiece = getPiece(destSquare);
+	setPiece(destSquare, getMarkedPiece());
+	setPiece(getMarkedSquare(), NP);
+
+	Outcome = !isInCheck(getPieceColor(destSquare), getPiecesOnBoard());
+
+	setPiece(getMarkedSquare(), getPiece(destSquare));
+	setPiece(destSquare, takenPiece);
+
+	return Outcome;
+}
+
+bool boardData::isSquareAttacked (int Square, int Color) {
+	return isAttacked(Square, Color, getPiecesOnBoard());
+}
+
+bool boardData::inCheck (int Color) {
+	return isInCheck(Color, getPiecesOnBoard());
 }
 
 void boardData::moveUpdate () {
@@ -197,27 +224,4 @@ void boardData::moveUpdate () {
 		setPiece(getClickedSquare(), getMarkedPiece());
 		setPiece(getMarkedSquare(), NP);
 	}
-}
-
-bool boardData::checkMove (int destSquare) {
-	bool Outcome;
-
-	int takenPiece = getPiece(destSquare);
-	setPiece(destSquare, getMarkedPiece());
-	setPiece(getMarkedSquare(), NP);
-
-	Outcome = !isInCheck(getPieceColor(destSquare), getPiecesOnBoard());
-
-	setPiece(getMarkedSquare(), getPiece(destSquare));
-	setPiece(destSquare, takenPiece);
-
-	return Outcome;
-}
-
-bool boardData::isSquareAttacked (int Square, int Color) {
-	return isAttacked(Square, Color, getPiecesOnBoard());
-}
-
-bool boardData::inCheck (int Color) {
-	return isInCheck(Color, getPiecesOnBoard());
 }

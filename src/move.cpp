@@ -65,7 +65,7 @@ int* pawnMoves (boardData *Board, gameData *Game) {
 	int movesNumber = 0;
 
 	if(nextPiece == NP && doubleMovePiece == NP) {
-		if(isPawnStartingSquare(Color, currentSquare))
+		if(isPawnStartingSquare(currentSquare, Color))
 			if(Board -> checkMove(doubleMoveSquare))
 				possibleMoves[++movesNumber] = doubleMoveSquare;
 	}
@@ -82,14 +82,14 @@ int* pawnMoves (boardData *Board, gameData *Game) {
 		if(Board -> checkMove(takeRightSquare))
 			possibleMoves[++movesNumber] = takeRightSquare;
 	}
-	if(isDifferentColorPawn(Color, enPassantLeftPiece)) {
+	if(isDifferentColorPawn(enPassantLeftPiece, Color)) {
 		if(Game -> movedLast(enPassantLeftPiece, enPassantLeftSquare) && Game -> getMoveDistance() == 16) {
 			if(Board -> checkMove(enPassantLeftSquare)) {
 				possibleMoves[++movesNumber] = enPassantLeftTakeSquare;	
 			}
 		}
 	}
-	if(isDifferentColorPawn(Color, enPassantRightPiece)) {
+	if(isDifferentColorPawn(enPassantRightPiece, Color)) {
 		if(Game -> movedLast(enPassantRightPiece, enPassantRightSquare) && Game -> getMoveDistance() == 16) {
 			if(Board -> checkMove(enPassantRightSquare))
 				possibleMoves[++movesNumber] = enPassantRightTakeSquare;

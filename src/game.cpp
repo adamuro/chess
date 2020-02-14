@@ -38,6 +38,65 @@ void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int curr
 
 }
 
+void gameData::setMove (moveData* Move) {
+	this -> moveList = Move;
+}
+
+void gameData::setNextMove (moveData* Move) {
+	this -> moveList -> nextMove = Move;
+}
+
+void gameData::setPrevMove (moveData* Move) {
+	this -> moveList -> prevMove = Move;
+}
+
+moveData* gameData::getMove () {
+	return this -> moveList;
+}
+
+moveData* gameData::getPrevMove () {
+	return this -> moveList -> prevMove;
+}
+
+moveData* gameData::getNextMove () {
+	return this -> moveList -> nextMove;
+}
+
+void gameData::deleteMove (moveData* Move) {
+	delete Move;
+}
+
+void gameData::moveBack () {
+	if(getMoveCount() == 1) {
+			deleteMove(getMove());
+			setMove(NULL);
+			changePlayer();
+		}
+		else if(getMoveCount() > 1) {
+			setMove(getPrevMove());
+			deleteMove(getNextMove());
+			setNextMove(NULL);
+			changePlayer();
+		}
+}
+
+void gameData::Takeback (boardData *Board) {
+	if(this -> moveList != NULL) {
+		int movedPiece = getMovedPiece();
+		int prevSquare = getPrevSquare();
+		int currentSquare = getCurrentSquare();
+		int takenPiece = getTakenPiece();
+		int takenSquare = getTakenSquare();
+
+		Board -> setPiece(prevSquare, movedPiece);
+		Board -> setPiece(currentSquare, NP);
+		Board -> setPiece(takenSquare, takenPiece);
+
+		moveBack();
+		decreaseMoveCount();
+	}
+}
+
 void gameData::changePlayer () {
 	this -> playerToMove *= -1;
 }
@@ -88,74 +147,15 @@ int gameData::getMoveDistance () {
 	return Distance;
 }
 
-void gameData::deleteMove (moveData* Move) {
-	delete Move;
-}
-
-void gameData::moveBack () {
-	if(getMoveCount() == 1) {
-			deleteMove(getMove());
-			setMove(NULL);
-			changePlayer();
-		}
-		else if(getMoveCount() > 1) {
-			setMove(getPrevMove());
-			deleteMove(getNextMove());
-			setNextMove(NULL);
-			changePlayer();
-		}
-}
-
-void gameData::Takeback (boardData *Board) {
-	if(this -> moveList != NULL) {
-		int movedPiece = getMovedPiece();
-		int prevSquare = getPrevSquare();
-		int currentSquare = getCurrentSquare();
-		int takenPiece = getTakenPiece();
-		int takenSquare = getTakenSquare();
-
-		Board -> setPiece(prevSquare, movedPiece);
-		Board -> setPiece(currentSquare, NP);
-		Board -> setPiece(takenSquare, takenPiece);
-
-		moveBack();
-		decreaseMoveCount();
-	}
-}
-
-void gameData::setMove (moveData* Move) {
-	this -> moveList = Move;
-}
-
-void gameData::setNextMove (moveData* Move) {
-	this -> moveList -> nextMove = Move;
-}
-
-void gameData::setPrevMove (moveData* Move) {
-	this -> moveList -> prevMove = Move;
-}
-
-moveData* gameData::getMove () {
-	return this -> moveList;
-}
-
-moveData* gameData::getPrevMove () {
-	return this -> moveList -> prevMove;
-}
-
-moveData* gameData::getNextMove () {
-	return this -> moveList -> nextMove;
-}
-
-int gameData::getMoveCount () {
-	return this -> moveCount;
-}
-
 void gameData::increaseMoveCount () {
 	this -> moveCount++;
 }
 void gameData::decreaseMoveCount () {
 	this -> moveCount--;
+}
+
+int gameData::getMoveCount () {
+	return this -> moveCount;
 }
 
 void gameData::printMove () {
