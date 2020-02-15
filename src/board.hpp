@@ -17,8 +17,12 @@ class boardData {
 		void highlightSetup ();
 		void importPiecesTextures ();
 
-		Texture getPieceTexture (int Piece);
+		void setHighlightPosition (int x, int y);
+		void setPiecePosition (Sprite *Piece, int x, int y);
+		void setPieceTexture (Sprite *Piece, int textureIndex);
 
+		void drawBoardImage (RenderWindow *Window, int Index);
+		void drawHighlight (RenderWindow *Window);
 		void drawBoard (RenderWindow *Window);
 		void drawPieces (RenderWindow *Window);
 

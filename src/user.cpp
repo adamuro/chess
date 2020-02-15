@@ -30,8 +30,11 @@ void boardClick (Vector2i clickedPosition, gameData *Game, boardData *Board) {
 			if(Game -> getPlayer() == pieceColor(clickedPiece))
 				Board -> setMarkedSquare(clickedSquare);
 	}
+	else if(markedSquare == clickedSquare) {
+		Board -> unmarkSquare();
+	}
 	/* If a piece was marked and any other square was clicked, try to move the piece to the clicked square. */
-	else if(markedSquare != clickedSquare && Move(Board, Game)) {
+	else if(Move(Board, Game)) {
 		Game -> addMove(markedPiece, clickedPiece, markedSquare, clickedSquare);
 		Game -> changePlayer();
 		Board -> moveUpdate();

@@ -70,21 +70,37 @@ void boardData::importPiecesTextures () {
 	this -> piecesTextures[BQ].loadFromFile("./images/BlackQueen.png");
 }
 
-Texture boardData::getPieceTexture (int Piece) {
-	return this -> piecesTextures[Piece];
+void boardData::setHighlightPosition (int x, int y) {
+	int squareEdge = boardHeight / 8;
+	this -> Highlight.setPosition(x * squareEdge, y * squareEdge);
+}
+
+void boardData::setPiecePosition (Sprite *Piece, int x, int y) {
+	int squareEdge = boardHeight / 8;
+	Piece -> setPosition(squareEdge * x, squareEdge * y);
+}
+
+void boardData::setPieceTexture (Sprite *Piece, int textureIndex) {
+	Piece -> setTexture(this -> piecesTextures[textureIndex]);
+}
+
+void boardData::drawBoardImage (RenderWindow *Window, int Index) {
+	Window -> draw(this -> boardImage[Index]);
+}
+
+void boardData::drawHighlight (RenderWindow *Window) {
+	Window -> draw(this -> Highlight);
 }
 
 void boardData::drawBoard (RenderWindow *Window) {
-	int squareEdge = boardHeight / 8;
-
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
 			if(i * 8 + j == getMarkedSquare()) {
-				this -> Highlight.setPosition(j * squareEdge, i * squareEdge);
-				Window -> draw(this -> Highlight);
+				setHighlightPosition(j, i);
+				drawHighlight(Window);
 			}
 			else {
-				Window -> draw(this -> boardImage[j * 8 + i]);
+				drawBoardImage(Window, j * 8 + i);
 			}
 		}
 	}
@@ -92,14 +108,13 @@ void boardData::drawBoard (RenderWindow *Window) {
 
 void boardData::drawPieces (RenderWindow *Window) {
 	Sprite Piece;
-	int squareEdge = boardHeight / 8;
 
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
 			int currentPiece = getPiece(j * 8 + i);
 			if(currentPiece != NP) {
-				Piece.setTexture(this -> piecesTextures[currentPiece]);
-				Piece.setPosition(i * squareEdge, j * squareEdge);
+				setPieceTexture(&Piece, currentPiece);
+				setPiecePosition(&Piece, i, j);
 				Window -> draw(Piece);
 			}
 		}
