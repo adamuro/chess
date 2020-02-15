@@ -16,8 +16,20 @@ class menuData {
 
 		void menuSetup ();
 		void importTextures ();
+
 		void drawMenu (RenderWindow *Window);
-		void Event (Vector2f Clicked, gameData *Game, boardData *Board);
+		void drawBackground (RenderWindow *Window);
+		void drawButtonHighlight (RenderWindow *Window);
+		void drawButton (RenderWindow *Window, int Button);
+
+		bool buttonContains (Vector2f Position, int Button);
+		bool buttonClicked (Vector2f Clicked, int Button);
+
+		Vector2f getButtonSize (int Button);
+		Vector2f getButtonPosition (int Button);
+		Vector2f getMousePosition (RenderWindow *Window);
+
+		void clickEvent (Vector2f Clicked, gameData *Game, boardData *Board);
 
 	private:
 		RectangleShape menuBackground;

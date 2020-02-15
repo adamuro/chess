@@ -13,6 +13,7 @@
 #define colorHighlight 170,200,80
 
 #define colorMenuBackground 230,230,230
+#define colorMenuHighlight 200,200,200
 
 enum Pieces {
 	WP = 0, WRL = 1, WRR = 2, WN = 3, WB = 4, WK = 5, WQ = 6,	  // WhitePawn, WhiteRook etc.
