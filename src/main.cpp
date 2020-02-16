@@ -6,6 +6,7 @@ int main () {
 	menuData *Menu = new menuData;
 
 	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
+	setIcon(&Window);
 
 	while(Window.isOpen()) { // Main loop
 		Event windowEvent;

@@ -35,7 +35,6 @@ class menuData {
 		RectangleShape menuBackground;
 		Texture buttonTextures [1];
 		Sprite Buttons [1];
-
 };
 
 

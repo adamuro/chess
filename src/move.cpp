@@ -328,3 +328,29 @@ int* queenMoves (boardData *Board, gameData *Game) {
 	possibleMoves[0] = movesNumber;
 	return possibleMoves;
 }
+/*
+void moveList::addMove (int Square) {
+	setMove(Square);
+	increaseMovesNumber();
+}
+
+void setMove (int Square) {
+	this -> Moves[getMoveNumber()] = Square;
+}
+
+bool Contains (int Square) {
+	for(int i = 0 ; i < getMoveNumber() ; i++) {
+		if(getMove() == Square)
+			return 1;
+	}
+	return 0;
+}
+
+int moveList::getMove (int Index) {
+	return this -> Moves[Index];
+}
+
+void moveList::increaseMovesNumber () {
+	this -> movesNumber++;
+}
+*/
