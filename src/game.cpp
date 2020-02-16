@@ -10,7 +10,7 @@ moveData::moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevS
 	nextMove(NULL) {}
 
 gameData::gameData ()
-:	playerToMove(1),
+:	Player(White),
 	moveCount(0),
 	moveList(NULL) {}
 
@@ -98,11 +98,11 @@ void gameData::Takeback (boardData *Board) {
 }
 
 void gameData::changePlayer () {
-	this -> playerToMove *= -1;
+	this -> Player *= -1;
 }
 
 int gameData::getPlayer () {
-	return this -> playerToMove;
+	return this -> Player;
 }
 
 bool gameData::wasPieceMoved (int Piece) {

@@ -59,7 +59,7 @@ class gameData {
 
 		void printMove ();
 	private:
-		int playerToMove;
+		int Player;
 		int moveCount;
 		moveData *moveList;
 };

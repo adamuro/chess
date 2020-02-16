@@ -12,5 +12,6 @@
 #include "board.hpp"
 #include "game.hpp"
 #include "menu.hpp"
+#include "time.hpp"
 
 using namespace sf;

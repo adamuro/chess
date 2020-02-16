@@ -30,7 +30,6 @@ class menuData {
 		Vector2f getMousePosition (RenderWindow *Window);
 
 		void clickEvent (Vector2f Clicked, gameData *Game, boardData *Board);
-
 	private:
 		RectangleShape menuBackground;
 		Texture buttonTextures [1];
