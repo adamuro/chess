@@ -14,17 +14,17 @@ int getClickedSquare (Vector2i clickedPosition) {
 	return clickedSquare;					  	// 0 <= clickedSquare <= 63
 }
 
-void onClickEvent (RenderWindow *Window, gameData *Game, boardData *Board, menuData *Menu, timeData *Time) {
+void onClickEvent (RenderWindow *Window, gameData *Game, boardData *Board, menuData *Menu) {
 	Vector2i clickedPosition = Mouse::getPosition(*Window);
 	if(clickedPosition.x < boardWidth)					// If any place on board was clicked,
-		boardClick(clickedPosition, Game, Board, Time);	// call the board related click function.
+		boardClick(clickedPosition, Game, Board);	// call the board related click function.
 	else {
 		menuClick(Window, Game, Board, Menu);			// Otherwise call the menu related function
 		Board -> unmarkSquare();						// and unmark board squares.
 	}
 }
 
-void boardClick (Vector2i clickedPosition, gameData *Game, boardData *Board, timeData *Time) {
+void boardClick (Vector2i clickedPosition, gameData *Game, boardData *Board) {
 	Board -> setClickedSquare(getClickedSquare(clickedPosition));
 	int clickedSquare = Board -> getClickedSquare();
 	int clickedPiece = Board -> getClickedPiece();
@@ -45,7 +45,6 @@ void boardClick (Vector2i clickedPosition, gameData *Game, boardData *Board, tim
 		Game -> changePlayer();		// If the move was possible
 		Board -> moveUpdate();		// add it to the list
 		Board -> unmarkSquare();	// and update game state.
-		Time -> changePlayer();
 	}
 	else if(Game -> getPlayer() == pieceColor(clickedPiece))	// If current players other piece was clicked,
 		Board -> setMarkedSquare(clickedSquare);				// mark it.

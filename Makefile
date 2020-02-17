@@ -9,8 +9,7 @@ OBJ =\
 	./src/user.cpp \
 	./src/board.cpp \
 	./src/game.cpp \
-	./src/menu.cpp \
-	./src/time.cpp
+	./src/menu.cpp
 
 all: main
 

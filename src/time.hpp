@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <math.h>
+#include <string>
+#include <sstream>
 #include "define.hpp"
 #include "game.hpp"
 
@@ -13,6 +16,8 @@ class timeData {
 	public:
 		timeData ();
 		~timeData () {}
+
+		void textSetup ();
 
 		void startGame ();
 		void changePlayer ();

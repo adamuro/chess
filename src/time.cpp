@@ -19,7 +19,7 @@ void timeData::changePlayer () {
 		this -> whiteTime -= getMoveTime();
 	else
 		this -> blackTime -= getMoveTime();
-	
+
 	this -> Player *= -1;
 	this -> gameClock.restart();
 }
@@ -40,7 +40,10 @@ void timeData::drawTime (RenderWindow *Window) {
 				break;
 		}
 	}
-	this -> whiteTimeText.setString(to_string(updatedWhiteTime.asSeconds()));
+	std::ostringstream ss;
+	ss << updatedWhiteTime.asSeconds();
+
+	this -> whiteTimeText.setString(ss.str());
 	this -> blackTimeText.setString(to_string(updatedBlackTime.asSeconds()));
 	this -> whiteTimeText.setCharacterSize(30);
 	this -> whiteTimeText.setFillColor(Color(10,10,10));

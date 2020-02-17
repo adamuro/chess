@@ -4,8 +4,6 @@ int main () {
 	gameData *Game = new gameData;
 	boardData *Board = new boardData;
 	menuData *Menu = new menuData;
-	timeData *Time = new timeData;
-	Time -> startGame();
 
 	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
 	setIcon(&Window);
@@ -17,12 +15,12 @@ int main () {
 			if(windowEvent.type == Event::Closed)
 				Window.close();
 			if(windowEvent.type == Event::MouseButtonPressed && windowEvent.mouseButton.button == Mouse::Left)
-				onClickEvent(&Window, Game, Board, Menu, Time);
+				onClickEvent(&Window, Game, Board, Menu);
 		}
+		Window.clear(sf::Color::Black);
 		Board -> drawBoard(&Window);
 		Board -> drawPieces(&Window);
-		Menu -> drawMenu(&Window);
-		Time -> drawTime(&Window);
+		Menu -> drawMenu(&Window);;
 		Window.display();
 	}
 	return 0;
