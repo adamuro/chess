@@ -31,6 +31,9 @@ class gameData {
 		gameData ();
 		~gameData () {}
 
+		void Draw (RenderWindow *Window);
+		void drawPossibleMoves (RenderWindow *Window);
+
 		void addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare);
 
 		void setMove (moveData* Move);
@@ -41,8 +44,8 @@ class gameData {
 		moveData* getPrevMove ();
 		moveData* getNextMove ();
 
-		void moveBack (); // Delete current move and set previous move as current.
 		void deleteMove (moveData* Move);
+		void moveBack (); // Delete current move and set previous move as current.
 		void Takeback (); // Change Game and Board data to previous move state.
 
 		void changePlayer ();

@@ -107,15 +107,15 @@ void boardData::drawBoard (RenderWindow *Window) {
 }
 
 void boardData::drawPieces (RenderWindow *Window) {
-	Sprite Piece;
+	Sprite pieceSprite;
 
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
-			int currentPiece = getPiece(j * 8 + i);
-			if(currentPiece != NP) {
-				setPieceTexture(&Piece, currentPiece);
-				setPiecePosition(&Piece, i, j);
-				Window -> draw(Piece);
+			int Piece = getPiece(j * 8 + i);
+			if(Piece != NP) {
+				setPieceTexture(&pieceSprite, Piece);
+				setPiecePosition(&pieceSprite, i, j);
+				Window -> draw(pieceSprite);
 			}
 		}
 	}
@@ -144,7 +144,10 @@ int boardData::getMarkedSquare () {
 }
 
 int boardData::getMarkedPiece () {
-	return this -> piecesOnBoard[this -> markedSquare];
+	if(getMarkedSquare() != -1)
+		return this -> piecesOnBoard[this -> markedSquare];
+	else
+		return NP;
 }
 
 int boardData::getClickedSquare () {

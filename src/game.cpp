@@ -14,6 +14,74 @@ gameData::gameData ()
 	moveCount(0),
 	moveHistory(NULL) {}
 
+void gameData::Draw (RenderWindow *Window) {
+	this -> Board.drawBoard(Window);
+	this -> Board.drawPieces(Window);
+	if(this -> Board.getMarkedPiece() != NP)
+		drawPossibleMoves(Window);
+}
+
+void gameData::drawPossibleMoves (RenderWindow *Window) {
+	int Piece = this -> Board.getMarkedPiece();
+	int squareEdge = boardWidth / 8;
+	moveList possibleMoves;
+	
+	CircleShape emptySquare;
+	emptySquare.setRadius(10);
+	emptySquare.setFillColor(Color(colorHighlight));
+
+	RectangleShape possibleTake;
+	possibleTake.setSize(Vector2f(squareEdge, squareEdge));
+	possibleTake.setFillColor(Color::Transparent);
+	possibleTake.setOutlineThickness(-5);
+	possibleTake.setOutlineColor(Color(colorHighlight));
+
+	switch(Piece) {
+		case WP:
+		case BP:
+			possibleMoves = pawnMoves();
+			break;
+		case WRL:
+		case WRR:
+		case BRL:
+		case BRR:
+			possibleMoves = rookMoves();
+			break;
+		case WN:
+		case BN:
+			possibleMoves = knightMoves();
+			break;
+		case WB:
+		case BB:
+			possibleMoves = bishopMoves();
+			break;
+		case WK:
+		case BK:
+			possibleMoves = kingMoves();
+			break;
+		case WQ:
+		case BQ:
+			possibleMoves = queenMoves();
+			break;
+		}
+
+	for(int i = 0 ; i < 8 ; i++) {
+		for(int j = 0 ; j < 8 ; j++) {
+			int Square = j * 8 + i;
+			if(possibleMoves.Contains(Square)) {
+				if(this -> Board.getPiece(Square) == NP) {
+					emptySquare.setPosition(i * squareEdge + 30, j * squareEdge + 30);
+					Window -> draw(emptySquare);
+				}
+				else {
+					possibleTake.setPosition(i * squareEdge, j * squareEdge);
+					Window -> draw(possibleTake);
+				}
+			}
+		}
+	}
+}
+
 void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare) {
 	moveData *currentMove = getMove();
 

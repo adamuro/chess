@@ -16,9 +16,8 @@ int main () {
 			if(windowEvent.type == Event::MouseButtonPressed && windowEvent.mouseButton.button == Mouse::Left)
 				onClickEvent(&Window, Game, Menu);
 		}
-		Game -> Board.drawBoard(&Window);
-		Game -> Board.drawPieces(&Window);
-		Menu -> drawMenu(&Window);;
+		Game -> Draw(&Window);
+		Menu -> drawMenu(&Window);
 		Window.display();
 	}
 	return 0;
