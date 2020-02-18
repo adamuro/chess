@@ -6,41 +6,41 @@ bool isLegalMove (int destSquare, moveList possibleMoves) {
 	return (possibleMoves.Contains(destSquare));
 }
 
-bool Move (boardData *Board, gameData *Game) {
-	int Piece = Board -> getMarkedPiece();
-	int destSquare = Board -> getClickedSquare();
+bool Move (gameData *Game) {
+	int Piece = Game -> Board.getMarkedPiece();
+	int destSquare = Game -> Board.getClickedSquare();
 
 	switch(Piece) {
 		case WP:
 		case BP:
-			return isLegalMove(destSquare, pawnMoves(Board, Game));
+			return isLegalMove(destSquare, pawnMoves(Game));
 		case WRL:
 		case WRR:
 		case BRL:
 		case BRR:
-			return isLegalMove(destSquare, rookMoves(Board, Game));
+			return isLegalMove(destSquare, rookMoves(Game));
 		case WN:
 		case BN:
-			return isLegalMove(destSquare, knightMoves(Board, Game));
+			return isLegalMove(destSquare, knightMoves(Game));
 		case WB:
 		case BB:
-			return isLegalMove(destSquare, bishopMoves(Board, Game));
+			return isLegalMove(destSquare, bishopMoves(Game));
 		case WK:
 		case BK:
-			return isLegalMove(destSquare, kingMoves(Board, Game));
+			return isLegalMove(destSquare, kingMoves(Game));
 		case WQ:
 		case BQ:
-			return isLegalMove(destSquare, queenMoves(Board, Game));
+			return isLegalMove(destSquare, queenMoves(Game));
 	}
 	return 0;
 }
 
 /* Need to implement these functions using Piece and pieceColor(Piece) instead of Color */
-moveList pawnMoves (boardData *Board, gameData *Game) {
-	int Pawn = Board -> getMarkedPiece();
+moveList pawnMoves (gameData *Game) {
+	int Pawn = Game -> Board.getMarkedPiece();
 	int Color = pieceColor(Pawn);
 
-	int currentSquare = Board -> getMarkedSquare();
+	int currentSquare = Game -> Board.getMarkedSquare();
 	int nextSquare = currentSquare - 8 * Color;
 	int takeLeftSquare = nextSquare - 1;
 	int takeRightSquare = nextSquare + 1;
@@ -50,43 +50,43 @@ moveList pawnMoves (boardData *Board, gameData *Game) {
 	int enPassantLeftTakeSquare = enPassantLeftSquare - 8 * Color;
 	int enPassantRightTakeSquare = enPassantRightSquare - 8 * Color;
 
-	int nextPiece = Board -> getPiece(nextSquare);
-	int doubleMovePiece = Board -> getPiece(doubleMoveSquare);
-	int takeLeftPiece = Board -> getPiece(takeLeftSquare);
-	int takeRightPiece = Board -> getPiece(takeRightSquare);
-	int enPassantLeftPiece = Board -> getPiece(enPassantLeftSquare);
-	int enPassantRightPiece = Board -> getPiece(enPassantRightSquare);
+	int nextPiece = Game -> Board.getPiece(nextSquare);
+	int doubleMovePiece = Game -> Board.getPiece(doubleMoveSquare);
+	int takeLeftPiece = Game -> Board.getPiece(takeLeftSquare);
+	int takeRightPiece = Game -> Board.getPiece(takeRightSquare);
+	int enPassantLeftPiece = Game -> Board.getPiece(enPassantLeftSquare);
+	int enPassantRightPiece = Game -> Board.getPiece(enPassantRightSquare);
 
 	moveList possibleMoves;
 
 	if(nextPiece == NP && doubleMovePiece == NP) {
 		if(isPawnStartingSquare(currentSquare, Color))
-			if(Board -> checkMove(doubleMoveSquare))
+			if(Game -> Board.checkMove(doubleMoveSquare))
 				possibleMoves.addMove(doubleMoveSquare);
 	}
 	if(nextPiece == NP) {
-		if(Board -> checkMove(nextSquare))
+		if(Game -> Board.checkMove(nextSquare))
 			possibleMoves.addMove(nextSquare);
 	}
 	/* NEXT 4 IFS COULD BE 1 FOR LOOP WITH 1 IF */
 	if(isDifferentColor(takeLeftPiece, Color)) {
-		if(Board -> checkMove(takeLeftSquare))
+		if(Game -> Board.checkMove(takeLeftSquare))
 			possibleMoves.addMove(takeLeftSquare);
 	}
 	if(isDifferentColor(takeRightPiece, Color)) {
-		if(Board -> checkMove(takeRightSquare))
+		if(Game -> Board.checkMove(takeRightSquare))
 			possibleMoves.addMove(takeRightSquare);
 	}
 	if(isDifferentColorPawn(enPassantLeftPiece, Color)) {
 		if(Game -> movedLast(enPassantLeftPiece, enPassantLeftSquare) && Game -> getMoveDistance() == 16) {
-			if(Board -> checkMove(enPassantLeftSquare)) {
+			if(Game -> Board.checkMove(enPassantLeftSquare)) {
 				possibleMoves.addMove(enPassantLeftTakeSquare);	
 			}
 		}
 	}
 	if(isDifferentColorPawn(enPassantRightPiece, Color)) {
 		if(Game -> movedLast(enPassantRightPiece, enPassantRightSquare) && Game -> getMoveDistance() == 16) {
-			if(Board -> checkMove(enPassantRightSquare))
+			if(Game -> Board.checkMove(enPassantRightSquare))
 				possibleMoves.addMove(enPassantRightTakeSquare);
 		}
 	}
@@ -94,11 +94,11 @@ moveList pawnMoves (boardData *Board, gameData *Game) {
 	return possibleMoves;
 }
 
-moveList rookMoves (boardData *Board, gameData *Game) {
-	int Rook = Board -> getMarkedPiece();
+moveList rookMoves (gameData *Game) {
+	int Rook = Game -> Board.getMarkedPiece();
 	int Color = pieceColor(Rook);
 
-	int currentSquare = Board -> getMarkedSquare();
+	int currentSquare = Game -> Board.getMarkedSquare();
 	int distToLeftEdge = currentSquare % 8;
 	int leftEdge = currentSquare - distToLeftEdge;
 	int rightEdge = currentSquare - distToLeftEdge + 7;
@@ -110,12 +110,12 @@ moveList rookMoves (boardData *Board, gameData *Game) {
 
 	for(int i = 0 ; i < 2 ; i++) {
 		for(int Square = currentSquare + get<0>(moveSub[i]) ; Square >= get<1>(moveSub[i]) ; Square += get<0>(moveSub[i])) {
-			if(Board -> getPiece(Square) == NP) {
-				if(Board -> checkMove(Square))
+			if(Game -> Board.getPiece(Square) == NP) {
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 			}
-			else if(isDifferentColor(Board -> getPiece(Square), Color)) {
-				if(Board -> checkMove(Square)) {
+			else if(isDifferentColor(Game -> Board.getPiece(Square), Color)) {
+				if(Game -> Board.checkMove(Square)) {
 					possibleMoves.addMove(Square);
 					break;
 				}
@@ -127,12 +127,12 @@ moveList rookMoves (boardData *Board, gameData *Game) {
 
 	for(int i = 0 ; i < 2 ; i++) {
 		for(int Square = currentSquare + get<0>(moveAdd[i]) ; Square <= get<1>(moveAdd[i]) ; Square += get<0>(moveAdd[i])) {
-			if(Board -> getPiece(Square) == NP) {
-				if(Board -> checkMove(Square))
+			if(Game -> Board.getPiece(Square) == NP) {
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 			}
-			else if(isDifferentColor(Board -> getPiece(Square), Color)) {
-				if(Board -> checkMove(Square)) {
+			else if(isDifferentColor(Game -> Board.getPiece(Square), Color)) {
+				if(Game -> Board.checkMove(Square)) {
 					possibleMoves.addMove(Square);
 					break;
 				}
@@ -145,10 +145,10 @@ moveList rookMoves (boardData *Board, gameData *Game) {
 	return possibleMoves;
 }
 
-moveList knightMoves (boardData *Board, gameData *Game) {
-	int Knight = Board -> getMarkedPiece();
+moveList knightMoves (gameData *Game) {
+	int Knight = Game -> Board.getMarkedPiece();
 	int Color = pieceColor(Knight);
-	int currentSquare = Board -> getMarkedSquare();
+	int currentSquare = Game -> Board.getMarkedSquare();
 	int horizontalMoves [2] = {6, -10};
 	int verticalMoves [2] = {15, -17};
 
@@ -157,9 +157,9 @@ moveList knightMoves (boardData *Board, gameData *Game) {
 	for(int i = 0 ; i < 2 ; i++) {
 		int Square = currentSquare - horizontalMoves[i];
 		if(isOnBoard(Square) && currentSquare % 8 < 6) {
-			int Piece = Board -> getPiece(Square);
+			int Piece = Game -> Board.getPiece(Square);
 			if(Piece == NP || isDifferentColor(Piece, Color))
-				if(Board -> checkMove(Square))
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 		}
 	}
@@ -167,9 +167,9 @@ moveList knightMoves (boardData *Board, gameData *Game) {
 	for(int i = 0 ; i < 2 ; i++) {
 		int Square = currentSquare + horizontalMoves[i];
 		if(isOnBoard(Square) && currentSquare % 8 > 1) {
-			int Piece = Board -> getPiece(Square);
+			int Piece = Game -> Board.getPiece(Square);
 			if(Piece == NP || isDifferentColor(Piece, Color))
-				if(Board -> checkMove(Square))
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 		}
 	}
@@ -177,9 +177,9 @@ moveList knightMoves (boardData *Board, gameData *Game) {
 	for(int i = 0 ; i < 2 ; i++) {
 		int Square = currentSquare - verticalMoves[i];
 		if(isOnBoard(Square) && currentSquare % 8 < 7) {
-			int Piece = Board -> getPiece(Square);
+			int Piece = Game -> Board.getPiece(Square);
 			if(Piece == NP || isDifferentColor(Piece, Color))
-				if(Board -> checkMove(Square))
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 		}
 	}
@@ -187,9 +187,9 @@ moveList knightMoves (boardData *Board, gameData *Game) {
 	for(int i = 0 ; i < 2 ; i++) {
 		int Square = currentSquare + verticalMoves[i];
 		if(isOnBoard(Square) && currentSquare % 8 > 0) {
-			int Piece = Board -> getPiece(Square);
+			int Piece = Game -> Board.getPiece(Square);
 			if(Piece == NP || isDifferentColor(Piece, Color))
-				if(Board -> checkMove(Square))
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 		}
 	}
@@ -197,10 +197,10 @@ moveList knightMoves (boardData *Board, gameData *Game) {
 	return possibleMoves;
 }
 
-moveList bishopMoves (boardData *Board, gameData *Game) {
-	int Bishop = Board -> getMarkedPiece();
+moveList bishopMoves (gameData *Game) {
+	int Bishop = Game -> Board.getMarkedPiece();
 	int Color = pieceColor(Bishop);
-	int currentSquare = Board -> getMarkedSquare();
+	int currentSquare = Game -> Board.getMarkedSquare();
 	
 	int moveLeft [2] = {7, -9};
 	int moveRight [2] = {-7, 9};
@@ -209,12 +209,12 @@ moveList bishopMoves (boardData *Board, gameData *Game) {
 
 	for(int i = 0 ; i < 2 ; i++) {
 		for(int Square = currentSquare + moveLeft[i] ; isOnBoard(Square) && Square % 8 >= 0 && Square % 8 < 7 ; Square += moveLeft[i]) {
-			if(Board -> getPiece(Square) == NP) {
-				if(Board -> checkMove(Square))
+			if(Game -> Board.getPiece(Square) == NP) {
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 			}
-			else if(isDifferentColor(Board -> getPiece(Square), Color)) {
-				if(Board -> checkMove(Square)) {
+			else if(isDifferentColor(Game -> Board.getPiece(Square), Color)) {
+				if(Game -> Board.checkMove(Square)) {
 					possibleMoves.addMove(Square);
 					break;
 				}
@@ -226,12 +226,12 @@ moveList bishopMoves (boardData *Board, gameData *Game) {
 	
 	for(int i = 0 ; i < 2 ; i++) {
 		for(int Square = currentSquare + moveRight[i] ; isOnBoard(Square) && Square % 8 <= 7 && Square % 8 > 0 ; Square += moveRight[i]) {
-			if(Board -> getPiece(Square) == NP) {
-				if(Board -> checkMove(Square))
+			if(Game -> Board.getPiece(Square) == NP) {
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 			}
-			else if(isDifferentColor(Board -> getPiece(Square), Color)) {
-				if(Board -> checkMove(Square)) {
+			else if(isDifferentColor(Game -> Board.getPiece(Square), Color)) {
+				if(Game -> Board.checkMove(Square)) {
 					possibleMoves.addMove(Square);
 					break;
 				}
@@ -244,10 +244,10 @@ moveList bishopMoves (boardData *Board, gameData *Game) {
 	return possibleMoves;
 }
 
-moveList kingMoves (boardData *Board, gameData *Game) {
-	int King = Board -> getMarkedPiece();
+moveList kingMoves (gameData *Game) {
+	int King = Game -> Board.getMarkedPiece();
 	int Color = pieceColor(King);
-	int currentSquare = Board -> getMarkedSquare();
+	int currentSquare = Game -> Board.getMarkedSquare();
 
 	int allyRookLeft = (pieceColor(King) == White) ? WRL : BRL;
 	int allyRookRight = (pieceColor(King) == White) ? WRR : BRR;
@@ -259,21 +259,21 @@ moveList kingMoves (boardData *Board, gameData *Game) {
 	for(int i = 0 ; i < 8 ; i++) {
 		int Square = currentSquare + Moves[i];
 		if(isOnBoard(Square)) {
-			if(Board -> getPiece(Square) == NP) {
-				if(Board -> checkMove(Square))
+			if(Game -> Board.getPiece(Square) == NP) {
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 			}
-			else if(isDifferentColor(Board -> getPiece(Square), Color)) {
-				if(Board -> checkMove(Square))
+			else if(isDifferentColor(Game -> Board.getPiece(Square), Color)) {
+				if(Game -> Board.checkMove(Square))
 					possibleMoves.addMove(Square);
 			}
 		}
 	}
 
 	if(!(Game -> wasPieceMoved(King) || Game -> wasPieceMoved(allyRookLeft))) {
-		if(!Board -> inCheck(Color) && Board -> getPiece(currentSquare - 4) != NP) {
-			if(!(Board -> isSquareAttacked(currentSquare - 1, Color) || Board -> isSquareAttacked(currentSquare - 2, Color))) {
-				if(Board -> getPiece(currentSquare - 1) == NP && Board -> getPiece(currentSquare - 2) == NP && Board -> getPiece(currentSquare - 3) == NP) {
+		if(!Game -> Board.inCheck(Color) && Game -> Board.getPiece(currentSquare - 4) != NP) {
+			if(!(Game -> Board.isSquareAttacked(currentSquare - 1, Color) || Game -> Board.isSquareAttacked(currentSquare - 2, Color))) {
+				if(Game -> Board.getPiece(currentSquare - 1) == NP && Game -> Board.getPiece(currentSquare - 2) == NP && Game -> Board.getPiece(currentSquare - 3) == NP) {
 					possibleMoves.addMove(currentSquare - 2);
 					possibleMoves.addMove(currentSquare - 3);
 					possibleMoves.addMove(currentSquare - 4);
@@ -283,9 +283,9 @@ moveList kingMoves (boardData *Board, gameData *Game) {
 	}
 
 	if(!(Game -> wasPieceMoved(King) || Game -> wasPieceMoved(allyRookRight))) {
-		if(!Board -> inCheck(Color) && Board -> getPiece(currentSquare + 3) != NP) {
-			if(!(Board -> isSquareAttacked(currentSquare + 1, Color) || Board -> isSquareAttacked(currentSquare + 2, Color))) {
-				if(Board -> getPiece(currentSquare + 1) == NP && Board -> getPiece(currentSquare + 2) == NP) {
+		if(!Game -> Board.inCheck(Color) && Game -> Board.getPiece(currentSquare + 3) != NP) {
+			if(!(Game -> Board.isSquareAttacked(currentSquare + 1, Color) || Game -> Board.isSquareAttacked(currentSquare + 2, Color))) {
+				if(Game -> Board.getPiece(currentSquare + 1) == NP && Game -> Board.getPiece(currentSquare + 2) == NP) {
 					possibleMoves.addMove(currentSquare + 2);
 					possibleMoves.addMove(currentSquare + 3);
 				}
@@ -296,9 +296,9 @@ moveList kingMoves (boardData *Board, gameData *Game) {
 	return possibleMoves;
 }
 
-moveList queenMoves (boardData *Board, gameData *Game) {	
-	moveList diagonalMoves = bishopMoves(Board, Game);
-	moveList linearMoves = rookMoves(Board, Game);
+moveList queenMoves (gameData *Game) {	
+	moveList diagonalMoves = bishopMoves(Game);
+	moveList linearMoves = rookMoves(Game);
 
 	moveList possibleMoves = diagonalMoves + linearMoves;
 

@@ -38,7 +38,7 @@ class gameData {
 
 		void moveBack (); // Go back to previous move.
 		void deleteMove (moveData* Move); // Free Move memory.
-		void Takeback (boardData *Board); // Delete current move and update Game and Board state.
+		void Takeback (); // Delete current move and update Game and Board state.
 
 		void changePlayer ();
 		int getPlayer ();
@@ -58,6 +58,8 @@ class gameData {
 		int getMoveCount ();
 
 		void printMove ();
+
+		boardData Board;
 	private:
 		int Player;
 		int moveCount;

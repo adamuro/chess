@@ -36,9 +36,9 @@ bool menuData::buttonContains (Vector2f Position, int Button) {
 	return (this -> Buttons[Button].getGlobalBounds().contains(Position));
 }
 
-void menuData::clickEvent (Vector2f Clicked, gameData *Game, boardData *Board) {
+void menuData::clickEvent (Vector2f Clicked, gameData *Game) {
 	if(buttonContains(Clicked, Takeback)) {
-		Game -> Takeback(Board);
+		Game -> Takeback();
 	}
 }
 

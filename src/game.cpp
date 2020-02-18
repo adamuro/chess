@@ -80,7 +80,7 @@ void gameData::moveBack () {
 		}
 }
 
-void gameData::Takeback (boardData *Board) {
+void gameData::Takeback () {
 	if(this -> moveList != NULL) {
 		int movedPiece = getMovedPiece();
 		int prevSquare = getPrevSquare();
@@ -88,9 +88,9 @@ void gameData::Takeback (boardData *Board) {
 		int takenPiece = getTakenPiece();
 		int takenSquare = getTakenSquare();
 
-		Board -> setPiece(prevSquare, movedPiece);
-		Board -> setPiece(currentSquare, NP);
-		Board -> setPiece(takenSquare, takenPiece);
+		this -> Board.setPiece(prevSquare, movedPiece);
+		this -> Board.setPiece(currentSquare, NP);
+		this -> Board.setPiece(takenSquare, takenPiece);
 
 		moveBack();
 		decreaseMoveCount();

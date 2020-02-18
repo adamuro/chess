@@ -2,7 +2,6 @@
 
 int main () {
 	gameData *Game = new gameData;
-	boardData *Board = new boardData;
 	menuData *Menu = new menuData;
 
 	RenderWindow Window(VideoMode(windowWidth, windowHeight), "Chess");
@@ -15,11 +14,10 @@ int main () {
 			if(windowEvent.type == Event::Closed)
 				Window.close();
 			if(windowEvent.type == Event::MouseButtonPressed && windowEvent.mouseButton.button == Mouse::Left)
-				onClickEvent(&Window, Game, Board, Menu);
+				onClickEvent(&Window, Game, Menu);
 		}
-		Window.clear(sf::Color::Black);
-		Board -> drawBoard(&Window);
-		Board -> drawPieces(&Window);
+		Game -> Board.drawBoard(&Window);
+		Game -> Board.drawPieces(&Window);
 		Menu -> drawMenu(&Window);;
 		Window.display();
 	}

@@ -14,46 +14,46 @@ int getClickedSquare (Vector2i clickedPosition) {
 	return clickedSquare;					  	// 0 <= clickedSquare <= 63
 }
 
-void onClickEvent (RenderWindow *Window, gameData *Game, boardData *Board, menuData *Menu) {
+void onClickEvent (RenderWindow *Window, gameData *Game, menuData *Menu) {
 	Vector2i clickedPosition = Mouse::getPosition(*Window);
-	if(clickedPosition.x < boardWidth)					// If any place on board was clicked,
-		boardClick(clickedPosition, Game, Board);	// call the board related click function.
+	if(clickedPosition.x < boardWidth)		// If any place on board was clicked,
+		boardClick(clickedPosition, Game);	// call the board related click function.
 	else {
-		menuClick(Window, Game, Board, Menu);			// Otherwise call the menu related function
-		Board -> unmarkSquare();						// and unmark board squares.
+		menuClick(Window, Game, Menu);		// Otherwise call the menu related function
+		Game -> Board.unmarkSquare();			// and unmark board squares.
 	}
 }
 
-void boardClick (Vector2i clickedPosition, gameData *Game, boardData *Board) {
-	Board -> setClickedSquare(getClickedSquare(clickedPosition));
-	int clickedSquare = Board -> getClickedSquare();
-	int clickedPiece = Board -> getClickedPiece();
-	int markedSquare = Board -> getMarkedSquare();
-	int markedPiece = Board -> getMarkedPiece();
+void boardClick (Vector2i clickedPosition, gameData *Game) {
+	Game -> Board.setClickedSquare(getClickedSquare(clickedPosition));
+	int clickedSquare = Game -> Board.getClickedSquare();
+	int clickedPiece = Game -> Board.getClickedPiece();
+	int markedSquare = Game -> Board.getMarkedSquare();
+	int markedPiece = Game -> Board.getMarkedPiece();
 
 	if(markedSquare == -1) {									// If no square was marked
 		if(clickedPiece != NP)									// and current players
 			if(Game -> getPlayer() == pieceColor(clickedPiece))	// piece was clicked
-				Board -> setMarkedSquare(clickedSquare);		// mark the clicked square.
+				Game -> Board.setMarkedSquare(clickedSquare);		// mark the clicked square.
 	}
 	else if(markedSquare == clickedSquare) {	// If the clicked square was marked before,
-		Board -> unmarkSquare();				// unmark it.
+		Game -> Board.unmarkSquare();				// unmark it.
 	}
 	/* If a piece was marked and any other square was clicked, try to move the piece to the clicked square. */
-	else if(Move(Board, Game)) {
+	else if(Move(Game)) {
 		Game -> addMove(markedPiece, clickedPiece, markedSquare, clickedSquare);
-		Game -> changePlayer();		// If the move was possible
-		Board -> moveUpdate();		// add it to the list
-		Board -> unmarkSquare();	// and update game state.
+		Game -> changePlayer();	// If the move was possible
+		Game -> Board.moveUpdate();		// add it to the list
+		Game -> Board.unmarkSquare();	// and update game state.
 	}
 	else if(Game -> getPlayer() == pieceColor(clickedPiece))	// If current players other piece was clicked,
-		Board -> setMarkedSquare(clickedSquare);				// mark it.
+		Game -> Board.setMarkedSquare(clickedSquare);			// mark it.
 	else
-		Board -> unmarkSquare();	// If none of those conditions was met, unmark board squares.
+		Game -> Board.unmarkSquare(); // If none of those conditions was met, unmark board squares.
 }
 
-void menuClick (RenderWindow *Window, gameData *Game, boardData *Board, menuData *Menu) {
+void menuClick (RenderWindow *Window, gameData *Game, menuData *Menu) {
 	Vector2i clickedPosition = Mouse::getPosition(*Window);
 	Vector2f Clicked = Window -> mapPixelToCoords(clickedPosition);
-	Menu -> clickEvent(Clicked, Game, Board);	// Get the needed type of vector and proceed the click function.
+	Menu -> clickEvent(Clicked, Game);	// Get the needed type of vector and proceed the click function.
 } 
