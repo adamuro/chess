@@ -5,7 +5,6 @@
 #include <iostream>
 #include "define.hpp"
 #include "game.hpp"
-#include "board.hpp"
 
 using namespace sf;
 

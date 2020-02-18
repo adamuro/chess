@@ -2,8 +2,13 @@
 #define GAME_INCLUDED
 
 #include <iostream>
+#include <utility>
 #include "logic.hpp"
 #include "board.hpp"
+#include "move.hpp"
+
+using namespace std;
+using namespace sf;
 
 class moveData {
 	public:
@@ -36,9 +41,9 @@ class gameData {
 		moveData* getPrevMove ();
 		moveData* getNextMove ();
 
-		void moveBack (); // Go back to previous move.
-		void deleteMove (moveData* Move); // Free Move memory.
-		void Takeback (); // Delete current move and update Game and Board state.
+		void moveBack (); // Delete current move and set previous move as current.
+		void deleteMove (moveData* Move);
+		void Takeback (); // Change Game and Board data to previous move state.
 
 		void changePlayer ();
 		int getPlayer ();
@@ -57,13 +62,21 @@ class gameData {
 		void decreaseMoveCount ();
 		int getMoveCount ();
 
-		void printMove ();
+		bool Move (); // Try to move marked piece to clicked square.
+		bool isLegalMove (moveList possibleMoves); // Check if destSquare is on the possibleMoves list.
+		/* All functions below return the list of possible moves of currently marked piece */
+		moveList pawnMoves ();
+		moveList rookMoves ();
+		moveList knightMoves ();	
+		moveList bishopMoves ();
+		moveList kingMoves ();
+		moveList queenMoves ();
 
-		boardData Board;
+		boardData Board; // Information about current pieces position, textures.
 	private:
 		int Player;
 		int moveCount;
-		moveData *moveList;
+		moveData *moveHistory;
 };
 
 #endif

@@ -194,16 +194,15 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	/* Searching for pawns which attack the king */
 	for(int i = 0 ; i < 2 ; i++) {
 		int pawnSquare = checkSquare - pawnAttack[i];
-		if(isDifferentColorPawn(piecesOnBoard[pawnSquare], Color))
+		if(isOnBoard(pawnSquare) && isDifferentColorPawn(piecesOnBoard[pawnSquare], Color))
 			return 1;
 	}
 	/* Searching for king which attacks the king */
 	for(int i = 0 ; i < 8 ; i++) {
 		int kingSquare = checkSquare - kingAttack[i];
-		if(isDifferentColorKing(piecesOnBoard[kingSquare], Color))
+		if(isOnBoard(kingSquare) && isDifferentColorKing(piecesOnBoard[kingSquare], Color))
 			return 1;
 	}
-
 	return 0;
 }
 
