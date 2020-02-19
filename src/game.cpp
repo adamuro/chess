@@ -9,10 +9,17 @@ moveData::moveData (int moveNumber_, int movedPiece_, int takenPiece_, int prevS
 	takenSquare(takenSquare_),
 	nextMove(NULL) {}
 
-gameData::gameData ()
-:	Player(White),
-	moveCount(0),
-	moveHistory(NULL) {}
+gameData::gameData () :	Player(White), moveCount(0), moveHistory(NULL) {
+	int squareEdge = boardWidth / 8;
+
+	this -> emptySquare.setRadius(10);
+	this -> emptySquare.setFillColor(Color(colorHighlight));
+
+	this -> possibleTake.setSize(Vector2f(squareEdge, squareEdge));
+	this -> possibleTake.setFillColor(Color::Transparent);
+	this -> possibleTake.setOutlineThickness(-5);
+	this -> possibleTake.setOutlineColor(Color(colorHighlight));
+}
 
 void gameData::Draw (RenderWindow *Window) {
 	this -> Board.drawBoard(Window);
@@ -23,63 +30,41 @@ void gameData::Draw (RenderWindow *Window) {
 
 void gameData::drawPossibleMoves (RenderWindow *Window) {
 	int Piece = this -> Board.getMarkedPiece();
-	int squareEdge = boardWidth / 8;
-	moveList possibleMoves;
-	
-	CircleShape emptySquare;
-	emptySquare.setRadius(10);
-	emptySquare.setFillColor(Color(colorHighlight));
-
-	RectangleShape possibleTake;
-	possibleTake.setSize(Vector2f(squareEdge, squareEdge));
-	possibleTake.setFillColor(Color::Transparent);
-	possibleTake.setOutlineThickness(-5);
-	possibleTake.setOutlineColor(Color(colorHighlight));
-
-	switch(Piece) {
-		case WP:
-		case BP:
-			possibleMoves = pawnMoves();
-			break;
-		case WRL:
-		case WRR:
-		case BRL:
-		case BRR:
-			possibleMoves = rookMoves();
-			break;
-		case WN:
-		case BN:
-			possibleMoves = knightMoves();
-			break;
-		case WB:
-		case BB:
-			possibleMoves = bishopMoves();
-			break;
-		case WK:
-		case BK:
-			possibleMoves = kingMoves();
-			break;
-		case WQ:
-		case BQ:
-			possibleMoves = queenMoves();
-			break;
-		}
+	moveList possibleMoves = getPossibleMoves(Piece);
 
 	for(int i = 0 ; i < 8 ; i++) {
 		for(int j = 0 ; j < 8 ; j++) {
 			int Square = j * 8 + i;
 			if(possibleMoves.Contains(Square)) {
 				if(this -> Board.getPiece(Square) == NP) {
-					emptySquare.setPosition(i * squareEdge + 30, j * squareEdge + 30);
-					Window -> draw(emptySquare);
+					setEmptySquarePosition(i, j);
+					Window -> draw(getEmptySquare());
 				}
 				else {
-					possibleTake.setPosition(i * squareEdge, j * squareEdge);
-					Window -> draw(possibleTake);
+					setPossibleTakePosition(i, j);
+					Window -> draw(getPossibleTake());
 				}
 			}
 		}
 	}
+}
+
+CircleShape gameData::getEmptySquare () {
+	return this -> emptySquare;
+}
+
+RectangleShape gameData::getPossibleTake () {
+	return this -> possibleTake;
+}
+
+void gameData::setEmptySquarePosition (int x, int y) {
+	int squareEdge = boardWidth / 8;
+	this -> emptySquare.setPosition(x * squareEdge + 30, y * squareEdge + 30);
+}
+
+void gameData::setPossibleTakePosition (int x, int y) {
+	int squareEdge = boardWidth / 8;
+	this -> possibleTake.setPosition(x * squareEdge, y * squareEdge);
 }
 
 void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare) {
@@ -233,30 +218,8 @@ bool gameData::isLegalMove (moveList possibleMoves) {
 
 bool gameData::Move () {
 	int Piece = this -> Board.getMarkedPiece();
-	
-	switch(Piece) {
-		case WP:
-		case BP:
-			return isLegalMove(pawnMoves());
-		case WRL:
-		case WRR:
-		case BRL:
-		case BRR:
-			return isLegalMove(rookMoves());
-		case WN:
-		case BN:
-			return isLegalMove(knightMoves());
-		case WB:
-		case BB:
-			return isLegalMove(bishopMoves());
-		case WK:
-		case BK:
-			return isLegalMove(kingMoves());
-		case WQ:
-		case BQ:
-			return isLegalMove(queenMoves());
-	}
-	return 0;
+	moveList possibleMoves = getPossibleMoves(Piece);
+	return isLegalMove(possibleMoves);
 }
 
 /* Need to implement these functions using Piece and pieceColor(Piece) instead of Color */
@@ -526,5 +489,38 @@ moveList gameData::queenMoves () {
 
 	moveList possibleMoves = diagonalMoves + linearMoves;
 
+	return possibleMoves;
+}
+
+moveList gameData::getPossibleMoves (int Piece) {
+	moveList possibleMoves;
+	switch(Piece) {
+		case WP:
+		case BP:
+			possibleMoves = pawnMoves();
+			break;
+		case WRL:
+		case WRR:
+		case BRL:
+		case BRR:
+			possibleMoves = rookMoves();
+			break;
+		case WN:
+		case BN:
+			possibleMoves = knightMoves();
+			break;
+		case WB:
+		case BB:
+			possibleMoves = bishopMoves();
+			break;
+		case WK:
+		case BK:
+			possibleMoves = kingMoves();
+			break;
+		case WQ:
+		case BQ:
+			possibleMoves = queenMoves();
+			break;
+		}
 	return possibleMoves;
 }

@@ -10,7 +10,7 @@
 #define colorBlack 232,169,23
 #define colorWhite 245,231,200
 
-#define colorHighlight 170,200,80
+#define colorHighlight 160,230,80
 
 #define colorMenuBackground 230,230,230
 #define colorMenuHighlight 200,200,200

@@ -34,6 +34,12 @@ class gameData {
 		void Draw (RenderWindow *Window);
 		void drawPossibleMoves (RenderWindow *Window);
 
+		CircleShape getEmptySquare ();
+		RectangleShape getPossibleTake ();
+		
+		void setEmptySquarePosition (int x, int y);
+		void setPossibleTakePosition (int x, int y);
+
 		void addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare);
 
 		void setMove (moveData* Move);
@@ -74,12 +80,15 @@ class gameData {
 		moveList bishopMoves ();
 		moveList kingMoves ();
 		moveList queenMoves ();
+		moveList getPossibleMoves (int Piece);
 
 		boardData Board; // Information about current pieces position, textures.
 	private:
 		int Player;
 		int moveCount;
 		moveData *moveHistory;
+		CircleShape emptySquare;
+		RectangleShape possibleTake;
 };
 
 #endif
