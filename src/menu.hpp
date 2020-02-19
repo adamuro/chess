@@ -31,8 +31,8 @@ class menuData {
 		void clickEvent (Vector2f Clicked, gameData *Game);
 	private:
 		RectangleShape menuBackground;
-		Texture buttonTextures [1];
-		Sprite Buttons [1];
+		Texture buttonTextures [2];
+		Sprite Buttons [2];
 };
 
 

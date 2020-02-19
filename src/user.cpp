@@ -20,7 +20,7 @@ void onClickEvent (RenderWindow *Window, gameData *Game, menuData *Menu) {
 		boardClick(clickedPosition, Game);	// call the board related click function.
 	else {
 		menuClick(Window, Game, Menu);		// Otherwise call the menu related function
-		Game -> Board.unmarkSquare();			// and unmark board squares.
+		Game -> Board.unmarkSquare();		// and unmark board squares.
 	}
 }
 
@@ -37,12 +37,12 @@ void boardClick (Vector2i clickedPosition, gameData *Game) {
 				Game -> Board.setMarkedSquare(clickedSquare);		// mark the clicked square.
 	}
 	else if(markedSquare == clickedSquare) {	// If the clicked square was marked before,
-		Game -> Board.unmarkSquare();				// unmark it.
+		Game -> Board.unmarkSquare();			// unmark it.
 	}
 	/* If a piece was marked and any other square was clicked, try to move the piece to the clicked square. */
 	else if(Game -> Move()) {
 		Game -> addMove(markedPiece, clickedPiece, markedSquare, clickedSquare);
-		Game -> changePlayer();	// If the move was possible
+		Game -> changePlayer();			// If the move was possible
 		Game -> Board.moveUpdate();		// add it to the list
 		Game -> Board.unmarkSquare();	// and update game state.
 	}

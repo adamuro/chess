@@ -28,7 +28,7 @@ enum Players {
 };
 
 enum menuButtons {
-	Takeback = 0
+	Takeback = 0, Restart = 1
 };
 
 #endif

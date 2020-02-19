@@ -10,18 +10,27 @@ void menuData::menuSetup () {
 	this -> menuBackground.setPosition(boardWidth, 0);
 	this -> menuBackground.setFillColor(Color(colorMenuBackground));
 
+	Texture buttonTexture;
+
+	buttonTexture.loadFromFile("./images/Takeback.png");
 	this -> Buttons[Takeback].setTexture(buttonTextures[Takeback]);
 	this -> Buttons[Takeback].setPosition(Vector2f(boardWidth + 20, windowHeight - 100));
+
+	buttonTexture.loadFromFile("./images/Restart.png");
+	this -> Buttons[Restart].setTexture(buttonTextures[Restart]);
+	this -> Buttons[Restart].setPosition(Vector2f(boardWidth + 92, windowHeight - 100));
 }
 
 void menuData::importTextures () {
 	this -> buttonTextures[Takeback].loadFromFile("./images/Takeback.png");
+	this -> buttonTextures[Restart].loadFromFile("./images/Restart.png");
 }
 
 void menuData::drawMenu (RenderWindow *Window) {
 	drawBackground(Window);
 	drawButtonHighlight(Window);
 	drawButton(Window, Takeback);
+	drawButton(Window, Restart);
 }
 
 void menuData::drawBackground (RenderWindow *Window) {
@@ -39,6 +48,10 @@ bool menuData::buttonContains (Vector2f Position, int Button) {
 void menuData::clickEvent (Vector2f Clicked, gameData *Game) {
 	if(buttonContains(Clicked, Takeback)) {
 		Game -> Takeback();
+	}
+	if(buttonContains(Clicked, Restart)) {
+		delete Game;
+		Game = new gameData;
 	}
 }
 
@@ -62,6 +75,13 @@ void menuData::drawButtonHighlight (RenderWindow *Window) {
 		RectangleShape Highlight;
 		Highlight.setSize(getButtonSize(Takeback));
 		Highlight.setPosition(getButtonPosition(Takeback));
+		Highlight.setFillColor(Color(colorMenuHighlight));
+		Window -> draw(Highlight);
+	}
+	if(buttonContains(mousePosition, Restart)) {
+		RectangleShape Highlight;
+		Highlight.setSize(getButtonSize(Restart));
+		Highlight.setPosition(getButtonPosition(Restart));
 		Highlight.setFillColor(Color(colorMenuHighlight));
 		Window -> draw(Highlight);
 	}
