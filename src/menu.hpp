@@ -15,10 +15,14 @@ class menuData {
 
 		void menuSetup ();
 		void importTextures ();
+		void setupButtonHighlight ();
+
+		void setButtonHighlight (int Button);
 
 		void drawMenu (RenderWindow *Window);
 		void drawBackground (RenderWindow *Window);
 		void drawButtonHighlight (RenderWindow *Window);
+		void drawHighlight (RenderWindow *Window);
 		void drawButton (RenderWindow *Window, int Button);
 
 		bool buttonContains (Vector2f Position, int Button);
@@ -31,6 +35,7 @@ class menuData {
 		void clickEvent (Vector2f Clicked, gameData *Game);
 	private:
 		RectangleShape menuBackground;
+		RectangleShape buttonHighlight;
 		Texture buttonTextures [2];
 		Sprite Buttons [2];
 };

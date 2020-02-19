@@ -19,6 +19,8 @@ void menuData::menuSetup () {
 	buttonTexture.loadFromFile("./images/Restart.png");
 	this -> Buttons[Restart].setTexture(buttonTextures[Restart]);
 	this -> Buttons[Restart].setPosition(Vector2f(boardWidth + 92, windowHeight - 100));
+
+	setupButtonHighlight();
 }
 
 void menuData::importTextures () {
@@ -72,17 +74,24 @@ Vector2f menuData::getButtonPosition (int Button) {
 void menuData::drawButtonHighlight (RenderWindow *Window) {
 	Vector2f mousePosition = getMousePosition(Window);
 	if(buttonContains(mousePosition, Takeback)) {
-		RectangleShape Highlight;
-		Highlight.setSize(getButtonSize(Takeback));
-		Highlight.setPosition(getButtonPosition(Takeback));
-		Highlight.setFillColor(Color(colorMenuHighlight));
-		Window -> draw(Highlight);
+		setButtonHighlight(Takeback);
+		drawHighlight(Window);
 	}
 	if(buttonContains(mousePosition, Restart)) {
-		RectangleShape Highlight;
-		Highlight.setSize(getButtonSize(Restart));
-		Highlight.setPosition(getButtonPosition(Restart));
-		Highlight.setFillColor(Color(colorMenuHighlight));
-		Window -> draw(Highlight);
+		setButtonHighlight(Restart);
+		drawHighlight(Window);
 	}
+}
+
+void menuData::setButtonHighlight (int Button) {
+	this -> buttonHighlight.setSize(getButtonSize(Button));
+	this -> buttonHighlight.setPosition(getButtonPosition(Button));
+}
+
+void menuData::setupButtonHighlight () {
+	this -> buttonHighlight.setFillColor(Color(colorMenuHighlight));
+}
+
+void menuData::drawHighlight (RenderWindow *Window) {
+	Window -> draw(this -> buttonHighlight);
 }
