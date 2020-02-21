@@ -14,6 +14,7 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard); // Return true
 bool isInCheck (int Color, int *piecesOnBoard);
 
 bool isPawnStartingSquare (int Color, int Square);
+bool isQueenningSquare (int Square, int Color);
 
 bool isDifferentColorPawn (int Color, int Piece);
 bool isDifferentColorRook (int Color, int Piece);

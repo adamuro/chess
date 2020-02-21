@@ -28,6 +28,13 @@ bool isPawnStartingSquare (int Square, int Color) {
 	return 0;
 }
 
+bool isQueenningSquare (int Square, int Color) {
+	if(Color == White && Square >= 0 && Square <= 7)
+		return 1;
+	if(Color == Black && Square >= 56 && Square <= 63)
+		return 1;
+	return 0;
+}
 
 bool isDifferentColorQueen (int Piece, int Color) {
 	if(Color == White && Piece == BQ)

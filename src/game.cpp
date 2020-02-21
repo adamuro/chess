@@ -73,9 +73,23 @@ void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int curr
 	int Distance = abs(currentSquare - prevSquare);
 	int takenSquare;
 
-	if((movedPiece == WP || movedPiece == BP) && takenPiece == NP && (Distance == 7 || Distance == 9)) {
-		takenPiece = (movedPiece == WP) ? BP : WP;
-		takenSquare = currentSquare + 8 * pieceColor(movedPiece);
+	if(movedPiece == WP || movedPiece == BP) {
+		if(takenPiece == NP && (Distance == 7 || Distance == 9)) {
+			takenPiece = (pieceColor(movedPiece) == White) ? BP : WP;
+			takenSquare = currentSquare + 8 * pieceColor(movedPiece);
+		}
+	}
+	else if((movedPiece == WK || movedPiece == BK) && Distance != 1 && Distance != 7 && Distance != 8 && Distance != 9) {
+		if(currentSquare > prevSquare) {
+			takenPiece = (pieceColor(movedPiece) == White) ? WRR : BRR;
+			currentSquare = prevSquare + 2;
+			takenSquare = prevSquare + 3;
+		}
+		else {
+			takenPiece = (pieceColor(movedPiece) == White) ? WRL : BRL;
+			currentSquare = prevSquare - 2;
+			takenSquare = prevSquare - 4;
+		}
 	}
 	else
 		takenSquare = currentSquare;
@@ -124,13 +138,13 @@ void gameData::moveBack () {
 			deleteMove(getMove());
 			setMove(NULL);
 			changePlayer();
-		}
-		else if(getMoveCount() > 1) {
-			setMove(getPrevMove());
-			deleteMove(getNextMove());
-			setNextMove(NULL);
-			changePlayer();
-		}
+	}
+	else if(getMoveCount() > 1) {
+		setMove(getPrevMove());
+		deleteMove(getNextMove());
+		setNextMove(NULL);
+		changePlayer();
+	}
 }
 
 void gameData::Takeback () {
@@ -141,10 +155,17 @@ void gameData::Takeback () {
 		int takenPiece = getTakenPiece();
 		int takenSquare = getTakenSquare();
 
+		if(pieceColor(movedPiece) == pieceColor(takenPiece)) {
+			if(currentSquare > prevSquare)
+				this -> Board.setPiece(currentSquare - 1, NP);
+			else
+				this -> Board.setPiece(currentSquare + 1, NP);
+		}
+
 		this -> Board.setPiece(prevSquare, movedPiece);
 		this -> Board.setPiece(currentSquare, NP);
 		this -> Board.setPiece(takenSquare, takenPiece);
-
+	
 		moveBack();
 		decreaseMoveCount();
 	}
