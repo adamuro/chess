@@ -91,6 +91,7 @@ void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int curr
 	}
 	else if((movedPiece == WP || movedPiece == BP) && isQueenningSquare(currentSquare, pieceColor(movedPiece))) {
 		pawnAdvance(Window, pieceColor(movedPiece));
+		takenSquare = currentSquare;
 	}
 	else
 		takenSquare = currentSquare;
