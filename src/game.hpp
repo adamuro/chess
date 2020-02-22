@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <utility>
+#include "define.hpp"
 #include "logic.hpp"
 #include "board.hpp"
 #include "move.hpp"
@@ -34,13 +35,16 @@ class gameData {
 		void Draw (RenderWindow *Window);
 		void drawPossibleMoves (RenderWindow *Window);
 
+		bool spriteContains (Vector2f Position, Sprite Spr);
+		Vector2f getMousePosition (RenderWindow *Window);
+
 		CircleShape getEmptySquare ();
 		RectangleShape getPossibleTake ();
 		
 		void setEmptySquarePosition (int x, int y);
 		void setPossibleTakePosition (int x, int y);
 
-		void addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare);
+		void addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare, RenderWindow *Window);
 
 		void setMove (moveData* Move);
 		void setNextMove (moveData* Move);
@@ -73,6 +77,7 @@ class gameData {
 
 		bool Move (); // Try to move marked piece to clicked square.
 		bool isLegalMove (moveList possibleMoves); // Check if destSquare is on the possibleMoves list.
+		void pawnAdvance (RenderWindow *Window, int Color);
 		/* All functions below return the list of possible moves of currently marked piece */
 		moveList pawnMoves ();
 		moveList rookMoves ();

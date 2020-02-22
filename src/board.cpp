@@ -84,6 +84,10 @@ void boardData::setPieceTexture (Sprite *Piece, int textureIndex) {
 	Piece -> setTexture(this -> piecesTextures[textureIndex]);
 }
 
+Texture boardData::getPieceTexture (int Piece) {
+	return this -> piecesTextures[Piece];
+}
+
 void boardData::drawBoardImage (RenderWindow *Window, int Index) {
 	Window -> draw(this -> boardImage[Index]);
 }

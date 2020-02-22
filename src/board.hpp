@@ -21,6 +21,8 @@ class boardData {
 		void setPiecePosition (Sprite *Piece, int x, int y);
 		void setPieceTexture (Sprite *Piece, int textureIndex);
 
+		Texture getPieceTexture (int Piece);
+
 		void drawBoardImage (RenderWindow *Window, int Index);
 		void drawHighlight (RenderWindow *Window);
 		void drawBoard (RenderWindow *Window);
@@ -46,8 +48,9 @@ class boardData {
 		bool inCheck (int Color);
 
 		void moveUpdate ();
-	private:
+
 		Texture piecesTextures [14];
+	private:
 		RectangleShape boardImage [64];
 		RectangleShape Highlight;
 		

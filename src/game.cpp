@@ -67,7 +67,7 @@ void gameData::setPossibleTakePosition (int x, int y) {
 	this -> possibleTake.setPosition(x * squareEdge, y * squareEdge);
 }
 
-void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare) {
+void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int currentSquare, RenderWindow *Window) {
 	moveData *currentMove = getMove();
 
 	int Distance = abs(currentSquare - prevSquare);
@@ -89,6 +89,9 @@ void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int curr
 			takenSquare = prevSquare - 4;
 		}
 	}
+	else if((movedPiece == WP || movedPiece == BP) && isQueenningSquare(currentSquare, pieceColor(movedPiece))) {
+		pawnAdvance(Window, pieceColor(movedPiece));
+	}
 	else
 		takenSquare = currentSquare;
 
@@ -100,7 +103,82 @@ void gameData::addMove (int movedPiece, int takenPiece, int prevSquare, int curr
 	setMove(new moveData(getMoveCount(), movedPiece, takenPiece, prevSquare, currentSquare, takenSquare));
 	setPrevMove(currentMove);
 	increaseMoveCount();
+}
 
+bool gameData::spriteContains (Vector2f Position, Sprite Spr) {
+	return (Spr.getGlobalBounds().contains(Position));
+}
+
+Vector2f gameData::getMousePosition (RenderWindow *Window) {
+	return Window -> mapPixelToCoords(Mouse::getPosition(*Window));
+}
+
+void gameData::pawnAdvance (RenderWindow *Window, int Color) {
+	RectangleShape Background;
+	Sprite Queen;
+	Sprite Rook;
+	Sprite Bishop;
+	Sprite Knight;
+
+	Background.setPosition(Vector2f(135, 270));
+	Background.setSize(Vector2f(370, 100));
+	Background.setFillColor(sf::Color(colorMenuBackground));
+
+	Queen.setPosition(145, 280);
+	Rook.setPosition(235, 280);
+	Bishop.setPosition(325, 280);
+	Knight.setPosition(415, 280);
+
+	bool Selected = 0;
+
+	if(Color == White) {
+		Queen.setTexture(this -> Board.piecesTextures[WQ]);
+		Rook.setTexture(this -> Board.piecesTextures[WRR]);
+		Bishop.setTexture(this -> Board.piecesTextures[WB]);
+		Knight.setTexture(this -> Board.piecesTextures[WN]);
+	}
+	else {
+		Queen.setTexture(this -> Board.piecesTextures[BQ]);
+		Rook.setTexture(this -> Board.piecesTextures[BRR]);
+		Bishop.setTexture(this -> Board.piecesTextures[BB]);
+		Knight.setTexture(this -> Board.piecesTextures[BN]);
+	}
+
+	while (!Selected) {
+		Event windowEvent;
+
+		while(Window -> pollEvent(windowEvent)) {
+			if(windowEvent.type == Event::Closed)
+				Window -> close();
+			if(windowEvent.type == Event::MouseButtonPressed && windowEvent.mouseButton.button == Mouse::Left) {
+				Vector2f mousePosition = getMousePosition(Window);
+				if(spriteContains(mousePosition, Queen)) {
+					this -> Board.setPiece(this -> Board.getMarkedSquare(), (Color == White) ? WQ : BQ);
+					Selected = 1;
+				}
+				else if(spriteContains(mousePosition, Rook)) {
+					this -> Board.setPiece(this -> Board.getMarkedSquare(), (Color == White) ? WRR : BRR);
+					Selected = 1;
+				}
+				else if(spriteContains(mousePosition, Bishop)) {
+					this -> Board.setPiece(this -> Board.getMarkedSquare(), (Color == White) ? WB : BB);
+					Selected = 1;
+				}
+				else if(spriteContains(mousePosition, Knight)) {
+					this -> Board.setPiece(this -> Board.getMarkedSquare(), (Color == White) ? WN : BN);
+					Selected = 1;
+				}
+			}
+		}
+
+		Window -> draw(Background);
+		Window -> draw(Queen);
+		Window -> draw(Rook);
+		Window -> draw(Bishop);
+		Window -> draw(Knight);
+
+		Window -> display();
+	}
 }
 
 void gameData::setMove (moveData* Move) {
