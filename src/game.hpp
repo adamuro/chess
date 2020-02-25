@@ -75,6 +75,13 @@ class gameData {
 		void decreaseMoveCount ();
 		int getMoveCount ();
 
+		Vector2f getSpriteSize (Sprite Spr);
+		Vector2f getSpritePosition (Sprite Spr);
+
+		void setupSpriteHighlight ();
+		void setSpriteHighlight (Sprite Spr);
+		void drawSpriteHighlight (RenderWindow *Window);
+
 		bool Move (); // Try to move marked piece to clicked square.
 		bool isLegalMove (moveList possibleMoves); // Check if destSquare is on the possibleMoves list.
 		void pawnAdvance (RenderWindow *Window, int Color);
@@ -94,6 +101,7 @@ class gameData {
 		moveData *moveHistory;
 		CircleShape emptySquare;
 		RectangleShape possibleTake;
+		RectangleShape spriteHighlight;
 };
 
 #endif

@@ -107,7 +107,7 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 	int leftEdge = checkSquare - distToLeftEdge;
 	int rightEdge = checkSquare - distToLeftEdge + 7;
 
-	int Diagonal[4] = {7, -7, 9, -9};
+	int Diagonal [2] = {7, -9};
 	int horizontalKnightMoves [2] = {6, -10};
 	int verticalKnightMoves [2] = {15, -17};
 	int pawnAttack[2] = {7 * Color, 9 * Color};
@@ -154,8 +154,19 @@ bool isAttacked (int checkSquare, int Color, int *piecesOnBoard) {
 			return 1;
 	}
 	/* Searching for diagonal attacks on the king (queen or bishop). */
-	for(int i = 0 ; i < 4 ; i++) {
-		for(int j = checkSquare + Diagonal[i] ; isOnBoard(j) ; j += Diagonal[i]) {
+	for(int i = 0 ; i < 2 ; i++) {
+		for(int j = checkSquare + Diagonal[i] ; isOnBoard(j) && j % 8 >= 0 && j % 8 < 7 ; j += Diagonal[i]) {
+			int Piece = piecesOnBoard[j];
+			if(isSameColor(piecesOnBoard[j], Color))
+				break;
+			if(isDiffColorRNPK(Piece, Color))
+				break;
+			if(isDifferentColorQueen(Piece, Color) || isDifferentColorBishop(Piece, Color))
+				return 1;
+		}
+	}
+	for(int i = 0 ; i < 2 ; i++) {
+		for(int j = checkSquare - Diagonal[i] ; isOnBoard(j) && j % 8 >= 7 && j % 8 < 0 ; j -= Diagonal[i]) {
 			int Piece = piecesOnBoard[j];
 			if(isSameColor(piecesOnBoard[j], Color))
 				break;

@@ -19,6 +19,8 @@ gameData::gameData () :	Player(White), moveCount(0), moveHistory(NULL) {
 	this -> possibleTake.setFillColor(Color::Transparent);
 	this -> possibleTake.setOutlineThickness(-5);
 	this -> possibleTake.setOutlineColor(Color(colorHighlight));
+
+	setupSpriteHighlight();
 }
 
 void gameData::Draw (RenderWindow *Window) {
@@ -114,6 +116,29 @@ Vector2f gameData::getMousePosition (RenderWindow *Window) {
 	return Window -> mapPixelToCoords(Mouse::getPosition(*Window));
 }
 
+Vector2f gameData::getSpriteSize (Sprite Spr) {
+	Vector2f spriteSize(Spr.getTexture() -> getSize().x,
+			 			Spr.getTexture() -> getSize().y);
+	return spriteSize;
+}
+
+Vector2f gameData::getSpritePosition (Sprite Spr) {
+	return Spr.getPosition();
+}
+
+void gameData::setSpriteHighlight (Sprite Spr) {
+	this -> spriteHighlight.setSize(getSpriteSize(Spr));
+	this -> spriteHighlight.setPosition(getSpritePosition(Spr));
+}
+
+void gameData::drawSpriteHighlight (RenderWindow *Window) {
+	Window -> draw(this -> spriteHighlight);
+}
+
+void gameData::setupSpriteHighlight () {
+	this -> spriteHighlight.setFillColor(Color(colorMenuHighlight));
+}
+
 void gameData::pawnAdvance (RenderWindow *Window, int Color) {
 	RectangleShape Background;
 	Sprite Queen;
@@ -173,6 +198,24 @@ void gameData::pawnAdvance (RenderWindow *Window, int Color) {
 		}
 
 		Window -> draw(Background);
+
+		if(spriteContains(getMousePosition(Window), Queen)) {
+			setSpriteHighlight(Queen);
+			drawSpriteHighlight(Window);
+		}
+		if(spriteContains(getMousePosition(Window), Rook)) {
+			setSpriteHighlight(Rook);
+			drawSpriteHighlight(Window);
+		}
+		if(spriteContains(getMousePosition(Window), Bishop)) {
+			setSpriteHighlight(Bishop);
+			drawSpriteHighlight(Window);
+		}
+		if(spriteContains(getMousePosition(Window), Knight)) {
+			setSpriteHighlight(Knight);
+			drawSpriteHighlight(Window);
+		}
+
 		Window -> draw(Queen);
 		Window -> draw(Rook);
 		Window -> draw(Bishop);
