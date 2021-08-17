@@ -1,6 +1,6 @@
 # Chess
 
-Chess game wrote in C++ using sfml.
+Chess game written in C++ using sfml library.
 
 ## Installation
 
